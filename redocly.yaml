@@ -1,0 +1,34 @@
+# openapi-typescript reads this file when `npm run generate` is run.
+apis:
+  api-access:
+    root: https://developer.atlassian.com/cloud/admin/api-access/swagger.v3.json
+    x-openapi-ts:
+      output: ./src/api-access/types.ts
+  assets:
+    root: https://developer.atlassian.com/cloud/assets/swagger.v3.json
+    x-openapi-ts:
+      output: ./src/assets/types.ts
+  bitbucket:
+    root: https://dac-static.atlassian.com/cloud/bitbucket/swagger.v3.json
+    x-openapi-ts:
+      output: ./src/bitbucket/types.ts
+  confluence-1:
+    root: https://developer.atlassian.com/cloud/confluence/swagger.v3.json
+    x-openapi-ts:
+      output: ./src/confluence-1/types.ts
+  confluence-2:
+    root: https://dac-static.atlassian.com/cloud/confluence/openapi-v2.v3.json
+    x-openapi-ts:
+      output: ./src/confluence-2/types.ts
+  jira-platform-2:
+    root: https://dac-static.atlassian.com/cloud/jira/platform/swagger.v3.json
+    x-openapi-ts:
+      output: ./src/jira-platform-2/types.ts
+  jira-platform-3:
+    root: https://dac-static.atlassian.com/cloud/jira/platform/swagger-v3.v3.json
+    x-openapi-ts:
+      output: ./src/jira-platform-3/types.ts
+  jira-software:
+    root: https://developer.atlassian.com/cloud/jira/software/swagger.v3.json
+    x-openapi-ts:
+      output: ./src/jira-software/types.ts
