@@ -1,4 +1,4 @@
-# openapi-typescript reads this file when `npm run generate` is run.
+# https://openapi-ts.dev/introduction
 apis:
   api-access:
     root: https://developer.atlassian.com/cloud/admin/api-access/swagger.v3.json
@@ -28,6 +28,14 @@ apis:
     root: https://dac-static.atlassian.com/cloud/jira/platform/swagger-v3.v3.json
     x-openapi-ts:
       output: ./src/jira-platform-3/types.ts
+  jira-servicedesk:
+    root: https://developer.atlassian.com/cloud/jira/service-desk/swagger.v3.json
+    x-openapi-ts:
+      output: ./src/jira-servicedesk/types.ts
+  jira-service-desk-ops:
+    root: https://dac-static.atlassian.com/cloud/jira/service-desk-ops/swagger.v3.json
+    x-openapi-ts:
+      output: ./src/jira-service-desk-ops/types.ts
   jira-software:
     root: https://developer.atlassian.com/cloud/jira/software/swagger.v3.json
     x-openapi-ts:

@@ -2242,6 +2242,34 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rest/api/3/field/{fieldId}/context/defaultValues": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get default values for a custom field grouped by context and issue type
+         * @description Returns a paginated list of default values grouped by custom field context.
+         *
+         *     Each returned \{@code ContextDefaultValuesBean\} has a \{@code contextId\} and a \{@code defaultValues\} list of \{@code IssueTypeDefaultValueBean\} entries \\u2014 one per issue-type-scoped default value configured for the context. An entry with \{@code "isAnyIssueType": true\} represents the catch-all default that applies to every issue type covered by the context that is not covered by a more specific entry; a non-null \{@code issueTypeId\} represents a default that only applies to that issue type.
+         *
+         *     For contexts that have not been converted to the multiple-contexts data model, exactly one entry is returned per context with \{@code isAnyIssueType=true\}. For converted contexts, one entry is returned per configured per-issue-type default.
+         *
+         *     The value object on each entry is the same polymorphic \{@code CustomFieldContextDefaultValueBean\} exposed by the deprecated \{@code GET /defaultValue\} endpoint \\u2014 its concrete subtype depends on the custom field's type (see the list of supported types on that endpoint).
+         *
+         *     **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+         */
+        get: operations["getContextDefaultValues"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rest/api/3/field/{fieldId}/context/issuetypemapping": {
         parameters: {
             query?: never;
@@ -4252,6 +4280,8 @@ export interface paths {
          * @description Edits an issue. Issue properties may be updated as part of the edit. Please note that issue transition is not supported and is ignored here. To transition an issue, please use [Transition issue](#api-rest-api-3-issue-issueIdOrKey-transitions-post).
          *
          *     The edits to the issue's fields are defined using `update` and `fields`. The fields that can be edited are determined using [ Get edit issue metadata](#api-rest-api-3-issue-issueIdOrKey-editmeta-get).
+         *
+         *     **Note:** This endpoint doesn't check screen configurations to determine if a field is editable. For more context, see the [Deprecation of override screen security](https://community.developer.atlassian.com/t/deprecation-of-override-screen-security/97153) announcement.
          *
          *     The parent field may be set by key or ID. For standard issue types, the parent may be removed by setting `update.parent.set.none` to *true*. Note that the `description`, `environment`, and any `textarea` type custom fields (multi-line text fields) take Atlassian Document Format content. Single line custom fields (`textfield`) accept a string and don't handle Atlassian Document Format content.
          *
@@ -7666,16 +7696,15 @@ export interface paths {
          * @deprecated
          * @description Returns the list of all issue priorities.
          *
-         *     **[Permissions](#permissions) required:** Permission to access Jira.
+         *     **Deprecated:** Use [Search priorities](#api-rest-api-3-priority-search-get) instead. **[Permissions](#permissions) required:** Permission to access Jira.
          */
         get: operations["getPriorities"];
         put?: never;
         /**
          * Create priority
-         * @deprecated
          * @description Creates an issue priority.
          *
-         *     Deprecation applies to iconUrl param in request body which will be sunset on 16th Mar 2025. For more details refer to [changelog](https://developer.atlassian.com/changelog/#CHANGE-1525).
+         *     **Deprecation notice:** The `iconUrl` parameter was sunset on 16th Mar 2025, and replaced with `avatarId`. See [CHANGE-1525](https://developer.atlassian.com/changelog/#CHANGE-1525).
          *
          *     **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
          */
@@ -7739,12 +7768,15 @@ export interface paths {
         };
         /**
          * Search priorities
-         * @deprecated
          * @description Returns a [paginated](#pagination) list of priorities. The list can contain all priorities or a subset determined by any combination of these criteria:
          *
          *      *  a list of priority IDs. Any invalid priority IDs are ignored.
          *      *  a list of project IDs. Only priorities that are available in these projects will be returned. Any invalid project IDs are ignored.
          *      *  whether the field configuration is a default. This returns priorities from company-managed (classic) projects only, as there is no concept of default priorities in team-managed projects.
+         *
+         *     **Deprecation notice:** The `onlyDefault` parameter is deprecated and will be removed at a later date. See [CHANGE-1655](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-1655).
+         *
+         *     **Deprecation notice:** The `isDefault` property of priorities is deprecated and will be removed at a later date. See [CHANGE-1655](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-1655).
          *
          *     **[Permissions](#permissions) required:** Permission to access Jira.
          */
@@ -7766,19 +7798,18 @@ export interface paths {
         };
         /**
          * Get priority
-         * @description Returns an issue priority.
+         * @description Returns an issue priority. To fetch multiple priorities at once, use [Search priorities](#api-rest-api-3-priority-search-get) instead.
          *
          *     **[Permissions](#permissions) required:** Permission to access Jira.
          */
         get: operations["getPriority"];
         /**
          * Update priority
-         * @deprecated
          * @description Updates an issue priority.
          *
          *     At least one request body parameter must be defined.
          *
-         *     Deprecation applies to iconUrl param in request body which will be sunset on 16th Mar 2025. For more details refer to [changelog](https://developer.atlassian.com/changelog/#CHANGE-1525).
+         *     **Deprecation notice:** The `iconUrl` parameter was sunset on 16th Mar 2025, and replaced with `avatarId`. See [CHANGE-1525](https://developer.atlassian.com/changelog/#CHANGE-1525).
          *
          *     **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
          */
@@ -7809,7 +7840,7 @@ export interface paths {
          * Get priority schemes
          * @description Returns a [paginated](#pagination) list of priority schemes.
          *
-         *     **[Permissions](#permissions) required:** Permission to access Jira.
+         *     **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
          */
         get: operations["getPrioritySchemes"];
         put?: never;
@@ -7839,7 +7870,7 @@ export interface paths {
          * Suggested priorities for mappings
          * @description Returns a [paginated](#pagination) list of priorities that would require mapping, given a change in priorities or projects associated with a priority scheme.
          *
-         *     **[Permissions](#permissions) required:** Permission to access Jira.
+         *     **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
          */
         post: operations["suggestedPrioritiesForMappings"];
         delete?: never;
@@ -7859,7 +7890,7 @@ export interface paths {
          * Get available priorities by priority scheme
          * @description Returns a [paginated](#pagination) list of priorities available for adding to a priority scheme.
          *
-         *     **[Permissions](#permissions) required:** Permission to access Jira.
+         *     **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
          */
         get: operations["getAvailablePrioritiesByPriorityScheme"];
         put?: never;
@@ -7911,7 +7942,7 @@ export interface paths {
          * Get priorities by priority scheme
          * @description Returns a [paginated](#pagination) list of priorities by scheme.
          *
-         *     **[Permissions](#permissions) required:** Permission to access Jira.
+         *     **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
          */
         get: operations["getPrioritiesByPriorityScheme"];
         put?: never;
@@ -7933,7 +7964,7 @@ export interface paths {
          * Get projects by priority scheme
          * @description Returns a [paginated](#pagination) list of projects by scheme.
          *
-         *     **[Permissions](#permissions) required:** Permission to access Jira.
+         *     **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
          */
         get: operations["getProjectsByPriorityScheme"];
         put?: never;
@@ -14978,6 +15009,16 @@ export interface components {
             /** @description The scope of the context. */
             scope?: components["schemas"]["Scope"];
         };
+        /** @description Default values grouped by custom field context. */
+        ContextDefaultValues: {
+            /**
+             * Format: int64
+             * @description The ID of the context.
+             */
+            contextId: number;
+            /** @description Per-issue-type default values for this context. May contain a single entry for unconverted contexts, or one entry per issue type for converted contexts. */
+            defaultValues?: components["schemas"]["IssueTypeDefaultValue"][];
+        };
         /** @description The project and issue type mapping with a matching custom field context. */
         ContextForProjectAndIssueType: {
             /** @description The ID of the custom field context. */
@@ -16465,6 +16506,10 @@ export interface components {
             searcherKey?: string;
             /** @description The stable ID of the field. */
             stableId?: string;
+            /** @description The translated (i18n) description of the field for the current locale. Returned for custom fields. */
+            translatedDescription?: string;
+            /** @description The translated (i18n) name of the field for the current locale. Returned for custom fields. */
+            translatedName?: string;
             /** @description The display name of the field type */
             typeDisplayName?: string;
         };
@@ -16489,6 +16534,7 @@ export interface components {
         FieldAssociationParameters: {
             description?: string;
             isRequired: boolean;
+            rendererType?: string;
         };
         /** @description Field association scheme field search results. */
         FieldAssociationSchemeFieldSearchResult: {
@@ -16969,6 +17015,11 @@ export interface components {
             description?: string;
             /** @description Whether the field is required, null to preserve current requirement setting */
             isRequired?: boolean;
+            /**
+             * @description The renderer type for the field, null to preserve current renderer type
+             * @enum {string}
+             */
+            rendererType?: "jira-text-renderer" | "atlassian-wiki-renderer";
         };
         /** @description The list of work type-specific parameter overrides, may be empty if only default parameters are being updated */
         FieldsSchemeItemWorkTypeParameter: {
@@ -16976,6 +17027,11 @@ export interface components {
             description?: string;
             /** @description Whether the field is required for this work type, null to use default or preserve current */
             isRequired?: boolean;
+            /**
+             * @description The renderer type for the field for this work type, null to use default or preserve current
+             * @enum {string}
+             */
+            rendererType?: "jira-text-renderer" | "atlassian-wiki-renderer";
             /**
              * Format: int64
              * @description The ID of the work type (issue type) for which these parameters apply
@@ -17299,6 +17355,8 @@ export interface components {
         /** @description Response object for getting a field association scheme by ID. */
         GetFieldAssociationSchemeByIdResponse: {
             description?: string;
+            /** Format: int64 */
+            fieldsCount?: number;
             id?: string;
             isDefault?: boolean;
             links?: components["schemas"]["FieldAssociationSchemeLinks"];
@@ -18151,6 +18209,14 @@ export interface components {
              * @enum {string}
              */
             type?: "subtask" | "standard";
+        };
+        /** @description A default value associated with an issue type within a context. */
+        IssueTypeDefaultValue: {
+            /** @description True when this default value applies to every issue type covered by the context (no specific issue type). Only present when true; omitted otherwise. */
+            isAnyIssueType?: boolean | null;
+            /** @description The ID of the issue type this default value applies to. Null when isAnyIssueType is true. */
+            issueTypeId?: string | null;
+            value?: components["schemas"]["CustomFieldContextDefaultValue"];
         };
         /** @description Details about an issue type. */
         IssueTypeDetails: {
@@ -20319,6 +20385,38 @@ export interface components {
             readonly total?: number;
             /** @description The list of items. */
             readonly values?: components["schemas"]["Context"][];
+        };
+        /** @description A page of items. */
+        PageBeanContextDefaultValues: {
+            /** @description Whether this is the last page. */
+            readonly isLast?: boolean;
+            /**
+             * Format: int32
+             * @description The maximum number of items that could be returned.
+             */
+            readonly maxResults?: number;
+            /**
+             * Format: uri
+             * @description If there is another page of results, the URL of the next page.
+             */
+            readonly nextPage?: string;
+            /**
+             * Format: uri
+             * @description The URL of the page.
+             */
+            readonly self?: string;
+            /**
+             * Format: int64
+             * @description The index of the first item returned.
+             */
+            readonly startAt?: number;
+            /**
+             * Format: int64
+             * @description The number of items returned.
+             */
+            readonly total?: number;
+            /** @description The list of items. */
+            readonly values?: components["schemas"]["ContextDefaultValues"][];
         };
         /** @description A page of items. */
         PageBeanContextForProjectAndIssueType: {
@@ -23675,6 +23773,8 @@ export interface components {
             readonly schema?: {
                 [key: string]: components["schemas"]["JsonTypeBean"];
             };
+            /** @description Experimental. Warnings generated during the search, e.g. when a JQL clause exceeded its argument limit or when the result set was truncated due to an ingestion limit. This field is currently rolling out behind a feature flag and may be absent, empty, or change shape without notice until generally available. */
+            readonly warnings?: components["schemas"]["SearchWarning"][];
         };
         /** @description Details of how to filter and list search auto complete information. */
         SearchAutoCompleteFilter: {
@@ -23756,10 +23856,12 @@ export interface components {
         SearchResultFieldParameters: {
             description?: string;
             isRequired?: boolean;
+            rendererType?: string;
         };
         SearchResultWorkTypeParameters: {
             description?: string;
             isRequired?: boolean;
+            rendererType?: string;
             workTypeId?: string;
         };
         /** @description The result of a JQL search. */
@@ -23793,6 +23895,32 @@ export interface components {
             readonly total?: number;
             /** @description Any warnings related to the JQL query. */
             readonly warningMessages?: string[];
+        };
+        /** @description Experimental. A warning returned alongside successful search results. */
+        SearchWarning: {
+            /** @description Structured details about the warning, if available. */
+            details?: components["schemas"]["SearchWarningLimitDetails"];
+            /** @description A human-readable explanation of the warning suitable for surfacing to end users. */
+            readonly message?: string;
+            /** @description The type of warning, e.g. CLAUSE\_LIMIT\_EXCEEDED. */
+            readonly type?: string;
+        };
+        /** @description Experimental. Structured details about a JQL clause exceeding its argument limit. */
+        SearchWarningLimitDetails: {
+            /**
+             * Format: int64
+             * @description The actual number of arguments supplied that exceeded the limit.
+             */
+            readonly actual?: number;
+            /** @description The arguments passed to the JQL clause. */
+            readonly arguments?: string;
+            /** @description The JQL clause that triggered the limit, e.g. issueHistory(). */
+            readonly clause?: string;
+            /**
+             * Format: int64
+             * @description The maximum number of arguments allowed for the clause.
+             */
+            readonly limit?: number;
         };
         /** @description Details of an issue level security item. */
         SecurityLevel: {
@@ -23850,6 +23978,7 @@ export interface components {
              * @example New Security Level
              */
             name?: string;
+            pcri?: components["schemas"]["ProjectCreateResourceIdentifier"];
             /** @description The members of the security level */
             securityLevelMembers?: components["schemas"]["SecurityLevelMemberPayload"][];
         };
@@ -25937,6 +26066,7 @@ export interface components {
         WorkTypeParameters: {
             description?: string;
             isRequired: boolean;
+            rendererType?: string;
             /** Format: int64 */
             workTypeId: number;
         };
@@ -29845,7 +29975,8 @@ export interface operations {
                  *         {
                  *           "parameters": {
                  *             "description": "Field description",
-                 *             "isRequired": true
+                 *             "isRequired": true,
+                 *             "rendererType": "atlassian-wiki-renderer"
                  *           },
                  *           "schemeIds": [
                  *             10000,
@@ -29855,6 +29986,7 @@ export interface operations {
                  *             {
                  *               "description": "Description for Bug",
                  *               "isRequired": false,
+                 *               "rendererType": "jira-text-renderer",
                  *               "workTypeId": 10002
                  *             }
                  *           ]
@@ -29874,6 +30006,7 @@ export interface operations {
                  *             {
                  *               "description": "Description for Task",
                  *               "isRequired": true,
+                 *               "rendererType": "atlassian-wiki-renderer",
                  *               "workTypeId": 10003
                  *             }
                  *           ]
@@ -30215,7 +30348,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /** @example {"description":"This is a field association scheme","id":"123","isDefault":false,"links":{"associations":"rest/api/3/config/fieldschemes/10000/fields","projects":"rest/api/3/config/fieldschemes/10000/projects"},"name":"Scheme"} */
+                    /** @example {"description":"This is a field association scheme","fieldsCount":5,"id":"123","isDefault":false,"links":{"associations":"rest/api/3/config/fieldschemes/10000/fields","projects":"rest/api/3/config/fieldschemes/10000/projects"},"name":"Scheme"} */
                     "application/json": components["schemas"]["GetFieldAssociationSchemeByIdResponse"];
                 };
             };
@@ -30474,7 +30607,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /** @example {"allowedOperations":["REMOVE","CHANGE_REQUIRED","CHANGE_DESCRIPTION"],"fieldId":"customfield_10000","parameters":{"description":"text","isRequired":true},"restrictedToWorkTypes":["1","2"],"workTypeParameters":[{"description":"text","isRequired":true,"workTypeId":"1"},{"description":"textarea","isRequired":false,"workTypeId":"2"}]} */
+                    /** @example {"allowedOperations":["REMOVE","CHANGE_REQUIRED","CHANGE_DESCRIPTION"],"fieldId":"customfield_10000","parameters":{"description":"text","isRequired":true,"rendererType":"atlassian-wiki-renderer"},"restrictedToWorkTypes":["1","2"],"workTypeParameters":[{"description":"text","isRequired":true,"rendererType":"jira-text-renderer","workTypeId":"1"},{"description":"textarea","isRequired":false,"rendererType":"atlassian-wiki-renderer","workTypeId":"2"}]} */
                     "application/json": components["schemas"]["PageBean2FieldAssociationSchemeFieldSearchResult"];
                 };
             };
@@ -30536,7 +30669,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /** @example {"fieldId":"customfield_10000","parameters":{"description":"Teams field","isRequired":true},"workTypeParameters":[{"description":"Teams field","isRequired":false,"workTypeId":10010}]} */
+                    /** @example {"fieldId":"customfield_10000","parameters":{"description":"Teams field","isRequired":true,"rendererType":"atlassian-wiki-renderer"},"workTypeParameters":[{"description":"Teams field","isRequired":false,"rendererType":"jira-text-renderer","workTypeId":10010}]} */
                     "application/json": components["schemas"]["GetFieldAssociationParametersResponse"];
                 };
             };
@@ -33116,6 +33249,65 @@ export interface operations {
                 };
                 content: {
                     /** @example {"errorMessages":["The context was not found."],"errors":{}} */
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    getContextDefaultValues: {
+        parameters: {
+            query?: {
+                /** @description The IDs of the contexts to return default values for. If omitted, default values for every context the custom field has are returned. */
+                contextId?: number[];
+                /** @description The IDs of the issue types to restrict the returned per-issue-type default values to. If omitted, default values for every issue type are returned. This filter never removes the catch-all \{@code isAnyIssueType\} entry of a context. */
+                issueTypeId?: string[];
+                /** @description The index of the first item to return in a page of results (page offset). */
+                startAt?: number;
+                /** @description The maximum number of items to return per page. */
+                maxResults?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the custom field, for example `customfield\_10000`. */
+                fieldId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PageBeanContextDefaultValues"];
+                };
+            };
+            /** @description Returned if the authentication credentials are incorrect or missing. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the user does not have the required permissions. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {"errorMessages":["Only Jira administrators can access custom field contexts."],"errors":{}} */
+                    "application/json": unknown;
+                };
+            };
+            /** @description Returned if the custom field is not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {"errorMessages":["The custom field was not found."],"errors":{}} */
                     "application/json": unknown;
                 };
             };
@@ -37343,6 +37535,8 @@ export interface operations {
                 caseInsensitive?: boolean;
                 /** @description Whether Connect app users and groups should be excluded from the search results. If an invalid value is provided, the default value is used. */
                 excludeConnectAddons?: boolean;
+                /** @description Whether AI Agents should be included in the search results. If an invalid value is provided, the default value is used. */
+                includeAiAgents?: boolean;
             };
             header?: never;
             path?: never;
@@ -38962,7 +39156,7 @@ export interface operations {
              *
              *      *  the request body is missing.
              *      *  the user does not have the necessary permission to edit one or more fields.
-             *      *  the request includes one or more fields that are not found or are not associated with the issue's edit screen.
+             *      *  the request includes one or more fields that don't exist or aren't associated with the project and issue type.
              *      *  the request includes an invalid transition.
              */
             400: {
@@ -55578,6 +55772,8 @@ export interface operations {
                 searchString?: string;
                 /** @description Category of the status to filter by. The supported values are: `TODO`, `IN_PROGRESS`, and `DONE`. */
                 statusCategory?: string;
+                /** @description Whether to include global statuses (scope = null, not tied to any project) in the response. Defaults to false. Only relevant for project scoped queries. */
+                includeGlobalStatuses?: boolean;
             };
             header?: never;
             path?: never;
@@ -60420,6 +60616,8 @@ export interface operations {
                 scope?: string;
                 /** @description Filters active and inactive workflows. */
                 isActive?: boolean;
+                /** @description The ID of the project to filter the workflows by. Only workflows associated with the given project are returned. */
+                projectId?: number;
             };
             header?: never;
             path?: never;

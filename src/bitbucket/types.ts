@@ -166,510 +166,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/addon/linkers": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List linkers for an app
-         * @deprecated
-         * @description Gets a list of all [linkers](/cloud/bitbucket/modules/linker/)
-         *     for the authenticated application.
-         *
-         *     This endpoint is deprecated and will be removed by May 2026.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Successful. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Authentication must use app JWT */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/addon/linkers/{linker_key}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description The unique key of a [linker module](/cloud/bitbucket/modules/linker/)
-                 *     as defined in an application descriptor.
-                 */
-                linker_key: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get a linker for an app
-         * @deprecated
-         * @description Gets a [linker](/cloud/bitbucket/modules/linker/) specified by `linker_key`
-         *     for the authenticated application.
-         *
-         *     This endpoint is deprecated and will be removed by May 2026.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description The unique key of a [linker module](/cloud/bitbucket/modules/linker/)
-                     *     as defined in an application descriptor.
-                     */
-                    linker_key: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Successful. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Authentication must use app JWT */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The linker does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/addon/linkers/{linker_key}/values": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description The unique key of a [linker module](/cloud/bitbucket/modules/linker/)
-                 *     as defined in an application descriptor.
-                 */
-                linker_key: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * List linker values for a linker
-         * @deprecated
-         * @description Gets a list of all [linker](/cloud/bitbucket/modules/linker/) values for the
-         *     specified linker of the authenticated application.
-         *
-         *     A linker value lets applications supply values to modify its regular expression.
-         *
-         *     The base regular expression must use a Bitbucket-specific match group `(?K)`
-         *     which will be translated to `([\w\-]+)`. A value must match this pattern.
-         *
-         *     [Read more about linker values](/cloud/bitbucket/modules/linker/#usingthebitbucketapitosupplyvalues)
-         *
-         *     This endpoint is deprecated and will be removed by May 2026.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description The unique key of a [linker module](/cloud/bitbucket/modules/linker/)
-                     *     as defined in an application descriptor.
-                     */
-                    linker_key: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Successful. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Authentication must use app JWT */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The linker does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        /**
-         * Update a linker value
-         * @deprecated
-         * @description Bulk update [linker](/cloud/bitbucket/modules/linker/) values for the specified
-         *     linker of the authenticated application.
-         *
-         *     A linker value lets applications supply values to modify its regular expression.
-         *
-         *     The base regular expression must use a Bitbucket-specific match group `(?K)`
-         *     which will be translated to `([\w\-]+)`. A value must match this pattern.
-         *
-         *     [Read more about linker values](/cloud/bitbucket/modules/linker/#usingthebitbucketapitosupplyvalues)
-         *
-         *     This endpoint is deprecated and will be removed by May 2026.
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description The unique key of a [linker module](/cloud/bitbucket/modules/linker/)
-                     *     as defined in an application descriptor.
-                     */
-                    linker_key: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Successfully updated the linker values. */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Invalid input. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description Authentication must use app JWT */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The linker does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        /**
-         * Create a linker value
-         * @deprecated
-         * @description Creates a [linker](/cloud/bitbucket/modules/linker/) value for the specified
-         *     linker of authenticated application.
-         *
-         *     A linker value lets applications supply values to modify its regular expression.
-         *
-         *     The base regular expression must use a Bitbucket-specific match group `(?K)`
-         *     which will be translated to `([\w\-]+)`. A value must match this pattern.
-         *
-         *     [Read more about linker values](/cloud/bitbucket/modules/linker/#usingthebitbucketapitosupplyvalues)
-         *
-         *     This endpoint is deprecated and will be removed by May 2026.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description The unique key of a [linker module](/cloud/bitbucket/modules/linker/)
-                     *     as defined in an application descriptor.
-                     */
-                    linker_key: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Successfully created the linker value. */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Authentication must use app JWT */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The linker does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The linker already has the value being added. */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        /**
-         * Delete all linker values
-         * @deprecated
-         * @description Delete all [linker](/cloud/bitbucket/modules/linker/) values for the
-         *     specified linker of the authenticated application.
-         *
-         *     This endpoint is deprecated and will be removed by May 2026.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description The unique key of a [linker module](/cloud/bitbucket/modules/linker/)
-                     *     as defined in an application descriptor.
-                     */
-                    linker_key: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Successfully deleted the linker values. */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Authentication must use app JWT */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The linker does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/addon/linkers/{linker_key}/values/{value_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description The unique key of a [linker module](/cloud/bitbucket/modules/linker/)
-                 *     as defined in an application descriptor.
-                 */
-                linker_key: string;
-                /** @description The numeric ID of the linker value. */
-                value_id: number;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get a linker value
-         * @deprecated
-         * @description Get a single [linker](/cloud/bitbucket/modules/linker/) value
-         *     of the authenticated application.
-         *
-         *     This endpoint is deprecated and will be removed by May 2026.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description The unique key of a [linker module](/cloud/bitbucket/modules/linker/)
-                     *     as defined in an application descriptor.
-                     */
-                    linker_key: string;
-                    /** @description The numeric ID of the linker value. */
-                    value_id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Successful. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Authentication must use app JWT */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The linker value does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        /**
-         * Delete a linker value
-         * @deprecated
-         * @description Delete a single [linker](/cloud/bitbucket/modules/linker/) value
-         *     of the authenticated application.
-         *
-         *     This endpoint is deprecated and will be removed by May 2026.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description The unique key of a [linker module](/cloud/bitbucket/modules/linker/)
-                     *     as defined in an application descriptor.
-                     */
-                    linker_key: string;
-                    /** @description The numeric ID of the linker value. */
-                    value_id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Successfully deleted the linker value. */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Authentication must use app JWT */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The linker value does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/addon/{addon_key}/client-key": {
         parameters: {
             query?: never;
@@ -4241,7 +3737,7 @@ export interface paths {
         };
         /**
          * Update a repository deploy key
-         * @description Create a new deploy key in a repository.
+         * @description Update an existing deploy key in a repository.
          *
          *     The same key needs to be passed in but the comment and label can change.
          *
@@ -5282,6 +4778,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/repositories/{workspace}/{repo_slug}/file-conflicts/{spec}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /**
+                 * @description This can either be the repository slug or the UUID of the repository,
+                 *     surrounded by curly-braces, for example: `{repository UUID}`.
+                 */
+                repo_slug: string;
+                /**
+                 * @description A commit SHA (e.g. `3a8b42`) or a commit range using double dot
+                 *     notation (e.g. `3a8b42..9ff173`).
+                 */
+                spec: string;
+                /**
+                 * @description This can either be the workspace ID (slug) or the workspace UUID
+                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
+                 */
+                workspace: string;
+            };
+            cookie?: never;
+        };
+        /**
+         * Get file conflicts for a commit spec
+         * @description Get file conflicts for a commit spec
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /**
+                     * @description This can either be the repository slug or the UUID of the repository,
+                     *     surrounded by curly-braces, for example: `{repository UUID}`.
+                     */
+                    repo_slug: string;
+                    /**
+                     * @description A commit SHA (e.g. `3a8b42`) or a commit range using double dot
+                     *     notation (e.g. `3a8b42..9ff173`).
+                     */
+                    spec: string;
+                    /**
+                     * @description This can either be the workspace ID (slug) or the workspace UUID
+                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
+                     */
+                    workspace: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description A paginated list of file conflicts */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["paginated_file_conflicts"];
+                    };
+                };
+                /** @description If the spec cannot be resolved, which may be due to an invalid spec, or commits/refs not present in the repository */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/repositories/{workspace}/{repo_slug}/filehistory/{commit}/{path}": {
         parameters: {
             query?: never;
@@ -6132,7 +5708,7 @@ export interface paths {
                 };
                 cookie?: never;
             };
-            /** @description The options to apply to the export. Available options include `project_key` and `project_name` which, if specified, are used as the project key and name in the exported Jira json format. Option `send_email` specifies whether an email should be sent upon export result. Option `include_attachments` specifies whether attachments are included in the export. */
+            /** @description The options to apply to the export. Available options include `project_key` and `project_name` which, if specified, are used as the Jira space key and name in the exported Jira json format. Option `send_email` specifies whether an email should be sent upon export result. Option `include_attachments` specifies whether attachments are included in the export. */
             requestBody?: {
                 content: {
                     "application/json": components["schemas"]["export_options"];
@@ -11863,6 +11439,73 @@ export interface paths {
                     content: {
                         "application/json": components["schemas"]["error"];
                     };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/conflicts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The id of the pull request. */
+                pull_request_id: number;
+                /**
+                 * @description This can either be the repository slug or the UUID of the repository,
+                 *     surrounded by curly-braces, for example: `{repository UUID}`.
+                 */
+                repo_slug: string;
+                /**
+                 * @description This can either be the workspace ID (slug) or the workspace UUID
+                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
+                 */
+                workspace: string;
+            };
+            cookie?: never;
+        };
+        /**
+         * Get file conflicts for a pull request
+         * @description Redirects to the [repository file conflicts](/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-file-conflicts-spec-get)
+         *     with the revspec that corresponds to the pull request.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the pull request. */
+                    pull_request_id: number;
+                    /**
+                     * @description This can either be the repository slug or the UUID of the repository,
+                     *     surrounded by curly-braces, for example: `{repository UUID}`.
+                     */
+                    repo_slug: string;
+                    /**
+                     * @description This can either be the workspace ID (slug) or the workspace UUID
+                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
+                     */
+                    workspace: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /**
+                 * @description Redirects to the [repository file conflicts](/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-file-conflicts-spec-get) with the
+                 *     revspec that corresponds to the pull request.
+                 */
+                302: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
                 };
             };
         };
@@ -24843,7 +24486,7 @@ export interface components {
              * @description The pull request's current status.
              * @enum {string}
              */
-            state?: "OPEN" | "DRAFT" | "QUEUED" | "MERGED" | "DECLINED" | "SUPERSEDED";
+            state?: "OPEN" | "MERGED" | "DECLINED" | "SUPERSEDED";
             author?: components["schemas"]["account"];
             source?: components["schemas"]["pullrequest_endpoint"];
             destination?: components["schemas"]["pullrequest_endpoint"];
@@ -24915,6 +24558,42 @@ export interface components {
                     name?: string;
                 };
             };
+        };
+        /**
+         * File Conflict
+         * @description A file conflict object.
+         */
+        file_conflict: {
+            type: string;
+            path?: string;
+            /** @enum {string} */
+            scenario?: "delete_modify" | "modify_delete" | "content" | "binary" | "flags" | "mode" | "type" | "symlink" | "directory_file" | "file_directory" | "add_rename" | "rename_add" | "delete_rename" | "rename_delete" | "rename" | "subrepo" | "unknown";
+            message?: string;
+        } & {
+            [key: string]: unknown;
+        };
+        /**
+         * Paginated File Conflicts
+         * @description A paginated list of file conflicts.
+         */
+        paginated_file_conflicts: {
+            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
+            size?: number;
+            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
+            page?: number;
+            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
+            pagelen?: number;
+            /**
+             * Format: uri
+             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
+             */
+            next?: string;
+            /**
+             * Format: uri
+             * @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
+             */
+            previous?: string;
+            values?: components["schemas"]["file_conflict"][];
         };
         author: {
             type: "author";

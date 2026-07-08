@@ -4,1223 +4,1985 @@
  */
 
 export interface paths {
-  "/orgs/{orgId}/api-tokens": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/orgs/{orgId}/api-tokens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all API tokens in an org
+         * @description Gets all [user API tokens](/cloud/admin/api-access/rest/intro/#API%20Tokens) in an organization.
+         *
+         *     #### Scopes
+         *     **[Authorization scopes](/cloud/admin/scopes/) required:** `read:tokens:admin`
+         */
+        get: operations["getAllApiTokensByOrgId"];
+        put?: never;
+        post?: never;
+        /**
+         * Bulk revoke API tokens in an organization
+         * @description Revokes all managed user API tokens in an organization by orgID.
+         *     #### Scopes
+         *     **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:tokens:admin`
+         */
+        delete: operations["Bulk revoke API Tokens"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get all API tokens in an org
-     * @description Gets all [user API tokens](/cloud/admin/api-access/rest/intro/#API%20Tokens) in an organization.
-     *
-     *     #### Scopes
-     *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:tokens:admin`
-     */
-    get: operations["getAllApiTokensByOrgId"];
-    put?: never;
-    post?: never;
-    /**
-     * Bulk revoke API tokens in an organization
-     * @description Revokes all managed user API tokens in an organization by orgID.
-     *     #### Scopes
-     *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `delete:tokens:admin`
-     */
-    delete: operations["Bulk revoke API Tokens"];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/orgs/{orgId}/api-tokens/count": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/orgs/{orgId}/api-tokens/count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get API token count in an org
+         * @description Gets count of [user API tokens](/cloud/admin/api-access/rest/intro/#API%20Tokens) in an organization.
+         *
+         *     #### Scopes
+         *     **[Authorization scopes](/cloud/admin/scopes/) required:** `read:tokens:admin`
+         */
+        get: operations["getApiTokenCountByOrgId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get API token count in an org
-     * @description Gets count of [user API tokens](/cloud/admin/api-access/rest/intro/#API%20Tokens) in an organization.
-     *
-     *     #### Scopes
-     *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:tokens:admin`
-     */
-    get: operations["getApiTokenCountByOrgId"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/orgs/{orgId}/service-accounts/count": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/orgs/{orgId}/service-accounts/count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get service account API token count in an org
+         * @description Gets count of API tokens for specified service accounts within an organization.
+         *
+         *     #### Scopes
+         *     **[Authorization scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+         */
+        post: operations["countServiceAccountApiTokens"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Get service account API token count in an org
-     * @description Gets count of API tokens for specified service accounts within an organization.
-     *
-     *     #### Scopes
-     *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
-     */
-    post: operations["countServiceAccountApiTokens"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/orgs/{orgId}/service-accounts/{accountId}/api-tokens": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/orgs/{orgId}/service-accounts/{accountId}/api-tokens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all service account API tokens in an org
+         * @description Retrieves API tokens for a specific service account within an organization.
+         *
+         *     #### Scopes
+         *     **[Authorization scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+         */
+        get: operations["getServiceAccountApiToken"];
+        put?: never;
+        post?: never;
+        /**
+         * Revoke all API tokens for a service account
+         * @description Revokes all API tokens for a specific service account within an organization.
+         *
+         *     #### Scopes
+         *     **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:service-accounts-tokens:admin`
+         */
+        delete: operations["revokeApiTokens"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get all service account API tokens in an org
-     * @description Retrieves API tokens for a specific service account within an organization.
-     *
-     *     #### Scopes
-     *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
-     */
-    get: operations["getServiceAccountApiToken"];
-    put?: never;
-    post?: never;
-    /**
-     * Revoke all API tokens for a service account
-     * @description Revokes all API tokens for a specific service account within an organization.
-     *
-     *     #### Scopes
-     *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `delete:service-accounts-tokens:admin`
-     */
-    delete: operations["revokeApiTokens"];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/orgs/{orgId}/api-keys/count": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/orgs/{orgId}/service-accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List service accounts in an org
+         * @description Retrieves all service accounts for the specified organization.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts:admin`
+         */
+        get: operations["listServiceAccounts"];
+        put?: never;
+        /**
+         * Create a service account
+         * @description Creates a new service account for the specified organization. The service account is created with the given display name and optional description, then invited with the specified permission rules and optional additional group memberships.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts:admin`
+         */
+        post: operations["createServiceAccount"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update a service account
+         * @description Updates a service account's display name and/or description within the specified organization.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts:admin`
+         */
+        patch: operations["updateServiceAccount"];
+        trace?: never;
     };
-    /**
-     * Get API key count in an org
-     * @description Gets count of user API keys in an organization.
-     *
-     *     #### Scopes
-     *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:keys:admin`
-     */
-    get: operations["getApiKeyCountByOrgId"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/orgs/{orgId}/api-keys": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/orgs/{orgId}/service-accounts/{serviceAccountId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete a service account
+         * @description Deletes a service account from the specified organization.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts:admin`
+         */
+        delete: operations["deleteServiceAccount"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get all API keys in an org
-     * @description Gets all user API keys in an organization.
-     *
-     *     #### Scopes
-     *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:keys:admin`
-     */
-    get: operations["getAllApiKeysByOrgId"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/orgs/{orgId}/api-keys/revoke/{apiKeyId}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/orgs/{orgId}/oauth-clients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all OAuth clients in an org
+         * @description Retrieves all OAuth clients for the specified organization.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+         */
+        get: operations["listOAuthClients"];
+        put?: never;
+        /**
+         * Create an OAuth client
+         * @description Creates a new OAuth client for the specified organization.
+         *
+         *     > **Note:** This is a session-only endpoint and cannot be called with an API token or OAuth 2.0 scope. It requires an active admin session with org management permissions.
+         *
+         *     #### Scopes
+         *     This endpoint is session-only and does not accept OAuth 2.0 scopes.
+         */
+        post: operations["createOAuthClient"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    /**
-     * Revoke an API key for an org
-     * @description Revokes an existing API key
-     *
-     *     #### Scopes
-     *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `delete:keys:admin`
-     */
-    patch: operations["RevokeApiKey"];
-    trace?: never;
-  };
+    "/orgs/{orgId}/oauth-clients/count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get OAuth client count in an org
+         * @description Gets the count of OAuth clients in the specified organization.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+         */
+        post: operations["countOAuthClients"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{orgId}/oauth-clients/{clientId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get an OAuth client
+         * @description Retrieves a specific OAuth client by ID for the specified organization.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+         */
+        get: operations["getOAuthClient"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete an OAuth client
+         * @description Deletes an existing OAuth client from the specified organization.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `delete:service-accounts-tokens:admin`
+         */
+        delete: operations["deleteOAuthClient"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{orgId}/api-keys/count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get API key count in an org
+         * @description Gets count of user API keys in an organization.
+         *
+         *     #### Scopes
+         *     **[Authorization scopes](/cloud/admin/scopes/) required:** `read:keys:admin`
+         */
+        get: operations["getApiKeyCountByOrgId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{orgId}/api-keys": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all API keys in an org
+         * @description Gets all user API keys in an organization.
+         *
+         *     #### Scopes
+         *     **[Authorization scopes](/cloud/admin/scopes/) required:** `read:keys:admin`
+         */
+        get: operations["getAllApiKeysByOrgId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{orgId}/api-keys/revoke/{apiKeyId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Revoke an API key for an org
+         * @description Revokes an existing API key
+         *
+         *     #### Scopes
+         *     **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:keys:admin`
+         */
+        patch: operations["RevokeApiKey"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    ApiTokenSearchResponse: {
-      /** @description List of API tokens. */
-      data: components["schemas"]["ApiToken"][];
-      links: components["schemas"]["Links"];
+    schemas: {
+        ApiTokenSearchResponse: {
+            /** @description List of API tokens. */
+            data: components["schemas"]["ApiToken"][];
+            links: components["schemas"]["Links"];
+        };
+        ApiKeySearchResponse: {
+            /** @description List of API keys. */
+            data: components["schemas"]["ApiKey"][];
+            links: components["schemas"]["Links"];
+        };
+        ApiToken: {
+            /** @description The token ID generated in the token-service. */
+            id: string;
+            /** @description The token label. */
+            label: string;
+            /**
+             * @description The token status.
+             * @enum {string}
+             */
+            status: "ALLOWED" | "BLOCKED";
+            /** @description An ISO-8601 formatted timestamp representing the time when a token was created. */
+            createdAt: string;
+            /** @description An ISO-8601 formatted timestamp representing the time when a token expires. */
+            expiresAt?: string;
+            /** @description An ISO-8601 formatted timestamp representing the time when a token was last used. */
+            lastActiveAt?: string;
+            user: components["schemas"]["ApiTokenUser"];
+            /** @description Array of scopes associated with the token. An empty array indicates an unscoped API token. */
+            scopes?: string[];
+        };
+        ApiKey: {
+            /** @description The key ID generated in the token-service. */
+            id: string;
+            /** @description The key label. */
+            label: string;
+            /** @description An ISO-8601 formatted timestamp representing the time when a key was created. */
+            createdAt: string;
+            /** @description An ISO-8601 formatted timestamp representing the time when a key expires. */
+            expiresAt: string;
+            /** @description An ISO-8601 formatted timestamp representing the time when a key was last used. */
+            lastActiveAt: string;
+            /** @description System account ID */
+            systemAccountId?: string;
+            /** @description E.g. ari:cloud:confluence::site/abcdefg-hijkl */
+            resource?: string;
+            /** @description E.g. b44ad0bd-9758-485a-aea9-8c0e6b2d1606 */
+            orgId?: string;
+            createdBy: components["schemas"]["ApiKeyUser"];
+            /** @description E.g. ["manage:org", "read:org"] */
+            scopes?: string[];
+        };
+        CreateApiKeyRequestBody: {
+            /** @description Name of the API Key api key. */
+            label: string;
+            /**
+             * Format: ISO 8601
+             * @description Expiration date (max one year from creation date)
+             */
+            expiresAt: string;
+            /**
+             * @description OAuth Scopes- the level of access the API Key has for a given `resource`.
+             *
+             *     e.g. `"scopes": ["manage:org", "read:org"]`
+             */
+            scopes: string[];
+        };
+        CreateApiKeyResponse: {
+            /** @description The key ID generated in the token-service. */
+            id?: string;
+            /** @description The secret token of the API key. */
+            token?: string;
+            /** @description The key label. */
+            label?: string;
+            createdBy?: components["schemas"]["ApiKeyUser"];
+            /** @description An ISO-8601 formatted timestamp representing the time when a key was created. */
+            createdAt?: string;
+            /** @description An ISO-8601 formatted timestamp representing the time when a key expires. */
+            expiresAt?: string;
+            /** @description E.g. ["manage:org", "read:org"] */
+            scopes?: string[];
+        };
+        /** @description The user associated with the token. */
+        ApiTokenUser: {
+            /** @description User ID of the API token user. */
+            id: string;
+            /** @description Org ID of the API token user. */
+            orgId?: string;
+            /** @description Name of the API token user. */
+            name: string;
+            /** @description Email of the API token user. */
+            email: string;
+        };
+        /** @description The user associated with the key. */
+        ApiKeyUser: {
+            /** @description User ID of the API key user. */
+            id: string;
+            /** @description Name of the API key user. */
+            name: string;
+            /** @description Email of the API key user. */
+            email: string;
+        };
+        Links: {
+            /** @description A cursor representing the current page of records. Only encodes the sort value and record ID — pass all other parameters (filters, sort, pageSize) alongside this cursor. */
+            self?: string;
+            /** @description A cursor representing the next page of records. Only encodes the sort value and record ID — pass all other parameters (filters, sort, pageSize) alongside this cursor. */
+            next?: string;
+            /** @description A cursor representing the previous page of records. Only encodes the sort value and record ID — pass all other parameters (filters, sort, pageSize) alongside this cursor. */
+            prev?: string;
+        };
+        ErrorResponse: {
+            /** @description List of during request. */
+            errors?: components["schemas"]["Error"][];
+        };
+        Error: {
+            /** @description A unique ID for the request. */
+            id: string;
+            /** @description A HTTP status code for the error. */
+            status: string;
+            /**
+             * @description A domain-specific error code.
+             * @enum {string}
+             */
+            code: "INVALID_API_TOKEN_SEARCH_QUERY" | "INVALID_FIELD_FORMAT" | "INVALID_PAGE_SIZE" | "INVALID_SORT" | "FEATURE_NOT_ENABLED" | "GENERIC_ERROR";
+            /** @description A short description of the error. */
+            title: string;
+            /** @description A detailed description of the error and potential ways to address the issue. */
+            detail?: string;
+        };
+        ServiceAccountCredentialCountResponse: {
+            /** @description List of valid service accounts with their credential counts */
+            validServiceAccountIds: components["schemas"]["ServiceAccountCredentialCount"][];
+            /** @description List of invalid service account IDs that were not found */
+            invalidServiceAccountIds: string[];
+        };
+        ServiceAccountCredentialCount: {
+            /** @description The service account ID */
+            serviceAccountId: string;
+            /** @description The number of API tokens for this service account */
+            credentialsCount: number;
+        };
+        UpdateServiceAccountRequest: {
+            /** @description The Atlassian account ID of the service account to update. */
+            atlassianId: string;
+            /** @description The updated display name for the service account. */
+            displayName?: string;
+            /** @description The updated description for the service account. */
+            description?: string;
+        };
+        /** @description Represents a service account. */
+        ServiceAccount: {
+            /** @description The Atlassian account ID of the service account. */
+            atlassianId: string;
+            /** @description The unique identifier of the service account. Same value as `atlassianId`. */
+            id: string;
+            /** @description The email address of the service account. */
+            email?: string;
+            /** @description The display name of the service account. */
+            displayName: string;
+            /** @description The URL of the service account's avatar image. */
+            picture?: string | null;
+            /** @description The ARI of the organization the service account belongs to. e.g. `ari:cloud:platform::org/{orgId}` */
+            container?: string;
+            /**
+             * Format: int64
+             * @description The timestamp (in milliseconds since epoch) when the service account was last updated.
+             * @example 1764642980899
+             */
+            updatedAt?: number;
+            /** @description The status of the service account. */
+            status: string;
+            /** @description The account ID of the user who created the service account. */
+            createdById?: string | null;
+            /** @description The description of the service account. */
+            description?: string | null;
+        };
+        ServiceAccountListResponse: {
+            /** @description Pagination links. */
+            links: {
+                /** @description URL to the next page of results. Not present on the last page. */
+                next?: string | null;
+                /** @description URL to the previous page of results. Not present on the first page. */
+                prev?: string | null;
+            };
+            /** @description List of service accounts in the organization. */
+            items: components["schemas"]["ServiceAccount"][];
+            /** @description The total number of service accounts in the organization. */
+            total: number;
+        };
+        CreateServiceAccountRequest: {
+            /** @description The display name for the service account. Must be between 6 and 30 characters. */
+            displayName: string;
+            /** @description An optional description for the service account. */
+            description?: string;
+            /** @description A list of permission rules to assign to the service account. Each rule specifies a resource and role. */
+            permissionRules: components["schemas"]["PermissionRule"][];
+            /** @description An optional list of additional groups to add the service account to. */
+            additionalGroups?: components["schemas"]["AdditionalGroup"][];
+        };
+        CreateServiceAccountResponse: {
+            /** @description The Atlassian account ID of the created service account. */
+            atlassianId: string;
+            /** @description The unique identifier of the created service account. Same value as `atlassianId`. */
+            id: string;
+            /** @description The email address assigned to the created service account. */
+            email?: string;
+            /** @description The display name of the created service account. */
+            displayName: string;
+            /** @description The ARI of the organization the service account belongs to. e.g. `ari:cloud:platform::org/{orgId}` */
+            container?: string;
+            /**
+             * Format: int64
+             * @description The timestamp (in milliseconds since epoch) when the service account was last updated.
+             * @example 1763149545609
+             */
+            updatedAt?: number;
+            /** @description The status of the service account. */
+            status: string;
+        };
+        /** @description A permission rule specifying a resource and the role to assign. */
+        PermissionRule: {
+            /** @description The ARI (Atlassian Resource Identifier) of the resource to grant access to. e.g. `ari:cloud:jira::site/{siteId}` */
+            resource: string;
+            /** @description The role to assign on the resource. e.g. `atlassian/user` */
+            role: string;
+        };
+        /** @description An additional group membership to assign to the service account. */
+        AdditionalGroup: {
+            /** @description The ID of the directory containing the group. */
+            directoryId: string;
+            /** @description The ID of the group to add the service account to. */
+            groupId: string;
+        };
+        /** @description Represents an OAuth client associated with an organization. */
+        OAuthClient: {
+            /** @description The unique identifier of the OAuth client. */
+            clientId: string;
+            /** @description The display name of the OAuth client. */
+            name: string;
+            /**
+             * Format: int64
+             * @description The timestamp (in milliseconds since epoch) when the OAuth client was created.
+             * @example 1763149545609
+             */
+            createdAt?: number;
+            /**
+             * Format: int64
+             * @description The timestamp (in milliseconds since epoch) when the OAuth client was last updated.
+             * @example 1763149545609
+             */
+            updatedAt?: number;
+            /**
+             * @description The status of the OAuth client.
+             * @enum {string}
+             */
+            status: "ACTIVE" | "REVOKED" | "EXPIRED";
+        };
+        OAuthClientListResponse: {
+            /** @description List of OAuth clients. */
+            data?: components["schemas"]["OAuthClient"][];
+            links?: components["schemas"]["Links"];
+        };
+        /** @description Request body for creating an OAuth client. */
+        CreateOAuthClientRequest: {
+            /** @description The display name of the OAuth client. */
+            name: string;
+            /** @description The Atlassian account ID of the service account to associate with this OAuth client. */
+            serviceAccountId: string;
+        };
     };
-    ApiKeySearchResponse: {
-      /** @description List of API keys. */
-      data: components["schemas"]["ApiKey"][];
-      links: components["schemas"]["Links"];
+    responses: never;
+    parameters: {
+        /** @description Key type filter for API keys to return keys of a certain type. */
+        ApiKeyType: "CLOUD_ADMIN";
+        /**
+         * @description Bearer token for authentication. The token is generated when you create properly scoped API key.
+         *
+         *     e.g. `--header 'Authorization: Bearer <access_token>'`
+         */
+        Authorization: string;
+        /** @description Free text search filter to be applied to API token results. Query will be applied using a fuzzy, case-insensitive search. Will target token `label`, `user.name`, and `user.email`. */
+        ApiTokenUserQuery: string;
+        /** @description Filter the API tokens by status to retrieve tokens of a specific type. */
+        ApiTokenStatus: "allowed" | "blocked";
+        /** @description Filter the API tokens by creation date. This parameter is **required** if searching on creation date. Depending on search type provided, additional parameters shall be supplied. */
+        CreatedAtSearchType: "range" | "gt" | "lt" | "range_time";
+        /** @description Filter the API tokens by creation date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
+        CreatedAtUom: "day" | "hour" | "minute" | "week";
+        /** @description Filter the API tokens by creation date. This represents the value of time scale for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
+        CreatedAtValue: number;
+        /** @description Filter the API tokens by creation date. This represents the starting timestamp for a window search. Either this parameter or `createdAtTo` is **required** if searching on creation date using `range` search. */
+        CreatedAtFrom: string;
+        /** @description Filter the API tokens by creation date. This represents the ending timestamp for a window search. Either this parameter or `createdAtFrom` is **required** if searching on creation date using `range` search. */
+        CreatedAtTo: string;
+        /** @description Filter the API tokens by creation date range. This represents the starting relative time window for a range time search. Either this parameter is or `createdAtRangeTo` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+        CreatedAtRangeFrom: string;
+        /** @description Filter the API tokens by creation date range. This represents the ending relative time window for a range time search. Either this parameter is or `createdAtRangeFrom` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+        CreatedAtRangeTo: string;
+        /** @description Filter the API tokens by last active date. This parameter is **required** if searching on last active date. Depending on search type provided, additional parameters shall be supplied. */
+        LastActiveAtSearchType: "range" | "gt" | "lt" | "range_time";
+        /** @description Filter the API tokens by last active date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
+        LastActiveAtUom: "day" | "hour" | "minute" | "week";
+        /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
+        LastActiveAtValue: number;
+        /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `lastActiveAtTo` is **required** if searching on last active date using `range` search. */
+        LastActiveAtFrom: string;
+        /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `lastActiveAtFrom` is **required** if searching on last active date using `range` search. */
+        LastActiveAtTo: string;
+        /** @description Filter the API tokens by last active date range. This represents the starting relative time window for a range time search. Either this parameter is or `lastActiveAtRangeTo` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+        LastActiveAtRangeFrom: string;
+        /** @description Filter the API tokens by last active date range. This represents the ending relative time window for a range time search. Either this parameter is or `lastActiveAtRangeFrom` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+        LastActiveAtRangeTo: string;
+        /** @description Filter the API keys by expiry date. Depending on search type provided, additional parameters shall be supplied. */
+        ExpiresAtSearchType: "range" | "gt" | "lt" | "range_time";
+        /** @description Filter the API keys by expiry date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
+        ExpiresAtUom: "day" | "hour" | "minute" | "week";
+        /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
+        ExpiresAtValue: number;
+        /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `expiresAtTo` is **required** if searching on expiry date using `range` search. */
+        ExpiresAtFrom: string;
+        /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `expiresAtFrom` is **required** if searching on expiry date using `range` search. */
+        ExpiresAtTo: string;
+        /** @description Filter the API keys by expiry date range. This represents the starting relative time window for a range time search. Either this parameter is or `expiresAtRangeTo` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+        ExpiresAtRangeFrom: string;
+        /** @description Filter the API keys by expiry date range. This represents the ending relative time window for a range time search. Either this parameter is or `expiresAtRangeFrom` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+        ExpiresAtRangeTo: string;
+        /** @description Sort the API tokens based on the following criteria: ascending is represented with `+` as the first character (optional); descending is represented with `-` as the first character. Multiple values may be supplied as a comma-separated list. */
+        ApiTokenSort: "label" | "-label" | "user.name" | "-user.name" | "createdAt" | "-createdAt" | "expiresAt" | "-expiresAt" | "lastActiveAt" | "-lastActiveAt";
+        /** @description Sort the API keys based on the following criteria: ascending is represented with `+` as the first character (optional); descending is represented with `-` as the first character. Multiple values may be supplied as a comma-separated list. */
+        ApiKeySort: "label" | "-label" | "createdBy.name" | "-createdBy.name" | "expiresAt" | "-expiresAt" | "lastActiveAt" | "-lastActiveAt";
+        /** @description Select the number of records to include in the results. */
+        ApiTokenPageSize: number;
+        /** @description Select the number of OAuth client records to include in the results. */
+        OAuthClientPageSize: number;
+        /** @description Select the number of records to include in the results. */
+        ApiKeyPageSize: 5 | 10 | 20 | 25 | 40 | 50 | 60 | 75 | 80 | 100;
+        /** @description Navigate to a specific page of paginated results. In a given response, it may include a `self`, `next`, and `prev` cursor to fetch the respective set of paginated results. The cursor only encodes the sort value and record ID — it does not encode filters, sort order, or page size.<br/><br/>**Note:** You must continue to pass all other parameters (filters, sort, pageSize) on every request alongside the cursor. */
+        Cursor: string;
     };
-    ApiToken: {
-      /** @description The token ID generated in the token-service. */
-      id: string;
-      /** @description The token label. */
-      label: string;
-      /**
-       * @description The token status.
-       * @enum {string}
-       */
-      status: "ALLOWED" | "BLOCKED";
-      /** @description An ISO-8601 formatted timestamp representing the time when a token was created. */
-      createdAt: string;
-      /** @description An ISO-8601 formatted timestamp representing the time when a token expires. */
-      expiresAt?: string;
-      /** @description An ISO-8601 formatted timestamp representing the time when a token was last used. */
-      lastActiveAt?: string;
-      user: components["schemas"]["ApiTokenUser"];
-      /** @description Array of scopes associated with the token. An empty array indicates an unscoped API token. */
-      scopes?: string[];
-    };
-    ApiKey: {
-      /** @description The key ID generated in the token-service. */
-      id: string;
-      /** @description The key label. */
-      label: string;
-      /** @description An ISO-8601 formatted timestamp representing the time when a key was created. */
-      createdAt: string;
-      /** @description An ISO-8601 formatted timestamp representing the time when a key expires. */
-      expiresAt: string;
-      /** @description An ISO-8601 formatted timestamp representing the time when a key was last used. */
-      lastActiveAt: string;
-      /** @description System account ID */
-      systemAccountId?: string;
-      /** @description E.g. ari:cloud:confluence::site/abcdefg-hijkl */
-      resource?: string;
-      /** @description E.g. b44ad0bd-9758-485a-aea9-8c0e6b2d1606 */
-      orgId?: string;
-      createdBy: components["schemas"]["ApiKeyUser"];
-      /** @description E.g. ["manage:org", "read:org"] */
-      scopes?: string[];
-    };
-    CreateApiKeyRequestBody: {
-      /** @description Name of the API Key api key. */
-      label: string;
-      /**
-       * Format: ISO 8601
-       * @description Expiration date (max one year from creation date)
-       */
-      expiresAt: string;
-      /**
-       * @description OAuth Scopes- the level of access the API Key has for a given `resource`.
-       *
-       *     e.g. `"scopes": ["manage:org", "read:org"]`
-       */
-      scopes: string[];
-    };
-    CreateApiKeyResponse: {
-      /** @description The key ID generated in the token-service. */
-      id?: string;
-      /** @description The secret token of the API key. */
-      token?: string;
-      /** @description The key label. */
-      label?: string;
-      createdBy?: components["schemas"]["ApiKeyUser"];
-      /** @description An ISO-8601 formatted timestamp representing the time when a key was created. */
-      createdAt?: string;
-      /** @description An ISO-8601 formatted timestamp representing the time when a key expires. */
-      expiresAt?: string;
-      /** @description E.g. ["manage:org", "read:org"] */
-      scopes?: string[];
-    };
-    /** @description The user associated with the token. */
-    ApiTokenUser: {
-      /** @description User ID of the API token user. */
-      id: string;
-      /** @description Org ID of the API token user. */
-      orgId?: string;
-      /** @description Name of the API token user. */
-      name: string;
-      /** @description Email of the API token user. */
-      email: string;
-    };
-    /** @description The user associated with the key. */
-    ApiKeyUser: {
-      /** @description User ID of the API key user. */
-      id: string;
-      /** @description Name of the API key user. */
-      name: string;
-      /** @description Email of the API key user. */
-      email: string;
-    };
-    Links: {
-      /** @description An encoded cursor object to represent the current page of records. */
-      self?: string;
-      /** @description An encoded cursor object to represent the next page of records. */
-      next?: string;
-      /** @description An encoded cursor object to represent the previous page of records. */
-      prev?: string;
-    };
-    ErrorResponse: {
-      /** @description List of during request. */
-      errors?: components["schemas"]["Error"][];
-    };
-    Error: {
-      /** @description A unique ID for the request. */
-      id: string;
-      /** @description A HTTP status code for the error. */
-      status: string;
-      /**
-       * @description A domain-specific error code.
-       * @enum {string}
-       */
-      code:
-        | "INVALID_API_TOKEN_SEARCH_QUERY"
-        | "INVALID_FIELD_FORMAT"
-        | "INVALID_PAGE_SIZE"
-        | "INVALID_SORT"
-        | "FEATURE_NOT_ENABLED"
-        | "GENERIC_ERROR";
-      /** @description A short description of the error. */
-      title: string;
-      /** @description A detailed description of the error and potential ways to address the issue. */
-      detail?: string;
-    };
-    ServiceAccountCredentialCountResponse: {
-      /** @description List of valid service accounts with their credential counts */
-      validServiceAccountIds: components["schemas"]["ServiceAccountCredentialCount"][];
-      /** @description List of invalid service account IDs that were not found */
-      invalidServiceAccountIds: string[];
-    };
-    ServiceAccountCredentialCount: {
-      /** @description The service account ID */
-      serviceAccountId: string;
-      /** @description The number of API tokens for this service account */
-      credentialsCount: number;
-    };
-  };
-  responses: never;
-  parameters: {
-    /** @description Key type filter for API keys to return keys of a certain type. */
-    ApiKeyType: "CLOUD_ADMIN";
-    /**
-     * @description Bearer token for authentication. The token is generated when you create properly scoped API key.
-     *
-     *     e.g. `--header 'Authorization: Bearer <access_token>'`
-     */
-    Authorization: string;
-    /** @description Free text search filter to be applied to API token results. Query will be applied using a fuzzy, case-insensitive search. Will target token `label`, `user.name`, and `user.email`. */
-    ApiTokenUserQuery: string;
-    /** @description Filter the API tokens by status to retrieve tokens of a specific type. */
-    ApiTokenStatus: "allowed" | "blocked";
-    /** @description Filter the API tokens by creation date. This parameter is **required** if searching on creation date. Depending on search type provided, additional parameters shall be supplied. */
-    CreatedAtSearchType: "range" | "gt" | "lt" | "range_time";
-    /** @description Filter the API tokens by creation date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
-    CreatedAtUom: "day" | "hour" | "minute" | "week";
-    /** @description Filter the API tokens by creation date. This represents the value of time scale for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
-    CreatedAtValue: number;
-    /** @description Filter the API tokens by creation date. This represents the starting timestamp for a window search. Either this parameter or `createdAtTo` is **required** if searching on creation date using `range` search. */
-    CreatedAtFrom: string;
-    /** @description Filter the API tokens by creation date. This represents the ending timestamp for a window search. Either this parameter or `createdAtFrom` is **required** if searching on creation date using `range` search. */
-    CreatedAtTo: string;
-    /** @description Filter the API tokens by creation date range. This represents the starting relative time window for a range time search. Either this parameter is or `createdAtRangeTo` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-    CreatedAtRangeFrom: string;
-    /** @description Filter the API tokens by creation date range. This represents the ending relative time window for a range time search. Either this parameter is or `createdAtRangeFrom` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-    CreatedAtRangeTo: string;
-    /** @description Filter the API tokens by last active date. This parameter is **required** if searching on last active date. Depending on search type provided, additional parameters shall be supplied. */
-    LastActiveAtSearchType: "range" | "gt" | "lt" | "range_time";
-    /** @description Filter the API tokens by last active date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
-    LastActiveAtUom: "day" | "hour" | "minute" | "week";
-    /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
-    LastActiveAtValue: number;
-    /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `lastActiveAtTo` is **required** if searching on last active date using `range` search. */
-    LastActiveAtFrom: string;
-    /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `lastActiveAtFrom` is **required** if searching on last active date using `range` search. */
-    LastActiveAtTo: string;
-    /** @description Filter the API tokens by last active date range. This represents the starting relative time window for a range time search. Either this parameter is or `lastActiveAtRangeTo` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-    LastActiveAtRangeFrom: string;
-    /** @description Filter the API tokens by last active date range. This represents the ending relative time window for a range time search. Either this parameter is or `lastActiveAtRangeFrom` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-    LastActiveAtRangeTo: string;
-    /** @description Filter the API keys by expiry date. Depending on search type provided, additional parameters shall be supplied. */
-    ExpiresAtSearchType: "range" | "gt" | "lt" | "range_time";
-    /** @description Filter the API keys by expiry date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
-    ExpiresAtUom: "day" | "hour" | "minute" | "week";
-    /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
-    ExpiresAtValue: number;
-    /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `expiresAtTo` is **required** if searching on expiry date using `range` search. */
-    ExpiresAtFrom: string;
-    /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `expiresAtFrom` is **required** if searching on expiry date using `range` search. */
-    ExpiresAtTo: string;
-    /** @description Filter the API keys by expiry date range. This represents the starting relative time window for a range time search. Either this parameter is or `expiresAtRangeTo` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-    ExpiresAtRangeFrom: string;
-    /** @description Filter the API keys by expiry date range. This represents the ending relative time window for a range time search. Either this parameter is or `expiresAtRangeFrom` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-    ExpiresAtRangeTo: string;
-    /** @description Sort the API tokens based on the following criteria: ascending is represented with `+` as the first character (optional); descending is represented with `-` as the first character. Multiple values may be supplied as a comma-separated list. */
-    ApiTokenSort:
-      | "label"
-      | "-label"
-      | "user.name"
-      | "-user.name"
-      | "createdAt"
-      | "-createdAt"
-      | "expiresAt"
-      | "-expiresAt"
-      | "lastActiveAt"
-      | "-lastActiveAt";
-    /** @description Sort the API keys based on the following criteria: ascending is represented with `+` as the first character (optional); descending is represented with `-` as the first character. Multiple values may be supplied as a comma-separated list. */
-    ApiKeySort:
-      | "label"
-      | "-label"
-      | "createdBy.name"
-      | "-createdBy.name"
-      | "expiresAt"
-      | "-expiresAt"
-      | "lastActiveAt"
-      | "-lastActiveAt";
-    /** @description Select the number of records to include in the results. */
-    ApiTokenPageSize: number;
-    /** @description Select the number of records to include in the results. */
-    ApiKeyPageSize: 5 | 10 | 20 | 25 | 40 | 50 | 60 | 75 | 80 | 100;
-    /** @description Continue with a filtered set of paginated results. In a given response, it may include a `self`, `next`, and `prev` cursor to fetch the respective set of paginated results. This is a Base64 encoded representation of the applied filters, sort, page size, and iterator for subsequent searches.<br/><br/>**Note:** if the `cursor` is supplied, the consumer does not need to supply any additional parameters. */
-    Cursor: string;
-  };
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  getAllApiTokensByOrgId: {
-    parameters: {
-      query?: {
-        /** @description Free text search filter to be applied to API token results. Query will be applied using a fuzzy, case-insensitive search. Will target token `label`, `user.name`, and `user.email`. */
-        q?: components["parameters"]["ApiTokenUserQuery"];
-        /** @description Filter the API tokens by status to retrieve tokens of a specific type. */
-        status?: components["parameters"]["ApiTokenStatus"];
-        /** @description Filter the API tokens by creation date. This parameter is **required** if searching on creation date. Depending on search type provided, additional parameters shall be supplied. */
-        createdAtSearchType?: components["parameters"]["CreatedAtSearchType"];
-        /** @description Filter the API tokens by creation date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
-        createdAtUom?: components["parameters"]["CreatedAtUom"];
-        /** @description Filter the API tokens by creation date. This represents the value of time scale for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
-        createdAtValue?: components["parameters"]["CreatedAtValue"];
-        /** @description Filter the API tokens by creation date. This represents the starting timestamp for a window search. Either this parameter or `createdAtTo` is **required** if searching on creation date using `range` search. */
-        createdAtFrom?: components["parameters"]["CreatedAtFrom"];
-        /** @description Filter the API tokens by creation date. This represents the ending timestamp for a window search. Either this parameter or `createdAtFrom` is **required** if searching on creation date using `range` search. */
-        createdAtTo?: components["parameters"]["CreatedAtTo"];
-        /** @description Filter the API tokens by creation date range. This represents the starting relative time window for a range time search. Either this parameter is or `createdAtRangeTo` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        createdAtRangeFrom?: components["parameters"]["CreatedAtRangeFrom"];
-        /** @description Filter the API tokens by creation date range. This represents the ending relative time window for a range time search. Either this parameter is or `createdAtRangeFrom` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        createdAtRangeTo?: components["parameters"]["CreatedAtRangeTo"];
-        /** @description Filter the API tokens by last active date. This parameter is **required** if searching on last active date. Depending on search type provided, additional parameters shall be supplied. */
-        lastActiveAtSearchType?: components["parameters"]["LastActiveAtSearchType"];
-        /** @description Filter the API tokens by last active date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
-        lastActiveAtUom?: components["parameters"]["LastActiveAtUom"];
-        /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
-        lastActiveAtValue?: components["parameters"]["LastActiveAtValue"];
-        /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `lastActiveAtTo` is **required** if searching on last active date using `range` search. */
-        lastActiveAtFrom?: components["parameters"]["LastActiveAtFrom"];
-        /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `lastActiveAtFrom` is **required** if searching on last active date using `range` search. */
-        lastActiveAtTo?: components["parameters"]["LastActiveAtTo"];
-        /** @description Filter the API tokens by last active date range. This represents the starting relative time window for a range time search. Either this parameter is or `lastActiveAtRangeTo` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        lastActiveAtRangeFrom?: components["parameters"]["LastActiveAtRangeFrom"];
-        /** @description Filter the API tokens by last active date range. This represents the ending relative time window for a range time search. Either this parameter is or `lastActiveAtRangeFrom` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        lastActiveAtRangeTo?: components["parameters"]["LastActiveAtRangeTo"];
-        /** @description Sort the API tokens based on the following criteria: ascending is represented with `+` as the first character (optional); descending is represented with `-` as the first character. Multiple values may be supplied as a comma-separated list. */
-        sort?: components["parameters"]["ApiTokenSort"];
-        /** @description Select the number of records to include in the results. */
-        pageSize?: components["parameters"]["ApiTokenPageSize"];
-        /** @description Continue with a filtered set of paginated results. In a given response, it may include a `self`, `next`, and `prev` cursor to fetch the respective set of paginated results. This is a Base64 encoded representation of the applied filters, sort, page size, and iterator for subsequent searches.<br/><br/>**Note:** if the `cursor` is supplied, the consumer does not need to supply any additional parameters. */
-        cursor?: components["parameters"]["Cursor"];
-      };
-      header?: never;
-      path: {
-        /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
-        orgId: string;
-      };
-      cookie?: never;
+    getAllApiTokensByOrgId: {
+        parameters: {
+            query?: {
+                /** @description Free text search filter to be applied to API token results. Query will be applied using a fuzzy, case-insensitive search. Will target token `label`, `user.name`, and `user.email`. */
+                q?: components["parameters"]["ApiTokenUserQuery"];
+                /** @description Filter the API tokens by status to retrieve tokens of a specific type. */
+                status?: components["parameters"]["ApiTokenStatus"];
+                /** @description Filter the API tokens by creation date. This parameter is **required** if searching on creation date. Depending on search type provided, additional parameters shall be supplied. */
+                createdAtSearchType?: components["parameters"]["CreatedAtSearchType"];
+                /** @description Filter the API tokens by creation date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
+                createdAtUom?: components["parameters"]["CreatedAtUom"];
+                /** @description Filter the API tokens by creation date. This represents the value of time scale for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
+                createdAtValue?: components["parameters"]["CreatedAtValue"];
+                /** @description Filter the API tokens by creation date. This represents the starting timestamp for a window search. Either this parameter or `createdAtTo` is **required** if searching on creation date using `range` search. */
+                createdAtFrom?: components["parameters"]["CreatedAtFrom"];
+                /** @description Filter the API tokens by creation date. This represents the ending timestamp for a window search. Either this parameter or `createdAtFrom` is **required** if searching on creation date using `range` search. */
+                createdAtTo?: components["parameters"]["CreatedAtTo"];
+                /** @description Filter the API tokens by creation date range. This represents the starting relative time window for a range time search. Either this parameter is or `createdAtRangeTo` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                createdAtRangeFrom?: components["parameters"]["CreatedAtRangeFrom"];
+                /** @description Filter the API tokens by creation date range. This represents the ending relative time window for a range time search. Either this parameter is or `createdAtRangeFrom` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                createdAtRangeTo?: components["parameters"]["CreatedAtRangeTo"];
+                /** @description Filter the API tokens by last active date. This parameter is **required** if searching on last active date. Depending on search type provided, additional parameters shall be supplied. */
+                lastActiveAtSearchType?: components["parameters"]["LastActiveAtSearchType"];
+                /** @description Filter the API tokens by last active date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
+                lastActiveAtUom?: components["parameters"]["LastActiveAtUom"];
+                /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
+                lastActiveAtValue?: components["parameters"]["LastActiveAtValue"];
+                /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `lastActiveAtTo` is **required** if searching on last active date using `range` search. */
+                lastActiveAtFrom?: components["parameters"]["LastActiveAtFrom"];
+                /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `lastActiveAtFrom` is **required** if searching on last active date using `range` search. */
+                lastActiveAtTo?: components["parameters"]["LastActiveAtTo"];
+                /** @description Filter the API tokens by last active date range. This represents the starting relative time window for a range time search. Either this parameter is or `lastActiveAtRangeTo` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                lastActiveAtRangeFrom?: components["parameters"]["LastActiveAtRangeFrom"];
+                /** @description Filter the API tokens by last active date range. This represents the ending relative time window for a range time search. Either this parameter is or `lastActiveAtRangeFrom` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                lastActiveAtRangeTo?: components["parameters"]["LastActiveAtRangeTo"];
+                /** @description Sort the API tokens based on the following criteria: ascending is represented with `+` as the first character (optional); descending is represented with `-` as the first character. Multiple values may be supplied as a comma-separated list. */
+                sort?: components["parameters"]["ApiTokenSort"];
+                /** @description Select the number of records to include in the results. */
+                pageSize?: components["parameters"]["ApiTokenPageSize"];
+                /** @description Navigate to a specific page of paginated results. In a given response, it may include a `self`, `next`, and `prev` cursor to fetch the respective set of paginated results. The cursor only encodes the sort value and record ID — it does not encode filters, sort order, or page size.<br/><br/>**Note:** You must continue to pass all other parameters (filters, sort, pageSize) on every request alongside the cursor. */
+                cursor?: components["parameters"]["Cursor"];
+            };
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiTokenSearchResponse"];
+                };
+            };
+            /** @description Returned if request is not in correct format. */
+            400: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have correct permissions to read user API tokens. */
+            403: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Returned if the request is successful. */
-      200: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
+    "Bulk revoke API Tokens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Id of organization revoking the token */
+                orgId: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["ApiTokenSearchResponse"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Token Not Found in an Organization */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
-      /** @description Returned if request is not in correct format. */
-      400: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Returned if the user does not have correct permissions to read user API tokens. */
-      403: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Internal Error */
-      500: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
     };
-  };
-  "Bulk revoke API Tokens": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description Id of organization revoking the token */
-        orgId: string;
-      };
-      cookie?: never;
+    getApiTokenCountByOrgId: {
+        parameters: {
+            query?: {
+                /** @description Free text search filter to be applied to API token results. Query will be applied using a fuzzy, case-insensitive search. Will target token `label`, `user.name`, and `user.email`. */
+                q?: components["parameters"]["ApiTokenUserQuery"];
+                /** @description Filter the API tokens by status to retrieve tokens of a specific type. */
+                status?: components["parameters"]["ApiTokenStatus"];
+                /** @description Filter the API tokens by creation date. This parameter is **required** if searching on creation date. Depending on search type provided, additional parameters shall be supplied. */
+                createdAtSearchType?: components["parameters"]["CreatedAtSearchType"];
+                /** @description Filter the API tokens by creation date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
+                createdAtUom?: components["parameters"]["CreatedAtUom"];
+                /** @description Filter the API tokens by creation date. This represents the value of time scale for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
+                createdAtValue?: components["parameters"]["CreatedAtValue"];
+                /** @description Filter the API tokens by creation date. This represents the starting timestamp for a window search. Either this parameter or `createdAtTo` is **required** if searching on creation date using `range` search. */
+                createdAtFrom?: components["parameters"]["CreatedAtFrom"];
+                /** @description Filter the API tokens by creation date. This represents the ending timestamp for a window search. Either this parameter or `createdAtFrom` is **required** if searching on creation date using `range` search. */
+                createdAtTo?: components["parameters"]["CreatedAtTo"];
+                /** @description Filter the API tokens by creation date range. This represents the starting relative time window for a range time search. Either this parameter is or `createdAtRangeTo` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                createdAtRangeFrom?: components["parameters"]["CreatedAtRangeFrom"];
+                /** @description Filter the API tokens by creation date range. This represents the ending relative time window for a range time search. Either this parameter is or `createdAtRangeFrom` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                createdAtRangeTo?: components["parameters"]["CreatedAtRangeTo"];
+                /** @description Filter the API tokens by last active date. This parameter is **required** if searching on last active date. Depending on search type provided, additional parameters shall be supplied. */
+                lastActiveAtSearchType?: components["parameters"]["LastActiveAtSearchType"];
+                /** @description Filter the API tokens by last active date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
+                lastActiveAtUom?: components["parameters"]["LastActiveAtUom"];
+                /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
+                lastActiveAtValue?: components["parameters"]["LastActiveAtValue"];
+                /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `lastActiveAtTo` is **required** if searching on last active date using `range` search. */
+                lastActiveAtFrom?: components["parameters"]["LastActiveAtFrom"];
+                /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `lastActiveAtFrom` is **required** if searching on last active date using `range` search. */
+                lastActiveAtTo?: components["parameters"]["LastActiveAtTo"];
+                /** @description Filter the API tokens by last active date range. This represents the starting relative time window for a range time search. Either this parameter is or `lastActiveAtRangeTo` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                lastActiveAtRangeFrom?: components["parameters"]["LastActiveAtRangeFrom"];
+                /** @description Filter the API tokens by last active date range. This represents the ending relative time window for a range time search. Either this parameter is or `lastActiveAtRangeFrom` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                lastActiveAtRangeTo?: components["parameters"]["LastActiveAtRangeTo"];
+            };
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            /** @description Returned if request is not in correct format. */
+            400: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have correct permissions to read user API tokens. */
+            403: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Successful operation */
-      204: {
-        headers: {
-          [name: string]: unknown;
+    countServiceAccountApiTokens: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
         };
-        content?: never;
-      };
-      /** @description Token Not Found in an Organization */
-      404: {
-        headers: {
-          [name: string]: unknown;
+        /** @description List of service account IDs to count API tokens for */
+        requestBody: {
+            content: {
+                "application/json": string[];
+            };
         };
-        content?: never;
-      };
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceAccountCredentialCountResponse"];
+                };
+            };
+            /** @description Returned if request is not in correct format. */
+            400: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to view service account API tokens. */
+            403: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
     };
-  };
-  getApiTokenCountByOrgId: {
-    parameters: {
-      query?: {
-        /** @description Free text search filter to be applied to API token results. Query will be applied using a fuzzy, case-insensitive search. Will target token `label`, `user.name`, and `user.email`. */
-        q?: components["parameters"]["ApiTokenUserQuery"];
-        /** @description Filter the API tokens by status to retrieve tokens of a specific type. */
-        status?: components["parameters"]["ApiTokenStatus"];
-        /** @description Filter the API tokens by creation date. This parameter is **required** if searching on creation date. Depending on search type provided, additional parameters shall be supplied. */
-        createdAtSearchType?: components["parameters"]["CreatedAtSearchType"];
-        /** @description Filter the API tokens by creation date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
-        createdAtUom?: components["parameters"]["CreatedAtUom"];
-        /** @description Filter the API tokens by creation date. This represents the value of time scale for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search. */
-        createdAtValue?: components["parameters"]["CreatedAtValue"];
-        /** @description Filter the API tokens by creation date. This represents the starting timestamp for a window search. Either this parameter or `createdAtTo` is **required** if searching on creation date using `range` search. */
-        createdAtFrom?: components["parameters"]["CreatedAtFrom"];
-        /** @description Filter the API tokens by creation date. This represents the ending timestamp for a window search. Either this parameter or `createdAtFrom` is **required** if searching on creation date using `range` search. */
-        createdAtTo?: components["parameters"]["CreatedAtTo"];
-        /** @description Filter the API tokens by creation date range. This represents the starting relative time window for a range time search. Either this parameter is or `createdAtRangeTo` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        createdAtRangeFrom?: components["parameters"]["CreatedAtRangeFrom"];
-        /** @description Filter the API tokens by creation date range. This represents the ending relative time window for a range time search. Either this parameter is or `createdAtRangeFrom` is **required** if searching on creation date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        createdAtRangeTo?: components["parameters"]["CreatedAtRangeTo"];
-        /** @description Filter the API tokens by last active date. This parameter is **required** if searching on last active date. Depending on search type provided, additional parameters shall be supplied. */
-        lastActiveAtSearchType?: components["parameters"]["LastActiveAtSearchType"];
-        /** @description Filter the API tokens by last active date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
-        lastActiveAtUom?: components["parameters"]["LastActiveAtUom"];
-        /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
-        lastActiveAtValue?: components["parameters"]["LastActiveAtValue"];
-        /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `lastActiveAtTo` is **required** if searching on last active date using `range` search. */
-        lastActiveAtFrom?: components["parameters"]["LastActiveAtFrom"];
-        /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `lastActiveAtFrom` is **required** if searching on last active date using `range` search. */
-        lastActiveAtTo?: components["parameters"]["LastActiveAtTo"];
-        /** @description Filter the API tokens by last active date range. This represents the starting relative time window for a range time search. Either this parameter is or `lastActiveAtRangeTo` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        lastActiveAtRangeFrom?: components["parameters"]["LastActiveAtRangeFrom"];
-        /** @description Filter the API tokens by last active date range. This represents the ending relative time window for a range time search. Either this parameter is or `lastActiveAtRangeFrom` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        lastActiveAtRangeTo?: components["parameters"]["LastActiveAtRangeTo"];
-      };
-      header?: never;
-      path: {
-        /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
-        orgId: string;
-      };
-      cookie?: never;
+    getServiceAccountApiToken: {
+        parameters: {
+            query?: {
+                /** @description Optional filter to search for tokens by label. */
+                tokenLabel?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+                /** @description ID for the service account whose API tokens you want to retrieve. */
+                accountId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiToken"][];
+                };
+            };
+            /** @description Returned if request is not in correct format. */
+            400: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to view service account API tokens. */
+            403: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the service account is not found. */
+            404: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Returned if the request is successful. */
-      200: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
+    revokeApiTokens: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+                /** @description ID for the service account whose API tokens you want to revoke. */
+                accountId: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": number;
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            204: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if request is not in correct format. */
+            400: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to revoke service account API tokens. */
+            403: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the service account is not found. */
+            404: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
         };
-      };
-      /** @description Returned if request is not in correct format. */
-      400: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Returned if the user does not have correct permissions to read user API tokens. */
-      403: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Internal Error */
-      500: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
     };
-  };
-  countServiceAccountApiTokens: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
-        orgId: string;
-      };
-      cookie?: never;
+    listServiceAccounts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceAccountListResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to view service accounts. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
     };
-    /** @description List of service account IDs to count API tokens for */
-    requestBody: {
-      content: {
-        "application/json": string[];
-      };
+    createServiceAccount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        /** @description The service account creation request. */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateServiceAccountRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the service account is successfully created. */
+            201: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateServiceAccountResponse"];
+                };
+            };
+            /** @description Returned if the request is not in the correct format (e.g. displayName is blank, too short, or too long). */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to create service accounts. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
     };
-    responses: {
-      /** @description Returned if the request is successful. */
-      200: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
+    updateServiceAccount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["ServiceAccountCredentialCountResponse"];
+        /** @description The service account update request. */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateServiceAccountRequest"];
+            };
         };
-      };
-      /** @description Returned if request is not in correct format. */
-      400: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
+        responses: {
+            /** @description Returned if the service account is successfully updated. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceAccount"];
+                };
+            };
+            /** @description Returned if the request is not in the correct format. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to update service accounts. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the specified service account is not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Returned if the user does not have permission to view service account API tokens. */
-      403: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Internal Error */
-      500: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
     };
-  };
-  getServiceAccountApiToken: {
-    parameters: {
-      query?: {
-        /** @description Optional filter to search for tokens by label. */
-        tokenLabel?: string;
-      };
-      header?: never;
-      path: {
-        /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
-        orgId: string;
-        /** @description ID for the service account whose API tokens you want to retrieve. */
-        accountId: string;
-      };
-      cookie?: never;
+    deleteServiceAccount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+                /** @description The unique identifier of the service account to delete. */
+                serviceAccountId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the service account is successfully deleted. */
+            204: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the user does not have permission to delete service accounts. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the specified service account is not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Returned if the request is successful. */
-      200: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
+    listOAuthClients: {
+        parameters: {
+            query?: {
+                /** @description Select the number of OAuth client records to include in the results. */
+                pageSize?: components["parameters"]["OAuthClientPageSize"];
+                /** @description Navigate to a specific page of paginated results. In a given response, it may include a `self`, `next`, and `prev` cursor to fetch the respective set of paginated results. The cursor only encodes the sort value and record ID — it does not encode filters, sort order, or page size.<br/><br/>**Note:** You must continue to pass all other parameters (filters, sort, pageSize) on every request alongside the cursor. */
+                cursor?: components["parameters"]["Cursor"];
+            };
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["ApiToken"][];
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OAuthClientListResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to view OAuth clients. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
         };
-      };
-      /** @description Returned if request is not in correct format. */
-      400: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Returned if the user does not have permission to view service account API tokens. */
-      403: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Returned if the service account is not found. */
-      404: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Internal Error */
-      500: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
     };
-  };
-  revokeApiTokens: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
-        orgId: string;
-        /** @description ID for the service account whose API tokens you want to revoke. */
-        accountId: string;
-      };
-      cookie?: never;
+    createOAuthClient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        /** @description Details to create an OAuth client */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateOAuthClientRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the OAuth client is successfully created. */
+            201: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OAuthClient"];
+                };
+            };
+            /** @description Returned if the request is not in the correct format. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to create OAuth clients. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Returned if the request is successful. */
-      204: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
+    countOAuthClients: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
         };
-        content?: never;
-      };
-      /** @description Returned if request is not in correct format. */
-      400: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description The total count of OAuth clients in the organization. */
+                        total?: number;
+                    };
+                };
+            };
+            /** @description Returned if the user does not have permission to view OAuth clients. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Returned if the user does not have permission to revoke service account API tokens. */
-      403: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Returned if the service account is not found. */
-      404: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Internal Error */
-      500: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
     };
-  };
-  getApiKeyCountByOrgId: {
-    parameters: {
-      query?: {
-        /** @description Free text search filter to be applied to API token results. Query will be applied using a fuzzy, case-insensitive search. Will target token `label`, `user.name`, and `user.email`. */
-        q?: components["parameters"]["ApiTokenUserQuery"];
-        /** @description Key type filter for API keys to return keys of a certain type. */
-        keyType?: components["parameters"]["ApiKeyType"];
-        /** @description Filter the API keys by expiry date. Depending on search type provided, additional parameters shall be supplied. */
-        expiresAtSearchType?: components["parameters"]["ExpiresAtSearchType"];
-        /** @description Filter the API keys by expiry date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
-        expiresAtUom?: components["parameters"]["ExpiresAtUom"];
-        /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
-        expiresAtValue?: components["parameters"]["ExpiresAtValue"];
-        /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `expiresAtTo` is **required** if searching on expiry date using `range` search. */
-        expiresAtFrom?: components["parameters"]["ExpiresAtFrom"];
-        /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `expiresAtFrom` is **required** if searching on expiry date using `range` search. */
-        expiresAtTo?: components["parameters"]["ExpiresAtTo"];
-        /** @description Filter the API keys by expiry date range. This represents the starting relative time window for a range time search. Either this parameter is or `expiresAtRangeTo` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        expiresAtRangeFrom?: components["parameters"]["ExpiresAtRangeFrom"];
-        /** @description Filter the API keys by expiry date range. This represents the ending relative time window for a range time search. Either this parameter is or `expiresAtRangeFrom` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        expiresAtRangeTo?: components["parameters"]["ExpiresAtRangeTo"];
-        /** @description Filter the API tokens by last active date. This parameter is **required** if searching on last active date. Depending on search type provided, additional parameters shall be supplied. */
-        lastActiveAtSearchType?: components["parameters"]["LastActiveAtSearchType"];
-        /** @description Filter the API tokens by last active date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
-        lastActiveAtUom?: components["parameters"]["LastActiveAtUom"];
-        /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
-        lastActiveAtValue?: components["parameters"]["LastActiveAtValue"];
-        /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `lastActiveAtTo` is **required** if searching on last active date using `range` search. */
-        lastActiveAtFrom?: components["parameters"]["LastActiveAtFrom"];
-        /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `lastActiveAtFrom` is **required** if searching on last active date using `range` search. */
-        lastActiveAtTo?: components["parameters"]["LastActiveAtTo"];
-        /** @description Filter the API tokens by last active date range. This represents the starting relative time window for a range time search. Either this parameter is or `lastActiveAtRangeTo` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        lastActiveAtRangeFrom?: components["parameters"]["LastActiveAtRangeFrom"];
-        /** @description Filter the API tokens by last active date range. This represents the ending relative time window for a range time search. Either this parameter is or `lastActiveAtRangeFrom` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        lastActiveAtRangeTo?: components["parameters"]["LastActiveAtRangeTo"];
-      };
-      header: {
-        /**
-         * @description Bearer token for authentication. The token is generated when you create properly scoped API key.
-         *
-         *     e.g. `--header 'Authorization: Bearer <access_token>'`
-         */
-        Authorization: components["parameters"]["Authorization"];
-      };
-      path: {
-        /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
-        orgId: string;
-      };
-      cookie?: never;
+    getOAuthClient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+                /** @description The unique identifier of the OAuth client. */
+                clientId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OAuthClient"];
+                };
+            };
+            /** @description Returned if the user does not have permission to view OAuth clients. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the OAuth client is not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Returned if the request is successful. */
-      200: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
+    deleteOAuthClient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+                /** @description The unique identifier of the OAuth client to delete. */
+                clientId: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": number;
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the OAuth client is successfully deleted. */
+            204: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the user does not have permission to delete OAuth clients. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the OAuth client is not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
         };
-      };
-      /** @description Returned if request is not in correct format. */
-      400: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Returned if the user does not have correct permissions to read user API tokens. */
-      403: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Internal Error */
-      500: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
     };
-  };
-  getAllApiKeysByOrgId: {
-    parameters: {
-      query?: {
-        /** @description Free text search filter to be applied to API token results. Query will be applied using a fuzzy, case-insensitive search. Will target token `label`, `user.name`, and `user.email`. */
-        q?: components["parameters"]["ApiTokenUserQuery"];
-        /** @description Key type filter for API keys to return keys of a certain type. */
-        keyType?: components["parameters"]["ApiKeyType"];
-        /** @description Filter the API keys by expiry date. Depending on search type provided, additional parameters shall be supplied. */
-        expiresAtSearchType?: components["parameters"]["ExpiresAtSearchType"];
-        /** @description Filter the API keys by expiry date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
-        expiresAtUom?: components["parameters"]["ExpiresAtUom"];
-        /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
-        expiresAtValue?: components["parameters"]["ExpiresAtValue"];
-        /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `expiresAtTo` is **required** if searching on expiry date using `range` search. */
-        expiresAtFrom?: components["parameters"]["ExpiresAtFrom"];
-        /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `expiresAtFrom` is **required** if searching on expiry date using `range` search. */
-        expiresAtTo?: components["parameters"]["ExpiresAtTo"];
-        /** @description Filter the API keys by expiry date range. This represents the starting relative time window for a range time search. Either this parameter is or `expiresAtRangeTo` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        expiresAtRangeFrom?: components["parameters"]["ExpiresAtRangeFrom"];
-        /** @description Filter the API keys by expiry date range. This represents the ending relative time window for a range time search. Either this parameter is or `expiresAtRangeFrom` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        expiresAtRangeTo?: components["parameters"]["ExpiresAtRangeTo"];
-        /** @description Filter the API tokens by last active date. This parameter is **required** if searching on last active date. Depending on search type provided, additional parameters shall be supplied. */
-        lastActiveAtSearchType?: components["parameters"]["LastActiveAtSearchType"];
-        /** @description Filter the API tokens by last active date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
-        lastActiveAtUom?: components["parameters"]["LastActiveAtUom"];
-        /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
-        lastActiveAtValue?: components["parameters"]["LastActiveAtValue"];
-        /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `lastActiveAtTo` is **required** if searching on last active date using `range` search. */
-        lastActiveAtFrom?: components["parameters"]["LastActiveAtFrom"];
-        /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `lastActiveAtFrom` is **required** if searching on last active date using `range` search. */
-        lastActiveAtTo?: components["parameters"]["LastActiveAtTo"];
-        /** @description Filter the API tokens by last active date range. This represents the starting relative time window for a range time search. Either this parameter is or `lastActiveAtRangeTo` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        lastActiveAtRangeFrom?: components["parameters"]["LastActiveAtRangeFrom"];
-        /** @description Filter the API tokens by last active date range. This represents the ending relative time window for a range time search. Either this parameter is or `lastActiveAtRangeFrom` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
-        lastActiveAtRangeTo?: components["parameters"]["LastActiveAtRangeTo"];
-        /** @description Sort the API keys based on the following criteria: ascending is represented with `+` as the first character (optional); descending is represented with `-` as the first character. Multiple values may be supplied as a comma-separated list. */
-        sort?: components["parameters"]["ApiKeySort"];
-        /** @description Select the number of records to include in the results. */
-        pageSize?: components["parameters"]["ApiKeyPageSize"];
-        /** @description Continue with a filtered set of paginated results. In a given response, it may include a `self`, `next`, and `prev` cursor to fetch the respective set of paginated results. This is a Base64 encoded representation of the applied filters, sort, page size, and iterator for subsequent searches.<br/><br/>**Note:** if the `cursor` is supplied, the consumer does not need to supply any additional parameters. */
-        cursor?: components["parameters"]["Cursor"];
-      };
-      header: {
-        /**
-         * @description Bearer token for authentication. The token is generated when you create properly scoped API key.
-         *
-         *     e.g. `--header 'Authorization: Bearer <access_token>'`
-         */
-        Authorization: components["parameters"]["Authorization"];
-      };
-      path: {
-        /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
-        orgId: string;
-      };
-      cookie?: never;
+    getApiKeyCountByOrgId: {
+        parameters: {
+            query?: {
+                /** @description Free text search filter to be applied to API token results. Query will be applied using a fuzzy, case-insensitive search. Will target token `label`, `user.name`, and `user.email`. */
+                q?: components["parameters"]["ApiTokenUserQuery"];
+                /** @description Key type filter for API keys to return keys of a certain type. */
+                keyType?: components["parameters"]["ApiKeyType"];
+                /** @description Filter the API keys by expiry date. Depending on search type provided, additional parameters shall be supplied. */
+                expiresAtSearchType?: components["parameters"]["ExpiresAtSearchType"];
+                /** @description Filter the API keys by expiry date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
+                expiresAtUom?: components["parameters"]["ExpiresAtUom"];
+                /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
+                expiresAtValue?: components["parameters"]["ExpiresAtValue"];
+                /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `expiresAtTo` is **required** if searching on expiry date using `range` search. */
+                expiresAtFrom?: components["parameters"]["ExpiresAtFrom"];
+                /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `expiresAtFrom` is **required** if searching on expiry date using `range` search. */
+                expiresAtTo?: components["parameters"]["ExpiresAtTo"];
+                /** @description Filter the API keys by expiry date range. This represents the starting relative time window for a range time search. Either this parameter is or `expiresAtRangeTo` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                expiresAtRangeFrom?: components["parameters"]["ExpiresAtRangeFrom"];
+                /** @description Filter the API keys by expiry date range. This represents the ending relative time window for a range time search. Either this parameter is or `expiresAtRangeFrom` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                expiresAtRangeTo?: components["parameters"]["ExpiresAtRangeTo"];
+                /** @description Filter the API tokens by last active date. This parameter is **required** if searching on last active date. Depending on search type provided, additional parameters shall be supplied. */
+                lastActiveAtSearchType?: components["parameters"]["LastActiveAtSearchType"];
+                /** @description Filter the API tokens by last active date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
+                lastActiveAtUom?: components["parameters"]["LastActiveAtUom"];
+                /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
+                lastActiveAtValue?: components["parameters"]["LastActiveAtValue"];
+                /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `lastActiveAtTo` is **required** if searching on last active date using `range` search. */
+                lastActiveAtFrom?: components["parameters"]["LastActiveAtFrom"];
+                /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `lastActiveAtFrom` is **required** if searching on last active date using `range` search. */
+                lastActiveAtTo?: components["parameters"]["LastActiveAtTo"];
+                /** @description Filter the API tokens by last active date range. This represents the starting relative time window for a range time search. Either this parameter is or `lastActiveAtRangeTo` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                lastActiveAtRangeFrom?: components["parameters"]["LastActiveAtRangeFrom"];
+                /** @description Filter the API tokens by last active date range. This represents the ending relative time window for a range time search. Either this parameter is or `lastActiveAtRangeFrom` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                lastActiveAtRangeTo?: components["parameters"]["LastActiveAtRangeTo"];
+            };
+            header: {
+                /**
+                 * @description Bearer token for authentication. The token is generated when you create properly scoped API key.
+                 *
+                 *     e.g. `--header 'Authorization: Bearer <access_token>'`
+                 */
+                Authorization: components["parameters"]["Authorization"];
+            };
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            /** @description Returned if request is not in correct format. */
+            400: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have correct permissions to read user API tokens. */
+            403: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Returned if the request is successful. */
-      200: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
+    getAllApiKeysByOrgId: {
+        parameters: {
+            query?: {
+                /** @description Free text search filter to be applied to API token results. Query will be applied using a fuzzy, case-insensitive search. Will target token `label`, `user.name`, and `user.email`. */
+                q?: components["parameters"]["ApiTokenUserQuery"];
+                /** @description Key type filter for API keys to return keys of a certain type. */
+                keyType?: components["parameters"]["ApiKeyType"];
+                /** @description Filter the API keys by expiry date. Depending on search type provided, additional parameters shall be supplied. */
+                expiresAtSearchType?: components["parameters"]["ExpiresAtSearchType"];
+                /** @description Filter the API keys by expiry date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
+                expiresAtUom?: components["parameters"]["ExpiresAtUom"];
+                /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search. */
+                expiresAtValue?: components["parameters"]["ExpiresAtValue"];
+                /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `expiresAtTo` is **required** if searching on expiry date using `range` search. */
+                expiresAtFrom?: components["parameters"]["ExpiresAtFrom"];
+                /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `expiresAtFrom` is **required** if searching on expiry date using `range` search. */
+                expiresAtTo?: components["parameters"]["ExpiresAtTo"];
+                /** @description Filter the API keys by expiry date range. This represents the starting relative time window for a range time search. Either this parameter is or `expiresAtRangeTo` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                expiresAtRangeFrom?: components["parameters"]["ExpiresAtRangeFrom"];
+                /** @description Filter the API keys by expiry date range. This represents the ending relative time window for a range time search. Either this parameter is or `expiresAtRangeFrom` is **required** if searching on expiry date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                expiresAtRangeTo?: components["parameters"]["ExpiresAtRangeTo"];
+                /** @description Filter the API tokens by last active date. This parameter is **required** if searching on last active date. Depending on search type provided, additional parameters shall be supplied. */
+                lastActiveAtSearchType?: components["parameters"]["LastActiveAtSearchType"];
+                /** @description Filter the API tokens by last active date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
+                lastActiveAtUom?: components["parameters"]["LastActiveAtUom"];
+                /** @description Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on last active date using `gt` or `lt` search. */
+                lastActiveAtValue?: components["parameters"]["LastActiveAtValue"];
+                /** @description Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `lastActiveAtTo` is **required** if searching on last active date using `range` search. */
+                lastActiveAtFrom?: components["parameters"]["LastActiveAtFrom"];
+                /** @description Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `lastActiveAtFrom` is **required** if searching on last active date using `range` search. */
+                lastActiveAtTo?: components["parameters"]["LastActiveAtTo"];
+                /** @description Filter the API tokens by last active date range. This represents the starting relative time window for a range time search. Either this parameter is or `lastActiveAtRangeTo` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                lastActiveAtRangeFrom?: components["parameters"]["LastActiveAtRangeFrom"];
+                /** @description Filter the API tokens by last active date range. This represents the ending relative time window for a range time search. Either this parameter is or `lastActiveAtRangeFrom` is **required** if searching on last active date using `range_time` search.<br/><br/>**Note:** Range time windows use the format `1w 2d 3h 4m` where `w -> weeks, d -> days, h -> hours, m -> minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate "3 weeks ago." Values are optional and must be presented in descending order. */
+                lastActiveAtRangeTo?: components["parameters"]["LastActiveAtRangeTo"];
+                /** @description Sort the API keys based on the following criteria: ascending is represented with `+` as the first character (optional); descending is represented with `-` as the first character. Multiple values may be supplied as a comma-separated list. */
+                sort?: components["parameters"]["ApiKeySort"];
+                /** @description Select the number of records to include in the results. */
+                pageSize?: components["parameters"]["ApiKeyPageSize"];
+                /** @description Navigate to a specific page of paginated results. In a given response, it may include a `self`, `next`, and `prev` cursor to fetch the respective set of paginated results. The cursor only encodes the sort value and record ID — it does not encode filters, sort order, or page size.<br/><br/>**Note:** You must continue to pass all other parameters (filters, sort, pageSize) on every request alongside the cursor. */
+                cursor?: components["parameters"]["Cursor"];
+            };
+            header: {
+                /**
+                 * @description Bearer token for authentication. The token is generated when you create properly scoped API key.
+                 *
+                 *     e.g. `--header 'Authorization: Bearer <access_token>'`
+                 */
+                Authorization: components["parameters"]["Authorization"];
+            };
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["ApiKeySearchResponse"];
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiKeySearchResponse"];
+                };
+            };
+            /** @description Returned if request is not in correct format. */
+            400: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have correct permissions to read user API keys. */
+            403: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
         };
-      };
-      /** @description Returned if request is not in correct format. */
-      400: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Returned if the user does not have correct permissions to read user API keys. */
-      403: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Internal Error */
-      500: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
     };
-  };
-  RevokeApiKey: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
-        orgId: string;
-        /** @description ID for the API key you want to revoke. */
-        apiKeyId: string;
-      };
-      cookie?: never;
+    RevokeApiKey: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+                /** @description ID for the API key you want to revoke. */
+                apiKeyId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            204: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if request is not in correct format. */
+            400: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Returned if the request is successful. */
-      204: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Returned if request is not in correct format. */
-      400: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Internal Error */
-      500: {
-        headers: {
-          /** @description The number of allowed requests in the current period. */
-          "X-RateLimit-Limit"?: number;
-          /** @description The number of remaining requests in the current period. */
-          "X-RateLimit-Remaining"?: number;
-          /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
-          "X-RateLimit-Reset"?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-    };
-  };
 }
