@@ -1,0 +1,88 @@
+# Rules used by npm run lint:openapi.
+#
+# These are based on Vacuum's recommended ruleset and kept narrow to checks
+# that are likely to produce unusable generated TypeScript.
+description: Code generation safety rules for Atlassian OpenAPI specs.
+documentationUrl: https://quobix.com/vacuum/rulesets/recommended/
+rules:
+  operation-operationId:
+    category:
+      description: Operations are the core of the contract.
+      id: operations
+      name: Operations
+    description: Every operation must contain an `operationId`.
+    formats:
+      - oas3
+      - oas3_1
+      - oas3_2
+      - oas2
+    given: $
+    howToFix: Add an operationId to every operation.
+    id: operation-operationId
+    recommended: true
+    severity: error
+    then:
+      function: oasOpId
+    type: validation
+
+  operation-operationId-unique:
+    category:
+      description: Operations are the core of the contract.
+      id: operations
+      name: Operations
+    description: Every operation must have unique `operationId`.
+    formats:
+      - oas3
+      - oas3_1
+      - oas3_2
+      - oas2
+    given: $.paths
+    howToFix: Make every operationId unique within the document.
+    id: operation-operationId-unique
+    recommended: true
+    resolved: true
+    severity: error
+    then:
+      function: oasOpIdUnique
+    type: validation
+
+  typed-enum:
+    category:
+      description: Schemas define the shape, type, and constraints of JSON data.
+      id: schemas
+      name: Schemas
+    description: Enum values must respect the specified type.
+    formats:
+      - oas3
+      - oas3_1
+      - oas3_2
+      - oas2
+    given: $
+    howToFix: Make enum values match the schema or parameter type.
+    id: typed-enum
+    recommended: true
+    resolved: true
+    severity: error
+    then:
+      function: typedEnum
+    type: validation
+
+  # Vacuum's schema type-required rule is named oas-missing-type.
+  oas-missing-type:
+    category:
+      description: Schemas define the shape, type, and constraints of JSON data.
+      id: schemas
+      name: Schemas
+    description: All schemas and properties should have a type field unless using enum, const, or composition.
+    formats:
+      - oas3
+      - oas3_1
+      - oas3_2
+    given: $
+    howToFix: Add a type field to schemas and properties where OpenAPI requires one.
+    id: oas-missing-type
+    recommended: true
+    severity: error
+    then:
+      function: missingType
+    type: validation
