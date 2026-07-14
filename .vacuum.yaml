@@ -1,8 +1,8 @@
 # Rules used by npm run lint:openapi.
 #
 # These are based on Vacuum's recommended ruleset and kept narrow to checks
-# that are likely to produce unusable generated TypeScript.
-description: Code generation safety rules for Atlassian OpenAPI specs.
+# that are useful for generated TypeScript or API path consistency.
+description: Code generation safety and path consistency rules for Atlassian OpenAPI specs.
 documentationUrl: https://quobix.com/vacuum/rulesets/recommended/
 rules:
   operation-operationId:
@@ -44,6 +44,26 @@ rules:
     severity: error
     then:
       function: oasOpIdUnique
+    type: validation
+
+  paths-kebab-case:
+    category:
+      description: Operations are the core of the contract.
+      id: operations
+      name: Operations
+    description: Path segments must only use kebab-case (no underscores or uppercase).
+    formats:
+      - oas3
+      - oas3_1
+      - oas3_2
+      - oas2
+    given: $
+    howToFix: Use lowercase words separated by hyphens in path segments.
+    id: paths-kebab-case
+    recommended: true
+    severity: error
+    then:
+      function: pathsKebabCase
     type: validation
 
   typed-enum:

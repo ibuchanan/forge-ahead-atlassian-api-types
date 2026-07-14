@@ -40,3 +40,7 @@ apis:
     root: https://developer.atlassian.com/cloud/jira/software/swagger.v3.json
     x-openapi-ts:
       output: ./src/jira-software/types.ts
+  organization:
+    root: https://developer.atlassian.com/cloud/admin/organization/swagger.v3.json
+    x-openapi-ts:
+      output: ./src/organization/types.ts
