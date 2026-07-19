@@ -43,6 +43,34 @@
       "types": "./dist/jira-software.d.mts"
     }
   },
+  "typesVersions": {
+    "*": {
+      "api-access": [
+        "dist/api-access.d.mts"
+      ],
+      "assets": [
+        "dist/assets.d.mts"
+      ],
+      "bitbucket": [
+        "dist/bitbucket.d.mts"
+      ],
+      "confluence-1": [
+        "dist/confluence-1.d.mts"
+      ],
+      "confluence-2": [
+        "dist/confluence-2.d.mts"
+      ],
+      "jira-platform-2": [
+        "dist/jira-platform-2.d.mts"
+      ],
+      "jira-platform-3": [
+        "dist/jira-platform-3.d.mts"
+      ],
+      "jira-software": [
+        "dist/jira-software.d.mts"
+      ]
+    }
+  },
   "main": "dist/index.mjs",
   "types": "dist/index.d.mts",
   "files": [
