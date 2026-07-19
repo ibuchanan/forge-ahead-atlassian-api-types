@@ -14,68 +14,68 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "types": "./dist/index.d.mts"
+      "types": "./dist/index.d.ts"
     },
     "./api-access": {
       "import": "./dist/api-access.mjs",
-      "types": "./dist/api-access.d.mts"
+      "types": "./dist/api-access.d.ts"
     },
     "./assets": {
       "import": "./dist/assets.mjs",
-      "types": "./dist/assets.d.mts"
+      "types": "./dist/assets.d.ts"
     },
     "./bitbucket": {
       "import": "./dist/bitbucket.mjs",
-      "types": "./dist/bitbucket.d.mts"
+      "types": "./dist/bitbucket.d.ts"
     },
     "./confluence-1": {
       "import": "./dist/confluence-1.mjs",
-      "types": "./dist/confluence-1.d.mts"
+      "types": "./dist/confluence-1.d.ts"
     },
     "./confluence-2": {
       "import": "./dist/confluence-2.mjs",
-      "types": "./dist/confluence-2.d.mts"
+      "types": "./dist/confluence-2.d.ts"
     },
     "./jira-platform-2": {
       "import": "./dist/jira-platform-2.mjs",
-      "types": "./dist/jira-platform-2.d.mts"
+      "types": "./dist/jira-platform-2.d.ts"
     },
     "./jira-platform-3": {
       "import": "./dist/jira-platform-3.mjs",
-      "types": "./dist/jira-platform-3.d.mts"
+      "types": "./dist/jira-platform-3.d.ts"
     },
     "./jira-software": {
       "import": "./dist/jira-software.mjs",
-      "types": "./dist/jira-software.d.mts"
+      "types": "./dist/jira-software.d.ts"
     }
   },
   "main": "dist/index.mjs",
-  "types": "dist/index.d.mts",
+  "types": "dist/index.d.ts",
   "typesVersions": {
     "*": {
       "api-access": [
-        "dist/api-access.d.mts"
+        "dist/api-access.d.ts"
       ],
       "assets": [
-        "dist/assets.d.mts"
+        "dist/assets.d.ts"
       ],
       "bitbucket": [
-        "dist/bitbucket.d.mts"
+        "dist/bitbucket.d.ts"
       ],
       "confluence-1": [
-        "dist/confluence-1.d.mts"
+        "dist/confluence-1.d.ts"
       ],
       "confluence-2": [
-        "dist/confluence-2.d.mts"
+        "dist/confluence-2.d.ts"
       ],
       "jira-platform-2": [
-        "dist/jira-platform-2.d.mts"
+        "dist/jira-platform-2.d.ts"
       ],
       "jira-platform-3": [
-        "dist/jira-platform-3.d.mts"
+        "dist/jira-platform-3.d.ts"
       ],
       "jira-software": [
-        "dist/jira-software.d.mts"
+        "dist/jira-software.d.ts"
       ]
     }
   },
