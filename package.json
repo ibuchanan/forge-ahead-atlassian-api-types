@@ -1,6 +1,12 @@
 {
   "name": "@forge-ahead/atlassian-api-types",
   "version": "0.1.0",
+  "description": "TypeScript types for Atlassian APIs, generated from OpenAPI specifications, optimized for Forge apps.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibuchanan/forge-ahead-atlassian-api-types.git"
+  },
+  "homepage": "https://github.com/ibuchanan/forge-ahead-atlassian-api-types#readme",
   "private": true,
   "license": "Apache-2.0",
   "sideEffects": false,
@@ -43,6 +49,8 @@
       "types": "./dist/jira-software.d.mts"
     }
   },
+  "main": "dist/index.mjs",
+  "types": "dist/index.d.mts",
   "typesVersions": {
     "*": {
       "api-access": [
@@ -71,26 +79,32 @@
       ]
     }
   },
-  "main": "dist/index.mjs",
-  "types": "dist/index.d.mts",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "tsdown",
-    "check": "npm run lint:openapi && npm run typecheck && npm run build",
+    "changelog": "touch CHANGELOG.md && git cliff --offline --unreleased --prepend CHANGELOG.md",
+    "check": "npm run typecheck",
     "clean": "rm -rf ./node_modules && rm package-lock.json && rm -rf ./dist",
+    "dev": "tsdown --watch",
     "generate": "openapi-typescript",
     "lint": "npm run lint:openapi",
     "lint:openapi": "node ./scripts/lint-openapi-with-vacuum.mjs",
     "prepare": "npm run build",
+    "release:prepare": "scripts/release-prepare.sh",
     "test": "npm run lint:openapi",
     "typecheck": "tsc --noEmit"
   },
+  "overrides": {
+    "rolldown-plugin-dts": {
+      "yuku-parser": "0.6.3"
+    }
+  },
   "devDependencies": {
-    "@quobix/vacuum": "0.29.9",
-    "openapi-typescript": "7.13.0",
-    "tsdown": "0.22.3",
-    "typescript": "5.9.3"
+    "@quobix/vacuum": "^0.29",
+    "openapi-typescript": "^7.13",
+    "tsdown": "^0.22",
+    "typescript": "^5.9"
   }
 }
