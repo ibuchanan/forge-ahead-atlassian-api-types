@@ -1,3 +1,13 @@
+## [0.1.1] - 2026-07-19
+
+### 🐛 Bug Fixes
+
+- Support legacy moduleResolution: 'Node' via typesVersions
+
+### 💼 Other
+
+- *(release)* Add release scripts, metadata, and regenerate changelog
+
 ## [unreleased]
 
 ### 🐛 Bug Fixes
