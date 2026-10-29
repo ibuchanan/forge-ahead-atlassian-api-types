@@ -1,6 +1,6 @@
 {
 	"name": "@forge-ahead/atlassian-api-types",
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"private": true,
 	"description": "TypeScript types for Atlassian APIs, generated from OpenAPI specifications, optimized for Forge apps.",
 	"homepage": "https://github.com/ibuchanan/forge-ahead-atlassian-api-types#readme",

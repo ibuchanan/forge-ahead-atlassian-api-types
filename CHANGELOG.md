@@ -1,8 +1,22 @@
+# Changelog
+
+All notable changes to this project are documented here.
+
+## [0.2.0] - 2026-10-29
+
+### 🚀 Features
+
+- *(api)* Add generated API types and package checks
+
 ## [0.1.2] - 2026-07-19
 
 ### 🐛 Bug Fixes
 
-- _(build)_ Fix TypeScript module resolution for subpath exports
+- *(build)* Fix TypeScript module resolution for subpath exports
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* V0.1.2
 
 ## [0.1.1] - 2026-07-19
 
@@ -12,15 +26,19 @@
 
 ### 💼 Other
 
-- _(release)_ Add release scripts, metadata, and regenerate changelog
+- *(release)* Add release scripts, metadata, and regenerate changelog
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* V0.1.1
 
 ## [0.1.0] - 2026-07-08
 
 ### 📚 Documentation
 
-- _(oss)_ Owner, contributing, license fixes from template
+- *(oss)* Owner, contributing, license fixes from template
 
 ### ⚙️ Miscellaneous Tasks
 
-- _(openapi)_ Refresh generated API types
-- _(openapi)_ Add Vacuum spec linting
+- *(openapi)* Refresh generated API types
+- *(openapi)* Add Vacuum spec linting
