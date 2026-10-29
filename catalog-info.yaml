@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: atlassian-api-types
+  title: Forge Ahead Atlassian API Types
+  description: TypeScript types for Atlassian APIs, generated from OpenAPI specifications, optimized for Forge apps.
+  annotations:
+    forge-ranch/package-name: "@forge-ahead/atlassian-api-types"
+    forge-ranch/license: Apache-2.0
+    forge-ranch/copyright-date: "2026"
+    github.com/project-slug: ibuchanan/forge-ahead-atlassian-api-types
+  links:
+    - url: https://github.com/ibuchanan/forge-ahead-atlassian-api-types
+      title: GitHub
+spec:
+  type: library
+  lifecycle: experimental
+  owner: user:default/ibuchanan

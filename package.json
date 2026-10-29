@@ -1,110 +1,190 @@
 {
-  "name": "@forge-ahead/atlassian-api-types",
-  "version": "0.1.2",
-  "description": "TypeScript types for Atlassian APIs, generated from OpenAPI specifications, optimized for Forge apps.",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ibuchanan/forge-ahead-atlassian-api-types.git"
-  },
-  "homepage": "https://github.com/ibuchanan/forge-ahead-atlassian-api-types#readme",
-  "private": true,
-  "license": "Apache-2.0",
-  "sideEffects": false,
-  "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    },
-    "./api-access": {
-      "import": "./dist/api-access.mjs",
-      "types": "./dist/api-access.d.ts"
-    },
-    "./assets": {
-      "import": "./dist/assets.mjs",
-      "types": "./dist/assets.d.ts"
-    },
-    "./bitbucket": {
-      "import": "./dist/bitbucket.mjs",
-      "types": "./dist/bitbucket.d.ts"
-    },
-    "./confluence-1": {
-      "import": "./dist/confluence-1.mjs",
-      "types": "./dist/confluence-1.d.ts"
-    },
-    "./confluence-2": {
-      "import": "./dist/confluence-2.mjs",
-      "types": "./dist/confluence-2.d.ts"
-    },
-    "./jira-platform-2": {
-      "import": "./dist/jira-platform-2.mjs",
-      "types": "./dist/jira-platform-2.d.ts"
-    },
-    "./jira-platform-3": {
-      "import": "./dist/jira-platform-3.mjs",
-      "types": "./dist/jira-platform-3.d.ts"
-    },
-    "./jira-software": {
-      "import": "./dist/jira-software.mjs",
-      "types": "./dist/jira-software.d.ts"
-    }
-  },
-  "main": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "api-access": [
-        "dist/api-access.d.ts"
-      ],
-      "assets": [
-        "dist/assets.d.ts"
-      ],
-      "bitbucket": [
-        "dist/bitbucket.d.ts"
-      ],
-      "confluence-1": [
-        "dist/confluence-1.d.ts"
-      ],
-      "confluence-2": [
-        "dist/confluence-2.d.ts"
-      ],
-      "jira-platform-2": [
-        "dist/jira-platform-2.d.ts"
-      ],
-      "jira-platform-3": [
-        "dist/jira-platform-3.d.ts"
-      ],
-      "jira-software": [
-        "dist/jira-software.d.ts"
-      ]
-    }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsdown",
-    "changelog": "touch CHANGELOG.md && git cliff --offline --unreleased --prepend CHANGELOG.md",
-    "check": "npm run typecheck",
-    "clean": "rm -rf ./node_modules && rm package-lock.json && rm -rf ./dist",
-    "dev": "tsdown --watch",
-    "generate": "openapi-typescript",
-    "lint": "npm run lint:openapi",
-    "lint:openapi": "node ./scripts/lint-openapi-with-vacuum.mjs",
-    "prepare": "npm run build",
-    "release:prepare": "scripts/release-prepare.sh",
-    "test": "npm run lint:openapi",
-    "typecheck": "tsc --noEmit"
-  },
-  "overrides": {
-    "rolldown-plugin-dts": {
-      "yuku-parser": "0.6.3"
-    }
-  },
-  "devDependencies": {
-    "@quobix/vacuum": "^0.29",
-    "openapi-typescript": "^7.13",
-    "tsdown": "^0.22",
-    "typescript": "^5.9"
-  }
+	"name": "@forge-ahead/atlassian-api-types",
+	"version": "0.1.2",
+	"private": true,
+	"description": "TypeScript types for Atlassian APIs, generated from OpenAPI specifications, optimized for Forge apps.",
+	"homepage": "https://github.com/ibuchanan/forge-ahead-atlassian-api-types#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ibuchanan/forge-ahead-atlassian-api-types.git"
+	},
+	"license": "Apache-2.0",
+	"author": "ibuchanan",
+	"sideEffects": false,
+	"type": "module",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.mjs"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
+		},
+		"./api-access": {
+			"import": {
+				"types": "./dist/api-access/types.d.ts",
+				"default": "./dist/api-access.mjs"
+			},
+			"require": {
+				"types": "./dist/api-access/types.d.cts",
+				"default": "./dist/api-access.cjs"
+			}
+		},
+		"./assets": {
+			"import": {
+				"types": "./dist/assets/types.d.ts",
+				"default": "./dist/assets.mjs"
+			},
+			"require": {
+				"types": "./dist/assets/types.d.cts",
+				"default": "./dist/assets.cjs"
+			}
+		},
+		"./automation": {
+			"import": {
+				"types": "./dist/automation/types.d.ts",
+				"default": "./dist/automation.mjs"
+			},
+			"require": {
+				"types": "./dist/automation/types.d.cts",
+				"default": "./dist/automation.cjs"
+			}
+		},
+		"./bitbucket": {
+			"import": {
+				"types": "./dist/bitbucket/types.d.ts",
+				"default": "./dist/bitbucket.mjs"
+			},
+			"require": {
+				"types": "./dist/bitbucket/types.d.cts",
+				"default": "./dist/bitbucket.cjs"
+			}
+		},
+		"./confluence-1": {
+			"import": {
+				"types": "./dist/confluence-1/types.d.ts",
+				"default": "./dist/confluence-1.mjs"
+			},
+			"require": {
+				"types": "./dist/confluence-1/types.d.cts",
+				"default": "./dist/confluence-1.cjs"
+			}
+		},
+		"./confluence-2": {
+			"import": {
+				"types": "./dist/confluence-2/types.d.ts",
+				"default": "./dist/confluence-2.mjs"
+			},
+			"require": {
+				"types": "./dist/confluence-2/types.d.cts",
+				"default": "./dist/confluence-2.cjs"
+			}
+		},
+		"./jira-platform-2": {
+			"import": {
+				"types": "./dist/jira-platform-2/types.d.ts",
+				"default": "./dist/jira-platform-2.mjs"
+			},
+			"require": {
+				"types": "./dist/jira-platform-2/types.d.cts",
+				"default": "./dist/jira-platform-2.cjs"
+			}
+		},
+		"./jira-platform-3": {
+			"import": {
+				"types": "./dist/jira-platform-3/types.d.ts",
+				"default": "./dist/jira-platform-3.mjs"
+			},
+			"require": {
+				"types": "./dist/jira-platform-3/types.d.cts",
+				"default": "./dist/jira-platform-3.cjs"
+			}
+		},
+		"./jira-software": {
+			"import": {
+				"types": "./dist/jira-software/types.d.ts",
+				"default": "./dist/jira-software.mjs"
+			},
+			"require": {
+				"types": "./dist/jira-software/types.d.cts",
+				"default": "./dist/jira-software.cjs"
+			}
+		},
+		"./organization": {
+			"import": {
+				"types": "./dist/organization/types.d.ts",
+				"default": "./dist/organization.mjs"
+			},
+			"require": {
+				"types": "./dist/organization/types.d.cts",
+				"default": "./dist/organization.cjs"
+			}
+		}
+	},
+	"main": "dist/index.mjs",
+	"types": "dist/index.d.ts",
+	"typesVersions": {
+		"*": {
+			"api-access": [
+				"dist/api-access/types.d.ts"
+			],
+			"assets": [
+				"dist/assets/types.d.ts"
+			],
+			"automation": [
+				"dist/automation/types.d.ts"
+			],
+			"bitbucket": [
+				"dist/bitbucket/types.d.ts"
+			],
+			"confluence-1": [
+				"dist/confluence-1/types.d.ts"
+			],
+			"confluence-2": [
+				"dist/confluence-2/types.d.ts"
+			],
+			"jira-platform-2": [
+				"dist/jira-platform-2/types.d.ts"
+			],
+			"jira-platform-3": [
+				"dist/jira-platform-3/types.d.ts"
+			],
+			"jira-software": [
+				"dist/jira-software/types.d.ts"
+			],
+			"organization": [
+				"dist/organization/types.d.ts"
+			]
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "sh scripts/build.sh",
+		"changelog": "git cliff --config cliff.toml --unreleased -o CHANGELOG.md",
+		"check": "run-p --npm-path npm --print-label \"{size:check,pack:check}\"",
+		"clean": "rm -rf node_modules package-lock.json dist",
+		"dev": "tsdown --watch",
+		"generate": "openapi-typescript",
+		"pack:check": "npm run build && sh scripts/pack-check.sh",
+		"prepare": "npm run build && (lefthook install || true)",
+		"release": "bash scripts/release.sh",
+		"release:check": "npm run typecheck && npm run pack:check",
+		"release:prepare": "scripts/release-prepare.sh",
+		"typecheck": "tsc --project tsconfig.typecheck.json --noEmit"
+	},
+	"devDependencies": {
+		"@arethetypeswrong/cli": "^0.18.5",
+		"@quobix/vacuum": "^0.36",
+		"@types/node": "22",
+		"npm-run-all2": "^9.0",
+		"openapi-typescript": "^7.13",
+		"publint": "^0.3.25",
+		"tsdown": "^0.23",
+		"typescript": "^5.9"
+	}
 }

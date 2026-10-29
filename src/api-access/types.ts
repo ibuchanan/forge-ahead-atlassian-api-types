@@ -79,7 +79,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/orgs/{orgId}/service-accounts/{accountId}/api-tokens": {
+    "/orgs/{orgId}/service-accounts/api-tokens": {
         parameters: {
             query?: never;
             header?: never;
@@ -87,7 +87,30 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get all service account API tokens in an org
+         * Get API tokens for all service accounts in an org
+         * @description Retrieves API tokens belonging to service accounts in the specified organization.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+         */
+        get: operations["listServiceAccountApiTokens"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{orgId}/service-accounts/{serviceAccountId}/api-tokens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get API tokens for a service account
          * @description Retrieves API tokens for a specific service account within an organization.
          *
          *     #### Scopes
@@ -169,6 +192,52 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/orgs/{orgId}/service-accounts/oauth-clients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get OAuth clients for all service accounts in an org
+         * @description Retrieves OAuth clients belonging to service accounts in the specified organization.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+         */
+        get: operations["listServiceAccountOAuthClients"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{orgId}/service-accounts/{serviceAccountId}/oauth-clients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get OAuth clients for a service account
+         * @description Retrieves OAuth clients belonging to the specified service account.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+         */
+        get: operations["listServiceAccountOAuthClientsByServiceAccountId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/orgs/{orgId}/oauth-clients": {
         parameters: {
             query?: never;
@@ -187,12 +256,16 @@ export interface paths {
         put?: never;
         /**
          * Create an OAuth client
-         * @description Creates a new OAuth client for the specified organization.
+         * @description Creates a new OAuth client for a service account in the specified organization.
+         *     Set `tokenEndpointAuthMethod` to `private_key_jwt` and supply `publicKeys` to
+         *     authenticate using a signed JWT. Private Key JWT must be enabled for your organization.
+         *     The response contains `clientId` and, when available, the supplied `keyId`;
+         *     `clientSecret` is null for `private_key_jwt` clients.
          *
-         *     > **Note:** This is a session-only endpoint and cannot be called with an API token or OAuth 2.0 scope. It requires an active admin session with org management permissions.
+         *     An active admin session with org management permissions is supported. API access requires OAuth client creation to be enabled for your organization.
          *
          *     #### Scopes
-         *     This endpoint is session-only and does not accept OAuth 2.0 scopes.
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts-tokens:admin`
          */
         post: operations["createOAuthClient"];
         delete?: never;
@@ -251,7 +324,23 @@ export interface paths {
         delete: operations["deleteOAuthClient"];
         options?: never;
         head?: never;
-        patch?: never;
+        /**
+         * Update an OAuth client
+         * @description Updates the name, token endpoint authentication method, or public keys of an
+         *     OAuth client in the specified organization. Omitted fields remain unchanged.
+         *     Supply `publicKeys` to replace the configured key set, including when rotating keys.
+         *     When switching to `private_key_jwt`, supply the public keys to use for authentication.
+         *     Private Key JWT must be enabled for your organization.
+         *
+         *     The response includes the supplied `keyId` when available. When explicitly switching
+         *     from `private_key_jwt` to a client-secret method (`basic`, `post`, `basic_pkce`, or
+         *     `post_pkce`), the response can include `clientSecret`. Save it securely at this point;
+         *     GET responses do not return it. Other updates return a null `clientSecret`.
+         *
+         *     #### Scopes
+         *     **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts-tokens:admin`
+         */
+        patch: operations["updateOAuthClient"];
         trace?: never;
     };
     "/orgs/{orgId}/api-keys/count": {
@@ -356,6 +445,66 @@ export interface components {
             user: components["schemas"]["ApiTokenUser"];
             /** @description Array of scopes associated with the token. An empty array indicates an unscoped API token. */
             scopes?: string[];
+        };
+        /** @description An API token belonging to a service account. */
+        ServiceAccountApiToken: components["schemas"]["ApiToken"] & {
+            /**
+             * @description The token status. Service account tokens are ALLOWED or EXPIRED.
+             * @enum {string}
+             */
+            status?: "ALLOWED" | "EXPIRED";
+        };
+        /** @description Represents an OAuth client belonging to a service account. */
+        ServiceAccountOAuthClient: {
+            /**
+             * @description The token endpoint authentication method, for example `post` or `private_key_jwt`.
+             *     Null for legacy clients whose authentication method has not yet been populated.
+             *     Read responses do not include public keys, `keyId`, or `clientSecret`.
+             * @example private_key_jwt
+             */
+            tokenEndpointAuthMethod?: string | null;
+            /** @description The unique identifier of the OAuth client. */
+            clientId: string;
+            /** @description The display name of the OAuth client. */
+            clientName: string;
+            /** @description The service account associated with the OAuth client. */
+            serviceAccount: components["schemas"]["TokenUser"];
+            /**
+             * Format: date-time
+             * @description An ISO-8601 formatted timestamp representing when the OAuth client expires.
+             */
+            expiresAt?: string | null;
+            /**
+             * Format: date-time
+             * @description An ISO-8601 formatted timestamp representing when the OAuth client was created.
+             */
+            createdAt?: string | null;
+            /** @description The user that created the OAuth client. */
+            createdBy?: components["schemas"]["TokenUser"] | null;
+            /** @description The ID of the user that revoked the OAuth client. */
+            clientRevokerId?: string | null;
+            /**
+             * Format: date-time
+             * @description An ISO-8601 formatted timestamp representing when the OAuth client was revoked.
+             */
+            clientRevocationTime?: string | null;
+            /** @description Array of scopes associated with the OAuth client. */
+            scopes: string[];
+        };
+        /** @description The user associated with an API token or OAuth client. */
+        TokenUser: {
+            /** @description The Atlassian account ID of the user. */
+            id: string;
+            /** @description The display name of the user. */
+            name: string;
+            /** @description The email address of the user. */
+            email?: string | null;
+            /** @description The application type associated with the user. */
+            appType?: string | null;
+            /** @description The ID of the organization the user belongs to. */
+            orgId?: string | null;
+            /** @description The status of the user. */
+            userStatus?: string | null;
         };
         ApiKey: {
             /** @description The key ID generated in the token-service. */
@@ -547,9 +696,9 @@ export interface components {
         };
         /** @description A permission rule specifying a resource and the role to assign. */
         PermissionRule: {
-            /** @description The ARI (Atlassian Resource Identifier) of the resource to grant access to. e.g. `ari:cloud:jira::site/{siteId}` */
+            /** @description The ARI (Atlassian Resource Identifier) of the resource to grant access to. Format: `ari:cloud:{product}::{resource-type}/{resource-id}`. The product, resource type, and ID depend on which resource you're granting access to. */
             resource: string;
-            /** @description The role to assign on the resource. e.g. `atlassian/user` */
+            /** @description The role to assign on the resource. Format: `ari:cloud:platform::role/{role-name}`. The valid role names depend on the resource the rule applies to. */
             role: string;
         };
         /** @description An additional group membership to assign to the service account. */
@@ -561,6 +710,13 @@ export interface components {
         };
         /** @description Represents an OAuth client associated with an organization. */
         OAuthClient: {
+            /**
+             * @description The token endpoint authentication method, for example `post` or `private_key_jwt`.
+             *     Null for legacy clients whose authentication method has not yet been populated.
+             *     Read responses do not include public keys, `keyId`, or `clientSecret`.
+             * @example private_key_jwt
+             */
+            tokenEndpointAuthMethod?: string | null;
             /** @description The unique identifier of the OAuth client. */
             clientId: string;
             /** @description The display name of the OAuth client. */
@@ -594,6 +750,95 @@ export interface components {
             name: string;
             /** @description The Atlassian account ID of the service account to associate with this OAuth client. */
             serviceAccountId: string;
+            /** @description The OAuth scopes to grant to the client. */
+            scopes: string[];
+            /**
+             * @description Token endpoint authentication method. Set to `private_key_jwt` to authenticate
+             *     with a signed JWT and supply `publicKeys`. Omit to use the default client profile.
+             *     Client-secret methods include `basic`, `post`, `basic_pkce`, and `post_pkce`.
+             * @example private_key_jwt
+             * @enum {string}
+             */
+            tokenEndpointAuthMethod?: "basic" | "post" | "basic_pkce" | "post_pkce" | "private_key_jwt";
+            /** @description Public keys for Private Key JWT authentication. Supply when creating a private_key_jwt client. */
+            publicKeys?: components["schemas"]["OAuthClientPublicKey"][];
+        };
+        /**
+         * @description A public signing key, supplied as a public-key data URI or a reference to a JWKS endpoint.
+         *     For `data_uri`, remove the `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----`
+         *     envelope and whitespace from the PEM, then append its Base64 payload to
+         *     `data:application/x-pem-file;kid={kid};base64,`. Embed the key ID in the URI;
+         *     do not send a separate `kid` field for this source. The payload must be a public key,
+         *     not certificate DER or a private key.
+         *
+         *     For `external_uri`, provide an absolute HTTPS JWKS URL and a separate `kid` field
+         *     identifying the signing key in that JWKS. Key parsing and cryptographic validation
+         *     are performed by the OAuth service.
+         */
+        OAuthClientPublicKey: {
+            /**
+             * @description The source of the public signing key.
+             * @enum {string}
+             */
+            source: "data_uri" | "external_uri";
+            /**
+             * @description The public-key data URI or HTTPS JWKS URL.
+             * @example https://auth.example.com/.well-known/jwks.json
+             */
+            value: string;
+            /**
+             * @description Required for external_uri. For data_uri, embed this identifier in value instead.
+             * @example client-key-2026-01
+             */
+            kid?: string;
+        };
+        /** @description Fields to update. Omitted fields remain unchanged. */
+        UpdateOAuthClientRequest: {
+            /** @description The new display name of the OAuth client. */
+            name?: string;
+            /**
+             * @description The new token endpoint authentication method, such as private_key_jwt or post.
+             * @example private_key_jwt
+             * @enum {string}
+             */
+            tokenEndpointAuthMethod?: "basic" | "post" | "basic_pkce" | "post_pkce" | "private_key_jwt";
+            /** @description The replacement public key set. Omit to keep the existing keys. */
+            publicKeys?: components["schemas"]["OAuthClientPublicKey"][];
+        };
+        /**
+         * @description Credentials returned when an OAuth client is created. Save any client secret securely; it is not returned by GET endpoints.
+         * @example {
+         *       "clientId": "oauth-client-id",
+         *       "clientSecret": null,
+         *       "keyId": "client-key-2026-01"
+         *     }
+         */
+        OAuthClientCredentials: {
+            /** @description The unique identifier of the OAuth client. */
+            clientId: string;
+            /** @description The client secret for client-secret authentication. Null for private_key_jwt clients. */
+            clientSecret?: string | null;
+            /** @description The first available key ID returned by the OAuth service, or null if unavailable. Not returned by GET endpoints. */
+            keyId?: string | null;
+        };
+        /** @description The OAuth client details returned after an update. */
+        OAuthClientUpdateResult: {
+            /** @description The unique identifier of the OAuth client. */
+            clientId: string;
+            /** @description The updated display name of the OAuth client. */
+            name: string;
+            /** @description The resulting token endpoint authentication method. */
+            tokenEndpointAuthMethod?: string | null;
+            /** @description The first available key ID returned by the OAuth service, or null if unavailable. Not returned by GET endpoints. */
+            keyId?: string | null;
+            /** @description Whether the OAuth client is disabled. */
+            disabled: boolean;
+            /**
+             * @description The client secret, when available, after an explicit switch from private_key_jwt
+             *     to a client-secret authentication method. Null for other updates.
+             *     Save it securely; GET endpoints do not return it.
+             */
+            clientSecret?: string | null;
         };
     };
     responses: never;
@@ -998,7 +1243,7 @@ export interface operations {
             };
         };
     };
-    getServiceAccountApiToken: {
+    listServiceAccountApiTokens: {
         parameters: {
             query?: {
                 /** @description Optional filter to search for tokens by label. */
@@ -1008,8 +1253,6 @@ export interface operations {
             path: {
                 /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
                 orgId: string;
-                /** @description ID for the service account whose API tokens you want to retrieve. */
-                accountId: string;
             };
             cookie?: never;
         };
@@ -1027,7 +1270,77 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ApiToken"][];
+                    "application/json": components["schemas"]["ServiceAccountApiToken"][];
+                };
+            };
+            /** @description Returned if request is not in correct format. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to view service account API tokens. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the organization is not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    getServiceAccountApiToken: {
+        parameters: {
+            query?: {
+                /** @description Optional filter to search for tokens by label. */
+                tokenLabel?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+                /** @description ID for the service account whose API tokens you want to retrieve. */
+                serviceAccountId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceAccountApiToken"][];
                 };
             };
             /** @description Returned if request is not in correct format. */
@@ -1100,7 +1413,7 @@ export interface operations {
                 /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
                 orgId: string;
                 /** @description ID for the service account whose API tokens you want to revoke. */
-                accountId: string;
+                serviceAccountId: string;
             };
             cookie?: never;
         };
@@ -1415,6 +1728,144 @@ export interface operations {
             };
         };
     };
+    listServiceAccountOAuthClients: {
+        parameters: {
+            query?: {
+                /** @description Optional filter to search for OAuth clients by name. */
+                clientName?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceAccountOAuthClient"][];
+                };
+            };
+            /** @description Returned if request is not in correct format. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to view service account OAuth clients. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the organization is not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    listServiceAccountOAuthClientsByServiceAccountId: {
+        parameters: {
+            query?: {
+                /** @description Optional filter to search for OAuth clients by name. */
+                clientName?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Your organization is identified by a Unique ID. You get your organization ID and organization API key simultaneously. */
+                orgId: string;
+                /** @description ID for the service account whose OAuth clients you want to retrieve. */
+                serviceAccountId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the request is successful. */
+            200: {
+                headers: {
+                    /** @description The number of allowed requests in the current period. */
+                    "X-RateLimit-Limit"?: number;
+                    /** @description The number of remaining requests in the current period. */
+                    "X-RateLimit-Remaining"?: number;
+                    /** @description Next period reset time (ISO 8601 - Date and time in UTC) */
+                    "X-RateLimit-Reset"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceAccountOAuthClient"][];
+                };
+            };
+            /** @description Returned if request is not in correct format. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to view service account OAuth clients. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the organization or service account is not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     listOAuthClients: {
         parameters: {
             query?: {
@@ -1496,10 +1947,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["OAuthClient"];
+                    "application/json": components["schemas"]["OAuthClientCredentials"];
                 };
             };
-            /** @description Returned if the request is not in the correct format. */
+            /** @description Returned if the request is invalid or Private Key JWT is not enabled for the organization. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1673,6 +2124,81 @@ export interface operations {
                 };
             };
             /** @description Returned if the OAuth client is not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    updateOAuthClient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique identifier of your organization. */
+                orgId: string;
+                /** @description The unique identifier of the OAuth client to update. */
+                clientId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateOAuthClientRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the OAuth client is successfully updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "clientId": "oauth-client-id",
+                     *       "name": "Automation client",
+                     *       "tokenEndpointAuthMethod": "private_key_jwt",
+                     *       "keyId": "client-key-2026-02",
+                     *       "disabled": false,
+                     *       "clientSecret": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["OAuthClientUpdateResult"];
+                };
+            };
+            /** @description Returned if the request is invalid or Private Key JWT is not enabled for the organization. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the user does not have permission to update OAuth clients. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Returned if the OAuth client is not found in the organization. */
             404: {
                 headers: {
                     [name: string]: unknown;

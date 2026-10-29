@@ -1,0 +1,13 @@
+{
+	"extends": "./tsconfig.json",
+	"include": ["src"],
+	"exclude": ["src/jira-service-desk-ops", "src/jira-servicedesk"],
+	"compilerOptions": {
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"rootDir": "./src",
+		"outDir": "./dist",
+		"module": "ESNext",
+		"moduleResolution": "Bundler"
+	}
+}

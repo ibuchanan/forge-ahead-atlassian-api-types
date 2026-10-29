@@ -18,9 +18,9 @@ apps so installs are reproducible:
 
 ```json
 {
-  "dependencies": {
-    "@forge-ahead/atlassian-api-types": "github:ibuchanan/forge-ahead-atlassian-api-types#<commit-or-tag>"
-  }
+	"dependencies": {
+		"@forge-ahead/atlassian-api-types": "github:ibuchanan/forge-ahead-atlassian-api-types#<commit-or-tag>"
+	}
 }
 ```
 
@@ -34,7 +34,10 @@ Import from a specific API surface when you know which product API you are
 using:
 
 ```ts
-import type { paths, operations } from "@forge-ahead/atlassian-api-types/jira-platform-3";
+import type {
+	paths,
+	operations,
+} from "@forge-ahead/atlassian-api-types/jira-platform-3";
 
 type JiraPaths = paths;
 type JiraOperations = operations;
@@ -55,12 +58,14 @@ Available import paths:
 
 - `api-access`
 - `assets`
+- `automation`
 - `bitbucket`
 - `confluence-1`
 - `confluence-2`
 - `jira-platform-2`
 - `jira-platform-3`
 - `jira-software`
+- `organization`
 
 The package intentionally exports only the specs listed above. Do not assume an
 Atlassian product API is available unless it appears in this list and in

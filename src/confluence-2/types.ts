@@ -4,6 +4,408 @@
  */
 
 export interface paths {
+    "/pages/{id}/restriction-state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get page restriction state
+         * @description Returns the restriction state of a page.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the page.
+         */
+        get: operations["getPageRestrictionState"];
+        /**
+         * Set page restriction state
+         * @description Sets the restriction state of a page.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the page or administer the space.
+         */
+        put: operations["setPageRestrictionState"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blogposts/{id}/restriction-state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get blog post restriction state
+         * @description Returns the restriction state of a blog post.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the blog post.
+         */
+        get: operations["getBlogPostRestrictionState"];
+        /**
+         * Set blog post restriction state
+         * @description Sets the restriction state of a blog post.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the blog post or administer the space.
+         */
+        put: operations["setBlogPostRestrictionState"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/databases/{id}/restriction-state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get database restriction state
+         * @description Returns the restriction state of a database.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the database.
+         */
+        get: operations["getDatabaseRestrictionState"];
+        /**
+         * Set database restriction state
+         * @description Sets the restriction state of a database.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the database or administer the space.
+         */
+        put: operations["setDatabaseRestrictionState"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/whiteboards/{id}/restriction-state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get whiteboard restriction state
+         * @description Returns the restriction state of a whiteboard.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the whiteboard.
+         */
+        get: operations["getWhiteboardRestrictionState"];
+        /**
+         * Set whiteboard restriction state
+         * @description Sets the restriction state of a whiteboard.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the whiteboard or administer the space.
+         */
+        put: operations["setWhiteboardRestrictionState"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/folders/{id}/restriction-state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get folder restriction state
+         * @description Returns the restriction state of a folder.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the folder.
+         */
+        get: operations["getFolderRestrictionState"];
+        /**
+         * Set folder restriction state
+         * @description Sets the restriction state of a folder.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the folder or administer the space.
+         */
+        put: operations["setFolderRestrictionState"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/pages/{id}/permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get page permissions
+         * @description Returns the direct content permissions on a page with optional filtering by operation, principal-type, and principal-id.
+         *     Results are cursor-paginated (max 250 per page).
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the page.
+         */
+        get: operations["getPagePermissions"];
+        /**
+         * Set page permissions
+         * @description Replaces all direct content permissions on a page with the provided set. Any permissions not included in the request body are removed.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the page or administer the space.
+         */
+        put: operations["setPagePermissions"];
+        /**
+         * Add page permissions
+         * @description Adds or replaces direct content permissions for the specified principals on a page. Permissions for other principals are preserved; use `PUT` to replace all permissions at once.
+         *
+         *     A principal can hold only one `read` or `update` permission. Adding `read` for a principal that currently has `update` downgrades that principal to `read`; adding `update` upgrades them. If the same request contains both operations for a principal, `update` takes precedence.
+         *
+         *     Reasserting a principal's existing permission is idempotent and returns a successful response without creating a duplicate entry.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the page or administer the space.
+         */
+        post: operations["addPagePermissions"];
+        /**
+         * Delete page permissions
+         * @description Deletes direct content permissions from a page. Filters narrow the deletion scope; omitting all filters deletes all direct permissions.
+         *
+         *     The following filter combinations are supported:
+         *     - No filters: deletes all direct permissions.
+         *     - `principal-type` + `principal-id`: deletes the principal's direct `read` or `update` permission.
+         *     - `operation` + `principal-type` + `principal-id`: deletes the permission only when its operation matches.
+         *
+         *     Providing `operation` without `principal-type`/`principal-id`, or providing only one of `principal-type`/`principal-id`, returns a 400 error.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the page or administer the space.
+         */
+        delete: operations["deletePagePermissions"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blogposts/{id}/permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get blog post permissions
+         * @description Returns the direct content permissions on a blog post with optional filtering by operation, principal-type, and principal-id.
+         *     Results are cursor-paginated (max 250 per page).
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the blog post.
+         */
+        get: operations["getBlogPostPermissions"];
+        /**
+         * Set blog post permissions
+         * @description Replaces all direct content permissions on a blog post with the provided set. Any permissions not included in the request body are removed.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the blog post or administer the space.
+         */
+        put: operations["setBlogPostPermissions"];
+        /**
+         * Add blog post permissions
+         * @description Adds or replaces direct content permissions for the specified principals on a blog post. Permissions for other principals are preserved; use `PUT` to replace all permissions at once.
+         *
+         *     A principal can hold only one `read` or `update` permission. Adding `read` for a principal that currently has `update` downgrades that principal to `read`; adding `update` upgrades them. If the same request contains both operations for a principal, `update` takes precedence.
+         *
+         *     Reasserting a principal's existing permission is idempotent and returns a successful response without creating a duplicate entry.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the blog post or administer the space.
+         */
+        post: operations["addBlogPostPermissions"];
+        /**
+         * Delete blog post permissions
+         * @description Deletes direct content permissions from a blog post. See `DELETE /pages/{id}/permissions` for filter semantics.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the blog post or administer the space.
+         */
+        delete: operations["deleteBlogPostPermissions"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/databases/{id}/permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get database permissions
+         * @description Returns the direct content permissions on a database with optional filtering.
+         *     Results are cursor-paginated (max 250 per page).
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the database.
+         */
+        get: operations["getDatabasePermissions"];
+        /**
+         * Set database permissions
+         * @description Replaces all direct content permissions on a database with the provided set.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the database or administer the space.
+         */
+        put: operations["setDatabasePermissions"];
+        /**
+         * Add database permissions
+         * @description Adds or replaces direct content permissions for the specified principals on a database. Permissions for other principals are preserved; use `PUT` to replace all permissions at once.
+         *
+         *     A principal can hold only one `read` or `update` permission. Adding `read` for a principal that currently has `update` downgrades that principal to `read`; adding `update` upgrades them. If the same request contains both operations for a principal, `update` takes precedence.
+         *
+         *     Reasserting a principal's existing permission is idempotent and returns a successful response without creating a duplicate entry.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the database or administer the space.
+         */
+        post: operations["addDatabasePermissions"];
+        /**
+         * Delete database permissions
+         * @description Deletes direct content permissions from a database. See `DELETE /pages/{id}/permissions` for filter semantics.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the database or administer the space.
+         */
+        delete: operations["deleteDatabasePermissions"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/whiteboards/{id}/permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get whiteboard permissions
+         * @description Returns the direct content permissions on a whiteboard with optional filtering.
+         *     Results are cursor-paginated (max 250 per page).
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the whiteboard.
+         */
+        get: operations["getWhiteboardPermissions"];
+        /**
+         * Set whiteboard permissions
+         * @description Replaces all direct content permissions on a whiteboard with the provided set.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the whiteboard or administer the space.
+         */
+        put: operations["setWhiteboardPermissions"];
+        /**
+         * Add whiteboard permissions
+         * @description Adds or replaces direct content permissions for the specified principals on a whiteboard. Permissions for other principals are preserved; use `PUT` to replace all permissions at once.
+         *
+         *     A principal can hold only one `read` or `update` permission. Adding `read` for a principal that currently has `update` downgrades that principal to `read`; adding `update` upgrades them. If the same request contains both operations for a principal, `update` takes precedence.
+         *
+         *     Reasserting a principal's existing permission is idempotent and returns a successful response without creating a duplicate entry.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the whiteboard or administer the space.
+         */
+        post: operations["addWhiteboardPermissions"];
+        /**
+         * Delete whiteboard permissions
+         * @description Deletes direct content permissions from a whiteboard. See `DELETE /pages/{id}/permissions` for filter semantics.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the whiteboard or administer the space.
+         */
+        delete: operations["deleteWhiteboardPermissions"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/folders/{id}/permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get folder permissions
+         * @description Returns the direct content permissions on a folder with optional filtering.
+         *     Results are cursor-paginated (max 250 per page).
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the folder.
+         */
+        get: operations["getFolderPermissions"];
+        /**
+         * Set folder permissions
+         * @description Replaces all direct content permissions on a folder with the provided set.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the folder or administer the space.
+         */
+        put: operations["setFolderPermissions"];
+        /**
+         * Add folder permissions
+         * @description Adds or replaces direct content permissions for the specified principals on a folder. Permissions for other principals are preserved; use `PUT` to replace all permissions at once.
+         *
+         *     A principal can hold only one `read` or `update` permission. Adding `read` for a principal that currently has `update` downgrades that principal to `read`; adding `update` upgrades them. If the same request contains both operations for a principal, `update` takes precedence.
+         *
+         *     Reasserting a principal's existing permission is idempotent and returns a successful response without creating a duplicate entry.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the folder or administer the space.
+         */
+        post: operations["addFolderPermissions"];
+        /**
+         * Delete folder permissions
+         * @description Deletes direct content permissions from a folder. See `DELETE /pages/{id}/permissions` for filter semantics.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to edit the folder or administer the space.
+         */
+        delete: operations["deleteFolderPermissions"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin-key": {
         parameters: {
             query?: never;
@@ -91,10 +493,12 @@ export interface paths {
          *     Deleting an attachment moves the attachment to the trash, where it can be restored later. To permanently delete an attachment (or "purge" it),
          *     the endpoint must be called on a **trashed** attachment with the following param `purge=true`.
          *
-         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
          *     Permission to view the container of the attachment.
          *     Permission to delete attachments in the space.
-         *     Permission to administer the space (if attempting to purge).
+         *     [`manage/content`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space (if attempting to purge).
+         *
+         *     **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
          */
         delete: operations["deleteAttachment"];
         options?: never;
@@ -356,10 +760,12 @@ export interface paths {
          *     Deleting a blog post that is not a draft moves the blog post to the trash, where it can be restored later.
          *     To permanently delete a blog post (or "purge" it), the endpoint must be called on a **trashed** blog post with the following param `purge=true`.
          *
-         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
          *     Permission to view the blog post and its corresponding space.
          *     Permission to delete blog posts in the space.
-         *     Permission to administer the space (if attempting to purge).
+         *     [`manage/content`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space (if attempting to purge).
+         *
+         *     **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
          */
         delete: operations["deleteBlogPost"];
         options?: never;
@@ -714,10 +1120,12 @@ export interface paths {
          *     Deleting a custom content will either move it to the trash or permanently delete it (purge it), depending on the apiSupport.
          *     To permanently delete a **trashed** custom content, the endpoint must be called with the following param `purge=true`.
          *
-         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
          *     Permission to view the content of the page or blogpost and its corresponding space.
          *     Permission to delete custom content in the space.
-         *     Permission to administer the space (if attempting to purge).
+         *     [`manage/content`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space (if attempting to purge).
+         *
+         *     **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
          */
         delete: operations["deleteCustomContent"];
         options?: never;
@@ -1058,10 +1466,12 @@ export interface paths {
          *     Deleting a page moves the page to the trash, where it can be restored later. To permanently delete a page (or "purge" it),
          *     the endpoint must be called on a **trashed** page with the following param `purge=true`.
          *
-         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
          *     Permission to view the page and its corresponding space.
          *     Permission to delete pages in the space.
-         *     Permission to administer the space (if attempting to purge).
+         *     [`manage/content`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space (if attempting to purge).
+         *
+         *     **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
          */
         delete: operations["deletePage"];
         options?: never;
@@ -1884,6 +2294,137 @@ export interface paths {
          *     Permission to view the database and its corresponding space
          */
         get: operations["getDatabaseAncestors"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/databases/{id}/fields": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get fields for database
+         * @description Returns the field definitions (schema) for a database, ordered by the
+         *     user-defined column order, using cursor-based pagination.
+         *
+         *     > **Consistency:** Responses may not immediately reflect recent changes.
+         *     Clients requiring read-after-write confirmation should poll with bounded backoff.
+         *
+         *     > **Experimental:** This operation is experimental and may change in backwards-incompatible ways without notice.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the database and its corresponding space.
+         */
+        get: operations["getDatabaseFields"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/databases/{id}/views": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get views for database
+         * @description Returns the views defined on a database using cursor-based pagination.
+         *     Only view IDs, names, and types are returned; view configuration is not exposed.
+         *
+         *     > **Consistency:** Responses may not immediately reflect recent changes.
+         *     Clients requiring read-after-write confirmation should poll with bounded backoff.
+         *
+         *     > **Experimental:** This operation is experimental and may change in backwards-incompatible ways without notice.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the database and its corresponding space.
+         */
+        get: operations["getDatabaseViews"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/databases/{id}/entries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get entries for database
+         * @description Returns the entries (rows) of a database, with optional filtering, sorting,
+         *     and cursor-based pagination. Entry values are keyed by field ID; use
+         *     Get fields for database (`GET /databases/{id}/fields`) to map field IDs to
+         *     names.
+         *
+         *     Filtering is expressed with bracket-scoped query parameters keyed on field
+         *     ID. The exact operators vary by field type and are documented on the
+         *     `filter` parameter. Multiple filters are combined with AND. Unsupported
+         *     operators and non-filterable fields return distinct structured `400`
+         *     responses.
+         *
+         *     Pagination uses opaque, offset-based continuation tokens and is best effort
+         *     while a database is changing. Concurrent inserts, deletes, or changes to a
+         *     sort value can cause duplicate or omitted rows across pages. Restart from
+         *     the first page when a consistent export is required.
+         *
+         *     Results are based on the database, not a particular view. A view's filters,
+         *     sorting, grouping, and field visibility do not affect the response.
+         *
+         *     > **Consistency:** Responses may not immediately reflect recent changes.
+         *     Clients requiring read-after-write confirmation should poll with bounded backoff.
+         *
+         *     > **Experimental:** This operation is experimental and may change in backwards-incompatible ways without notice.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the database and its corresponding space.
+         */
+        get: operations["getDatabaseEntries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/databases/{id}/entries/{entryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get entry by id
+         * @description Returns a single entry (row) from a database by ID.
+         *
+         *     > **Consistency:** Responses may not immediately reflect recent changes.
+         *     Clients requiring read-after-write confirmation should poll with bounded backoff.
+         *
+         *     > **Experimental:** This operation is experimental and may change in backwards-incompatible ways without notice.
+         *
+         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+         *     Permission to view the database and its corresponding space.
+         */
+        get: operations["getDatabaseEntryById"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4027,8 +4568,11 @@ export interface paths {
          * @description Update the [default classification level](https://support.atlassian.com/security-and-access-policies/docs/what-is-a-default-classification-level/)
          *     for a specific space.
          *
-         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
-         *     'Permission to access the Confluence site ('Can use' global permission) and 'Admin' permission for the space.
+         *     **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
+         *     Permission to access the Confluence site ('Can use' global permission) and
+         *     [`manage/space`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space.
+         *
+         *     **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
          */
         put: operations["putSpaceDefaultClassificationLevel"];
         post?: never;
@@ -4037,8 +4581,11 @@ export interface paths {
          * @description Returns the [default classification level](https://support.atlassian.com/security-and-access-policies/docs/what-is-a-default-classification-level/)
          *     for a specific space.
          *
-         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
-         *     'Permission to access the Confluence site ('Can use' global permission) and 'Admin' permission for the space.
+         *     **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
+         *     Permission to access the Confluence site ('Can use' global permission) and
+         *     [`manage/space`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space.
+         *
+         *     **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
          */
         delete: operations["deleteSpaceDefaultClassificationLevel"];
         options?: never;
@@ -5563,7 +6110,7 @@ export interface components {
          * @description The status of the space.
          * @enum {string}
          */
-        SpaceStatus: "current" | "archived";
+        SpaceStatus: "current" | "archived" | "trashed";
         Task: {
             /** @description ID of the task. */
             id?: string;
@@ -6192,9 +6739,990 @@ export interface components {
         ClassificationLevelColor: "RED" | "RED_BOLD" | "ORANGE" | "YELLOW" | "GREEN" | "BLUE" | "NAVY" | "TEAL" | "PURPLE" | "GREY" | "LIME";
         /** @enum {string} */
         ClassificationLevelStatus: "DRAFT" | "PUBLISHED" | "ARCHIVED";
+        /** @description A field definition whose strict settings shape is selected by `type`. */
+        DatabaseField: components["schemas"]["DatabaseTextField"] | components["schemas"]["DatabaseAiSummaryField"] | components["schemas"]["DatabaseNumberField"] | components["schemas"]["DatabaseCheckboxField"] | components["schemas"]["DatabaseDateField"] | components["schemas"]["DatabaseSelectField"] | components["schemas"]["DatabaseHyperlinkField"] | components["schemas"]["DatabaseUserField"] | components["schemas"]["DatabaseAttachmentField"] | components["schemas"]["DatabaseJiraIssueField"] | components["schemas"]["DatabasePageLinkField"] | components["schemas"]["DatabaseEntryLinkField"] | components["schemas"]["DatabaseEntryDetailsField"] | components["schemas"]["DatabaseBacklinkField"] | components["schemas"]["DatabasePageDetailsField"] | components["schemas"]["DatabasePageLabelsField"] | components["schemas"]["DatabasePageStatusField"] | components["schemas"]["DatabaseJiraIssueDetailsField"];
+        DatabaseFieldBase: {
+            /** @description Stable identifier of the field. */
+            id: string;
+            /** @description User-visible field name. */
+            name: string;
+            /** @description User-set field description. */
+            description: string | null;
+        };
+        /**
+         * @description The type of a database field.
+         * @enum {string}
+         */
+        DatabaseFieldType: "text" | "aiSummary" | "number" | "checkbox" | "date" | "select" | "hyperlink" | "user" | "attachment" | "jiraIssue" | "pageLink" | "entryLink" | "entryDetails" | "backlink" | "pageDetails" | "pageLabels" | "pageStatus" | "jiraIssueDetails";
+        /**
+         * @description Strict settings shape selected by the parent `DatabaseField.type`.
+         *     Lookup-field settings expose source identifiers but lookup values remain
+         *     `null` in this representation version. Types without projected settings
+         *     return an empty object.
+         */
+        DatabaseFieldSettings: components["schemas"]["DatabaseTextFieldSettings"] | components["schemas"]["DatabaseAiSummaryFieldSettings"] | components["schemas"]["DatabaseNumberFieldSettings"] | components["schemas"]["DatabaseSelectFieldSettings"] | components["schemas"]["DatabaseDateFieldSettings"] | components["schemas"]["DatabaseJiraIssueFieldSettings"] | components["schemas"]["DatabaseEntryDetailsFieldSettings"] | components["schemas"]["DatabaseJiraIssueDetailsFieldSettings"] | components["schemas"]["DatabasePageDetailsFieldSettings"] | components["schemas"]["DatabaseSourceFieldSettings"] | components["schemas"]["DatabaseBacklinkFieldSettings"] | components["schemas"]["DatabaseEmptyFieldSettings"];
+        DatabaseTextFieldSettings: {
+            /** @description `true` when the field accepts rich text (ADF). */
+            richText: boolean;
+        };
+        DatabaseAiSummaryFieldSettings: {
+            aiRunMetadata?: components["schemas"]["DatabaseAiSummaryRunMetadata"];
+        };
+        DatabaseAiSummaryRunMetadata: {
+            /** @description Account ID of the user who last triggered the AI summary run. */
+            lastAiRunUserAccountId: string | null;
+        };
+        DatabaseNumberFieldSettings: {
+            format?: components["schemas"]["DatabaseNumberFormat"];
+        };
+        DatabaseNumberFormat: {
+            /** @enum {string} */
+            type: "number" | "percent" | "currency" | "custom";
+            /** @description Display symbol before the value (e.g. "$"). */
+            prefix?: string;
+            /** @description Display symbol after the value (e.g. "%"). */
+            suffix?: string;
+            /** @description Explicit decimal precision; absent when using the format default. */
+            decimalPlaces?: number;
+        };
+        DatabaseSelectFieldSettings: {
+            /** @description Ordered list of configured options. */
+            options: components["schemas"]["DatabaseSelectOption"][];
+        };
+        DatabaseSelectOption: {
+            id: string;
+            label: string;
+        };
+        DatabaseDateFieldSettings: {
+            /**
+             * @description When `true`, values are offset-bearing datetimes in the form
+             *     `YYYY-MM-DDTHH:mm[:ss[.fraction]]Z` or the equivalent with
+             *     `+/-HH:MM`. When `false`, values are date-only (`YYYY-MM-DD`).
+             */
+            includesTime: boolean;
+        };
+        DatabaseJiraIssueFieldSettings: {
+            /** @description Connected Jira Cloud site ID. */
+            cloudId?: string;
+            /** @description Connected Jira Server/Data Center site ID. */
+            serverId?: string;
+        };
+        DatabaseEntryDetailsFieldSettings: {
+            /** @description The link field this lookup field derives from. */
+            sourceFieldId?: string;
+            /** @description The field being looked up. */
+            lookupFieldId?: string;
+        };
+        DatabaseJiraIssueDetailsFieldSettings: {
+            /** @description The Jira issue field this lookup derives from. */
+            sourceFieldId?: string;
+            /** @description The selected Jira field key. */
+            jiraFieldKey?: string;
+        };
+        DatabasePageDetailsFieldSettings: {
+            /** @description The page-link field this lookup derives from. */
+            sourceFieldId?: string;
+            /** @description The selected page property key. */
+            pagePropertyKey?: string;
+        };
+        DatabaseSourceFieldSettings: {
+            /** @description The source field this lookup derives from. */
+            sourceFieldId?: string;
+        };
+        DatabaseBacklinkFieldSettings: {
+            /** @description Confluence content ID of the source database. */
+            sourceDatabaseContentId?: string;
+        };
+        /** @description Field types with no type-specific settings. */
+        DatabaseEmptyFieldSettings: Record<string, never>;
+        DatabaseTextField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "text";
+            settings: components["schemas"]["DatabaseTextFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "text";
+        };
+        DatabaseAiSummaryField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "aiSummary";
+            settings: components["schemas"]["DatabaseAiSummaryFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "aiSummary";
+        };
+        DatabaseNumberField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "number";
+            settings: components["schemas"]["DatabaseNumberFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "number";
+        };
+        DatabaseCheckboxField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "checkbox";
+            settings: components["schemas"]["DatabaseEmptyFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "checkbox";
+        };
+        DatabaseDateField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "date";
+            settings: components["schemas"]["DatabaseDateFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "date";
+        };
+        DatabaseSelectField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "select";
+            settings: components["schemas"]["DatabaseSelectFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "select";
+        };
+        DatabaseHyperlinkField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "hyperlink";
+            settings: components["schemas"]["DatabaseEmptyFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "hyperlink";
+        };
+        DatabaseUserField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "user";
+            settings: components["schemas"]["DatabaseEmptyFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "user";
+        };
+        DatabaseAttachmentField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "attachment";
+            settings: components["schemas"]["DatabaseEmptyFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "attachment";
+        };
+        DatabaseJiraIssueField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "jiraIssue";
+            settings: components["schemas"]["DatabaseJiraIssueFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "jiraIssue";
+        };
+        DatabasePageLinkField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "pageLink";
+            settings: components["schemas"]["DatabaseEmptyFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "pageLink";
+        };
+        DatabaseEntryLinkField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "entryLink";
+            settings: components["schemas"]["DatabaseEmptyFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "entryLink";
+        };
+        DatabaseEntryDetailsField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "entryDetails";
+            settings: components["schemas"]["DatabaseEntryDetailsFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "entryDetails";
+        };
+        DatabaseBacklinkField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "backlink";
+            settings: components["schemas"]["DatabaseBacklinkFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "backlink";
+        };
+        DatabasePageDetailsField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "pageDetails";
+            settings: components["schemas"]["DatabasePageDetailsFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "pageDetails";
+        };
+        DatabasePageLabelsField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "pageLabels";
+            settings: components["schemas"]["DatabaseSourceFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "pageLabels";
+        };
+        DatabasePageStatusField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "pageStatus";
+            settings: components["schemas"]["DatabaseSourceFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "pageStatus";
+        };
+        DatabaseJiraIssueDetailsField: components["schemas"]["DatabaseFieldBase"] & {
+            /** @enum {string} */
+            type: "jiraIssueDetails";
+            settings: components["schemas"]["DatabaseJiraIssueDetailsFieldSettings"];
+        } & {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "jiraIssueDetails";
+        };
+        /** @description Metadata for a named view on a database. */
+        DatabaseView: {
+            /** @description Stable identifier of the view. */
+            id: string;
+            /** @description User-visible view name. */
+            name: string;
+            /** @enum {string} */
+            type: "table" | "gallery" | "board" | "calendar" | "timeline";
+        };
+        /** @description A single entry (row) within a database. */
+        DatabaseEntry: {
+            /** @description Stable identifier of the entry. */
+            id: string;
+            /** @description The Confluence content ID of the parent database. */
+            databaseId: string;
+            /**
+             * @description Map of field ID to field value. Every field on the database is present;
+             *     unset values are represented as an object with a null `value` rather
+             *     than omitted.
+             */
+            values: {
+                [key: string]: components["schemas"]["DatabaseFieldValue"];
+            };
+        };
+        /**
+         * @description The value of a single field on an entry, discriminated on `type`. Shape
+         *     varies by field type: some are stored directly, some are stable references
+         *     to other resources, and lookup-derived field values are objects with a
+         *     `value` property of `null`.
+         */
+        DatabaseFieldValue: components["schemas"]["DatabaseTextValue"] | components["schemas"]["DatabaseAiSummaryValue"] | components["schemas"]["DatabaseNumberValue"] | components["schemas"]["DatabaseCheckboxValue"] | components["schemas"]["DatabaseDateValue"] | components["schemas"]["DatabaseSelectValue"] | components["schemas"]["DatabaseHyperlinkValue"] | components["schemas"]["DatabaseUserValue"] | components["schemas"]["DatabaseAttachmentValue"] | components["schemas"]["DatabaseJiraIssueValue"] | components["schemas"]["DatabasePageLinkValue"] | components["schemas"]["DatabaseEntryLinkValue"] | components["schemas"]["DatabaseNullLookupValue"];
+        DatabaseTextValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "text";
+            plain: string | null;
+            rich: components["schemas"]["DatabaseAdfDocument"];
+        };
+        /** @description Minimal Atlassian Document Format envelope. */
+        DatabaseAdfDocument: {
+            version: number;
+            /** @enum {string} */
+            type: "doc";
+            content?: unknown[];
+        } | null;
+        DatabaseAiSummaryValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "aiSummary";
+            plain: string | null;
+            rich: components["schemas"]["DatabaseAdfDocument"];
+            metadata: components["schemas"]["DatabaseAiSummaryValueMetadata"];
+        };
+        DatabaseAiSummaryValueMetadata: {
+            /** @description ISO 8601 timestamp. */
+            lastUpdatedAt: string | null;
+            /** @enum {string|null} */
+            lastUpdatedBy: "ai" | "user" | null;
+            lastUpdatedUserAccountId: string | null;
+        } | null;
+        DatabaseNumberValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "number";
+            /** @description Canonical finite decimal string, locale-invariant. `null` when unset. */
+            value: string | null;
+        };
+        DatabaseCheckboxValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "checkbox";
+            value: boolean | null;
+        };
+        DatabaseDateValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "date";
+            /**
+             * @description Valid ISO date (`YYYY-MM-DD`) or offset-bearing datetime
+             *     (`YYYY-MM-DDTHH:mm[:ss[.fraction]]Z` or the equivalent with
+             *     `+/-HH:MM`), depending on the field's `includesTime` setting. Seconds
+             *     and fractional seconds are optional, and valid stored precision is
+             *     preserved. A datetime without `Z` or an explicit offset is invalid.
+             */
+            value: string | null;
+        };
+        DatabaseSelectValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "select";
+            value: components["schemas"]["DatabaseSelectOption"][] | null;
+        };
+        DatabaseHyperlinkItem: {
+            url: string;
+            label?: string;
+        };
+        DatabaseHyperlinkValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "hyperlink";
+            value: components["schemas"]["DatabaseHyperlinkItem"][] | null;
+        };
+        DatabaseUserRef: {
+            accountId: string;
+        };
+        DatabaseUserValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "user";
+            value: components["schemas"]["DatabaseUserRef"][] | null;
+        };
+        DatabaseAttachmentRef: {
+            mediaId: string;
+        };
+        DatabaseAttachmentValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "attachment";
+            value: components["schemas"]["DatabaseAttachmentRef"][] | null;
+        };
+        DatabaseJiraIssueRef: {
+            key: string;
+            cloudId?: string;
+            serverId?: string;
+        };
+        DatabaseJiraIssueValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "jiraIssue";
+            value: components["schemas"]["DatabaseJiraIssueRef"][] | null;
+        };
+        DatabasePageRef: {
+            contentId: string;
+        };
+        DatabasePageLinkValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "pageLink";
+            value: components["schemas"]["DatabasePageRef"][] | null;
+        };
+        DatabaseEntryRef: {
+            entryId: string;
+            /** @description Absent when the target entry is in the same database. */
+            databaseContentId?: string;
+        };
+        DatabaseEntryLinkValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "entryLink";
+            value: components["schemas"]["DatabaseEntryRef"][] | null;
+        };
+        /**
+         * @description Lookup-derived field types (entryDetails, backlink, pageDetails,
+         *     pageLabels, pageStatus, jiraIssueDetails) return objects with a `value`
+         *     property of `null`.
+         */
+        DatabaseNullLookupValue: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "entryDetails" | "backlink" | "pageDetails" | "pageLabels" | "pageStatus" | "jiraIssueDetails";
+            /**
+             * @description Always `null`.
+             * @enum {unknown|null}
+             */
+            value: null;
+        };
+        DatabaseFieldListResponse: {
+            results: components["schemas"]["DatabaseField"][];
+            _links: components["schemas"]["DatabasesPublicApiLinks"];
+            meta: components["schemas"]["DatabasePaginationMeta"];
+        };
+        DatabaseViewListResponse: {
+            results: components["schemas"]["DatabaseView"][];
+            _links: components["schemas"]["DatabasesPublicApiLinks"];
+            meta: components["schemas"]["DatabasePaginationMeta"];
+        };
+        DatabaseEntryListResponse: {
+            results: components["schemas"]["DatabaseEntry"][];
+            _links: components["schemas"]["DatabasesPublicApiLinks"];
+            meta: components["schemas"]["DatabasePaginationMeta"];
+        };
+        /**
+         * @description Links for a Databases API representation. `self` and `next` are
+         *     path-only URLs. `base` is the absolute canonical Confluence site base URL.
+         *     `next` is present only when another page exists. Additional future link
+         *     relations may be added without a representation-version bump.
+         */
+        DatabasesPublicApiLinks: {
+            /** @description Path-only URL of this resource or result page. */
+            self: string;
+            /**
+             * Format: uri
+             * @description Absolute canonical site base URL, including the `/wiki` context path.
+             */
+            base: string;
+            /** @description Path-only URL of the next page. */
+            next?: string;
+        };
+        DatabasePaginationMeta: {
+            /**
+             * Format: int32
+             * @description Requested page size used to produce this page.
+             */
+            pageSize: number;
+            /** @description Cursor that produced this page; absent on the first page. */
+            cursor?: string;
+            /** @description Whether another page exists after this page. */
+            hasMore: boolean;
+        };
+        /**
+         * @description A single entry, not wrapped in a `results` array, with a `_links.self`
+         *     path and an absolute `_links.base` URL.
+         */
+        DatabaseEntrySingleResponse: {
+            /** @description Stable identifier of the entry. */
+            id: string;
+            /** @description The Confluence content ID of the parent database. */
+            databaseId: string;
+            /**
+             * @description Map of field ID to field value. Every field on the database is present;
+             *     unset values are represented as an object with a null `value` rather
+             *     than omitted.
+             */
+            values: {
+                [key: string]: components["schemas"]["DatabaseFieldValue"];
+            };
+            _links: components["schemas"]["DatabasesPublicApiLinks"];
+        };
+        /**
+         * @description Structured Confluence V2 error envelope. The HTTP status and `code` are
+         *     the stable machine-readable contract. `title` and `detail` are
+         *     human-readable, and their exact text is not stable; clients must not use
+         *     them for program logic.
+         */
+        DatabaseErrorResponse: {
+            errors: components["schemas"]["DatabaseError"][];
+        };
+        DatabaseError: {
+            /**
+             * Format: uuid
+             * @description Optional server-generated correlation ID.
+             */
+            id?: string;
+            /**
+             * Format: int32
+             * @description HTTP status code duplicated from the response status.
+             */
+            status: number;
+            /**
+             * @description Stable machine-readable error code.
+             * @enum {string}
+             */
+            code: "INVALID_CURSOR" | "UNSUPPORTED_CURSOR_VERSION" | "CURSOR_QUERY_MISMATCH" | "INVALID_FILTER" | "UNSUPPORTED_FILTER_OPERATOR" | "FIELD_NOT_FILTERABLE" | "FIELD_NOT_SORTABLE" | "UNSUPPORTED_SORT_MODIFIER" | "INVALID_SORT" | "INVALID_PAGE_LIMIT" | "DATABASE_NOT_FOUND" | "ENTRY_NOT_FOUND" | "DATABASE_TOO_LARGE" | "SERVICE_DISABLED" | "SERVICE_UNAVAILABLE" | "REQUEST_TIMEOUT";
+            /** @description Human-readable summary of the error. */
+            title: string;
+            /** @description Human-readable detail; may be absent when it is unsafe to expose. */
+            detail?: string | null;
+        };
+        /**
+         * @description The direct restriction state of a content item. Inherited restrictions are not represented by this REST enum.
+         *     - `OPEN` – No direct restrictions. Effective access may still be restricted by a parent.
+         *     - `EDIT_RESTRICTED` – Direct viewing is open but editing is restricted to explicitly granted users/groups.
+         *     - `VIEW_RESTRICTED` – Direct viewing and editing are restricted to explicitly granted users/groups.
+         * @enum {string}
+         */
+        ContentRestrictionState: "OPEN" | "EDIT_RESTRICTED" | "VIEW_RESTRICTED";
+        /** @description The direct restriction state of a content item. Inherited restrictions are not included. */
+        RestrictionStateResponse: {
+            state: components["schemas"]["ContentRestrictionState"];
+            /**
+             * Format: date-time
+             * @description ISO-8601 timestamp of when the restriction was set. Absent when the state is `OPEN`.
+             */
+            createdAt?: string;
+            /** @description Atlassian Account ID of the user who set the restriction. Absent when the state is `OPEN`. */
+            createdBy?: string;
+            /**
+             * @deprecated
+             * @description Deprecated alias for `createdBy`. Use `createdBy` instead. Absent when the state is `OPEN`.
+             */
+            createdByAaid?: string;
+        };
+        /** @description A user or group principal on a content permission entry. */
+        ContentPermissionPrincipal: {
+            /**
+             * @description The type of principal.
+             * @enum {string}
+             */
+            principalType: "user" | "group";
+            /** @description The identifier of the principal. For users, this is the Atlassian Account ID; for groups, this is the group ID. */
+            principalId: string;
+        };
+        /** @description A single direct-permission entry on a content item. */
+        ContentPermissionOutput: {
+            /**
+             * @description The operation the permission grants.
+             * @enum {string}
+             */
+            operation: "read" | "update";
+            principal: components["schemas"]["ContentPermissionPrincipal"];
+            /**
+             * Format: date-time
+             * @description ISO-8601 timestamp of when the permission was created.
+             */
+            createdAt?: string;
+            /** @description Atlassian Account ID of the user who created the permission entry. */
+            createdBy?: string;
+            /**
+             * @deprecated
+             * @description Deprecated alias for `createdBy`. Use `createdBy` instead.
+             */
+            createdByAaid?: string;
+        };
+        /**
+         * @description Contains up to 250 direct permissions on a content item. GET responses support cursor pagination to retrieve additional entries.
+         *
+         *     POST and PUT responses contain only the first 250 permissions from the resulting direct-permission set. Use the corresponding GET permissions endpoint to retrieve any remaining entries.
+         */
+        ContentPermissionsResponse: {
+            results: components["schemas"]["ContentPermissionOutput"][];
+            _links: components["schemas"]["MultiEntityLinks"];
+        };
+        /** @description An error response that follows the Atlassian REST API error standard. */
+        ContentPermissionErrorResponse: {
+            errors: components["schemas"]["ContentPermissionError"][];
+        };
+        ContentPermissionError: {
+            /**
+             * Format: int32
+             * @description HTTP status code associated with the error.
+             */
+            status: number;
+            /** @description Stable identifier for the error category. */
+            code: string;
+            /** @description Human-readable summary of the error. */
+            title: string;
+            /** @description Additional details about the error, when available. */
+            detail?: string | null;
+        };
+        /** @description Identifies a user or group to assign a permission to. */
+        ContentPrincipalInput: {
+            /**
+             * @description The type of principal.
+             * @enum {string}
+             */
+            principalType: "user" | "group";
+            /** @description The identifier of the principal. For users, this is the Atlassian Account ID; for groups, this is the group ID. */
+            principalId: string;
+        };
+        /** @description A set of principals to assign a given operation permission to. */
+        OperationPermissionsInput: {
+            /**
+             * @description The operation to grant.
+             * @enum {string}
+             */
+            operation: "read" | "update";
+            principals: components["schemas"]["ContentPrincipalInput"][];
+        };
+        /**
+         * @description A list of operation-grouped permission assignments.
+         *
+         *     The resulting direct-permission set cannot exceed 500 entries. Requests that would exceed this limit return a `400` response.
+         */
+        ContentPermissionsRequest: {
+            permissions: components["schemas"]["OperationPermissionsInput"][];
+        };
     };
-    responses: never;
-    parameters: never;
+    responses: {
+        /**
+         * @description Returned if:
+         *
+         *     - The request body is malformed, `state` is missing, or its value is invalid. Only `OPEN`, `EDIT_RESTRICTED`, and
+         *       `VIEW_RESTRICTED` can be assigned.
+         *     - The change would remove the calling user's own edit access and `allow-self-lockout` is `false` (the default). Ensure the caller
+         *       retains an update permission, directly or through a group, or explicitly set `allow-self-lockout=true`.
+         *
+         *     Changing the state does not create an update permission for the caller. Self-lockout returns `BAD_REQUEST`;
+         *     missing fields or unrecognized state values return `INVALID_REQUEST_BODY`.
+         */
+        ContentRestrictionStateBadRequest: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+            };
+        };
+        /**
+         * @description Returned if:
+         *
+         *     - `operation` or `principal-type` has an unsupported value.
+         *     - `principal-id` is supplied without `principal-type`.
+         *     - `cursor` is invalid, or `limit` is outside the range 1 to 250.
+         *     - A request parameter has an invalid type or format.
+         *
+         *     Invalid operations, principal types, filter combinations, and cursors return `BAD_REQUEST`. Parameter type or range validation
+         *     returns `INVALID_REQUEST_PARAMETER`.
+         */
+        ContentPermissionsReadBadRequest: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+            };
+        };
+        /**
+         * @description Returned if:
+         *
+         *     - The request body is malformed, required fields are missing, or an operation or principal type is invalid.
+         *     - A user or group principal cannot be resolved, or a group is disallowed by team admin controls.
+         *     - The resulting direct-permission set would exceed 500 entries.
+         *     - The change would remove the calling user's own edit access and `allow-self-lockout` is `false` (the default). This includes
+         *       downgrading the caller's update permission to read. Preserve edit access, directly or through a group, or explicitly set
+         *       `allow-self-lockout=true`.
+         *
+         *     Permission validation failures return `BAD_REQUEST`. Missing required body fields return `INVALID_REQUEST_BODY`. The error title
+         *     describes the reason; individual validation reasons are not separate error codes.
+         */
+        ContentPermissionsWriteBadRequest: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+            };
+        };
+        /**
+         * @description Returned if:
+         *
+         *     - `operation` or `principal-type` has an unsupported value.
+         *     - Only one of `principal-type` and `principal-id` is supplied, or `operation` is supplied without both principal filters. Omit all
+         *       filters, supply both principal filters, or supply all three filters.
+         *     - The deletion would remove the calling user's own edit access and `allow-self-lockout` is `false` (the default). Preserve edit
+         *       access, directly or through a group, or explicitly set `allow-self-lockout=true`.
+         *     - A request parameter has an invalid type or format.
+         *
+         *     Invalid operations, principal types, filter combinations, and self-lockout return `BAD_REQUEST`. Parameter type validation returns
+         *     `INVALID_REQUEST_PARAMETER`.
+         */
+        ContentPermissionsDeleteBadRequest: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+            };
+        };
+        /**
+         * @description Returned without a body when `If-None-Match` matches the selected
+         *     representation. A `304 Not Modified` means that the selected representation
+         *     has not changed. It does not guarantee that a recent upstream write has
+         *     finished propagating. A `304` for one endpoint, query, or page says
+         *     nothing about any other representation.
+         */
+        DatabaseNotModified: {
+            headers: {
+                "Atl-Database-Version": components["headers"]["AtlDatabaseVersion"];
+                "Cache-Control": components["headers"]["DatabaseCacheControl"];
+                ETag: components["headers"]["DatabaseEtag"];
+                [name: string]: unknown;
+            };
+            content?: never;
+        };
+        /**
+         * @description Returned for invalid pagination input. `INVALID_CURSOR` means the token is
+         *     malformed or structurally invalid. `UNSUPPORTED_CURSOR_VERSION` means it
+         *     decoded successfully but uses an unsupported version.
+         *     `CURSOR_QUERY_MISMATCH` means a well-formed cursor was issued for a
+         *     different database, collection endpoint, filter, sort, or page size.
+         *     `INVALID_PAGE_LIMIT` means `limit` is outside the documented syntax or
+         *     range. Restart from the first page after a query-context mismatch.
+         */
+        DatabasePaginationBadRequest: {
+            headers: {
+                "Atl-Database-Version": components["headers"]["AtlDatabaseVersion"];
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["DatabaseErrorResponse"];
+            };
+        };
+        /**
+         * @description Returned for invalid pagination, filtering, or sorting input.
+         *     `INVALID_CURSOR` is limited to malformed or structurally invalid tokens;
+         *     `UNSUPPORTED_CURSOR_VERSION` identifies a decoded unsupported version;
+         *     and `CURSOR_QUERY_MISMATCH` identifies a well-formed cursor used with a
+         *     different database, collection endpoint, filter, sort, or page size.
+         *     `UNSUPPORTED_FILTER_OPERATOR` identifies either an unknown operator or one
+         *     that the referenced field type does not support. Other possible codes are
+         *     `INVALID_PAGE_LIMIT`, `INVALID_FILTER`, `FIELD_NOT_FILTERABLE`,
+         *     `INVALID_SORT`, `UNSUPPORTED_SORT_MODIFIER`, and `FIELD_NOT_SORTABLE`.
+         */
+        DatabaseEntriesBadRequest: {
+            headers: {
+                "Atl-Database-Version": components["headers"]["AtlDatabaseVersion"];
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["DatabaseErrorResponse"];
+            };
+        };
+        /**
+         * @description Returned when authentication credentials are missing, invalid, or are not
+         *     accepted for this operation. Only the HTTP status is part of the Databases
+         *     contract.
+         */
+        DatabaseUnauthorized: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content?: never;
+        };
+        /**
+         * @description Returned when an authenticated request is forbidden by an applicable app
+         *     access or authorization policy. Only the HTTP status is part of the
+         *     Databases contract.
+         */
+        DatabaseForbidden: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content?: never;
+        };
+        /**
+         * @description Returned with `DATABASE_NOT_FOUND` when the database does not exist,
+         *     cannot be returned, the feature is unavailable, or the caller lacks
+         *     permission to view it. These cases are intentionally indistinguishable.
+         */
+        DatabaseNotFound: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["DatabaseErrorResponse"];
+            };
+        };
+        /**
+         * @description Returned with `DATABASE_NOT_FOUND` for an unavailable or inaccessible
+         *     database, or with `ENTRY_NOT_FOUND` when the entry does not exist in the
+         *     database.
+         */
+        DatabaseEntryNotFound: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["DatabaseErrorResponse"];
+            };
+        };
+        /**
+         * @description Returned with `DATABASE_TOO_LARGE` when the database exceeds a
+         *     database-wide size limit evaluated before pagination or a
+         *     serialized-response size limit. The error detail identifies the limit
+         *     exceeded. Pagination, filtering, and a smaller limit do not bypass the
+         *     database-wide limit.
+         */
+        DatabaseTooLarge: {
+            headers: {
+                "Atl-Database-Version": components["headers"]["AtlDatabaseVersion"];
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["DatabaseErrorResponse"];
+            };
+        };
+        /**
+         * @description Returned when the request is throttled by a service handling the request.
+         *     This response does not guarantee a Databases error envelope or application
+         *     error code. Clients must honor `Retry-After` when it is supplied.
+         *     `RateLimit-Reason` is opaque limiter attribution; it and the legacy
+         *     `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset`
+         *     headers are conditional.
+         */
+        DatabaseRateLimited: {
+            headers: {
+                "Retry-After": components["headers"]["DatabaseRetryAfter"];
+                "RateLimit-Reason": components["headers"]["DatabaseRateLimitReason"];
+                "X-RateLimit-Limit": components["headers"]["DatabaseRateLimitLimit"];
+                "X-RateLimit-Remaining": components["headers"]["DatabaseRateLimitRemaining"];
+                "X-RateLimit-Reset": components["headers"]["DatabaseRateLimitReset"];
+                [name: string]: unknown;
+            };
+            content?: never;
+        };
+        /**
+         * @description Returned without a body when a dependent service returns `401` or `403`;
+         *     when an upstream `5xx` response is unknown, malformed, untrusted, or not
+         *     allowlisted; or when another dependent-service I/O failure occurs.
+         */
+        DatabaseBadGateway: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content?: never;
+        };
+        /**
+         * @description Returned with `SERVICE_DISABLED` when the requested operation is not
+         *     currently available, or with `SERVICE_UNAVAILABLE` when a service handling
+         *     the request or a required dependency is temporarily unavailable. Clients
+         *     may retry `SERVICE_UNAVAILABLE`. `Retry-After` is conditional and may be
+         *     omitted; clients must honor it when present.
+         */
+        DatabaseServiceUnavailable: {
+            headers: {
+                "Retry-After": components["headers"]["DatabaseRetryAfter"];
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["DatabaseErrorResponse"];
+            };
+        };
+        /**
+         * @description Returned with `REQUEST_TIMEOUT` and a structured error when an allowlisted
+         *     dependent-service response reports that the request timed out. A connection,
+         *     socket, or proxy transport timeout is returned without a response body.
+         */
+        DatabaseGatewayTimeout: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["DatabaseErrorResponse"];
+            };
+        };
+    };
+    parameters: {
+        /**
+         * @description The Confluence content ID of the database, represented as an ASCII decimal-digit string.
+         * @example 12345
+         */
+        DatabaseIdParameter: string;
+        /**
+         * @description Maximum number of results to return. The value must be a positive integer
+         *     without a sign, decimal point, or leading zero. The default is 50 and the
+         *     maximum is 250.
+         */
+        DatabasePageLimitParameter: number;
+        /**
+         * @description Opaque, offset-based continuation token obtained from `_links.next` or the
+         *     `Link` response header. A cursor is scoped to the database, collection
+         *     endpoint, filters, sort, and page size that produced it. Reusing a
+         *     well-formed cursor with any different query context returns
+         *     `CURSOR_QUERY_MISMATCH`; malformed or structurally invalid cursors return
+         *     `INVALID_CURSOR`, and a decoded but unsupported version returns
+         *     `UNSUPPORTED_CURSOR_VERSION`.
+         *
+         *     Cursor versions remain decodable for at least 24 hours, but the API does
+         *     not promise TTL-expiration detection. Cursors are continuation state, not
+         *     caller-scoped credentials, and authorization is re-evaluated on every
+         *     request. Their query-context fingerprint is unsigned and must not be
+         *     treated as authentication or tamper protection.
+         *
+         *     Pagination is best effort under concurrent mutation. Inserts, deletes, or
+         *     changes to sort values can cause duplicate or omitted rows; restart from
+         *     the first page when a consistent export is required.
+         */
+        DatabaseCursorParameter: string;
+        /**
+         * @description One or more entity tags previously returned for this exact request URL.
+         *     A matching strong or weak validator returns `304` with no response body.
+         */
+        DatabaseIfNoneMatchParameter: string;
+    };
     requestBodies: {
         AdminKeyRequest: {
             content: {
@@ -6673,11 +8201,1521 @@ export interface components {
             };
         };
     };
-    headers: never;
+    headers: {
+        /**
+         * @description Databases API representation version. This is distinct from the
+         *     `/wiki/api/v2` platform URL version. Responses generated outside the
+         *     Databases API, such as authentication, authorization, rate-limit, or
+         *     gateway responses, may omit this header.
+         */
+        AtlDatabaseVersion: "1";
+        /**
+         * @description Authenticated responses may be stored only in a private cache and must be
+         *     revalidated before reuse.
+         */
+        DatabaseCacheControl: "private, max-age=0";
+        /**
+         * @description Opaque strong validator for the exact serialized representation. Cache it
+         *     per request URL; different endpoints, filters, sorts, limits, and pages
+         *     generally have different values.
+         * @example "5021e624e752b001ce3e3846e8f158ed4aeb93a4c9a72fdb35a0c5b14a0eea84"
+         */
+        DatabaseEtag: string;
+        /**
+         * @description Path-only URL for the next page, emitted only when another page exists.
+         *     Format: `Link: </wiki/api/v2/databases/12345/entries?cursor=...>; rel="next"`.
+         */
+        DatabaseNextLink: string;
+        /** @description Minimum number of seconds to wait before retrying the request. */
+        DatabaseRetryAfter: number;
+        /** @description Opaque attribution for the policy or limiter that throttled the request. */
+        DatabaseRateLimitReason: string;
+        /** @description Maximum request capacity enforced for the applicable rate-limit scope. */
+        DatabaseRateLimitLimit: number;
+        /** @description Remaining request capacity in the applicable rate-limit window. */
+        DatabaseRateLimitRemaining: number;
+        /** @description ISO 8601 timestamp when the applicable rate-limit window resets. */
+        DatabaseRateLimitReset: string;
+    };
     pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    getPageRestrictionState: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the page. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the restriction state is successfully retrieved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RestrictionStateResponse"];
+                };
+            };
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    setPageRestrictionState: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the page. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    state: components["schemas"]["ContentRestrictionState"];
+                };
+            };
+        };
+        responses: {
+            /** @description Returned if the state was successfully updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RestrictionStateResponse"];
+                };
+            };
+            400: components["responses"]["ContentRestrictionStateBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    getBlogPostRestrictionState: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the blog post. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the restriction state is successfully retrieved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RestrictionStateResponse"];
+                };
+            };
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    setBlogPostRestrictionState: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the blog post. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    state: components["schemas"]["ContentRestrictionState"];
+                };
+            };
+        };
+        responses: {
+            /** @description Returned if the state was successfully updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RestrictionStateResponse"];
+                };
+            };
+            400: components["responses"]["ContentRestrictionStateBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    getDatabaseRestrictionState: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the database. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the restriction state is successfully retrieved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RestrictionStateResponse"];
+                };
+            };
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    setDatabaseRestrictionState: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the database. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    state: components["schemas"]["ContentRestrictionState"];
+                };
+            };
+        };
+        responses: {
+            /** @description Returned if the state was successfully updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RestrictionStateResponse"];
+                };
+            };
+            400: components["responses"]["ContentRestrictionStateBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    getWhiteboardRestrictionState: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the whiteboard. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the restriction state is successfully retrieved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RestrictionStateResponse"];
+                };
+            };
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    setWhiteboardRestrictionState: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the whiteboard. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    state: components["schemas"]["ContentRestrictionState"];
+                };
+            };
+        };
+        responses: {
+            /** @description Returned if the state was successfully updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RestrictionStateResponse"];
+                };
+            };
+            400: components["responses"]["ContentRestrictionStateBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    getFolderRestrictionState: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the folder. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the restriction state is successfully retrieved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RestrictionStateResponse"];
+                };
+            };
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    setFolderRestrictionState: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the folder. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    state: components["schemas"]["ContentRestrictionState"];
+                };
+            };
+        };
+        responses: {
+            /** @description Returned if the state was successfully updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RestrictionStateResponse"];
+                };
+            };
+            400: components["responses"]["ContentRestrictionStateBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    getPagePermissions: {
+        parameters: {
+            query?: {
+                /** @description Filter by operation (`read` or `update`). */
+                operation?: "read" | "update";
+                /** @description Filter by principal type (`user` or `group`). May be used without `principal-id` to return all permissions for that type. */
+                "principal-type"?: "user" | "group";
+                /** @description Filter by principal ID. Must be provided together with `principal-type`. */
+                "principal-id"?: string;
+                /** @description Opaque cursor for pagination. Use the value from the previous response's `_links.next`. */
+                cursor?: string;
+                /** @description Maximum number of permission entries to return. Must be between 1 and 250. */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the page. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the permissions are successfully retrieved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        results?: components["schemas"]["ContentPermissionOutput"][];
+                        _links?: components["schemas"]["MultiEntityLinks"];
+                    };
+                };
+            };
+            400: components["responses"]["ContentPermissionsReadBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    setPagePermissions: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the page. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContentPermissionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the permissions are successfully replaced. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionsResponse"];
+                };
+            };
+            400: components["responses"]["ContentPermissionsWriteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    addPagePermissions: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the page. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContentPermissionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the permissions are successfully added. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionsResponse"];
+                };
+            };
+            400: components["responses"]["ContentPermissionsWriteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    deletePagePermissions: {
+        parameters: {
+            query?: {
+                /** @description Filter by operation. Must be provided together with `principal-type` and `principal-id`. */
+                operation?: "read" | "update";
+                /** @description Filter by principal type. Must be provided together with `principal-id`. */
+                "principal-type"?: "user" | "group";
+                /** @description Filter by principal ID. Must be provided together with `principal-type`. */
+                "principal-id"?: string;
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the page. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the permissions are successfully deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["ContentPermissionsDeleteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    getBlogPostPermissions: {
+        parameters: {
+            query?: {
+                /** @description Filter by operation (`read` or `update`). */
+                operation?: "read" | "update";
+                /** @description Filter by principal type (`user` or `group`). May be used without `principal-id` to return all permissions for that type. */
+                "principal-type"?: "user" | "group";
+                /** @description Filter by principal ID. Must be provided together with `principal-type`. */
+                "principal-id"?: string;
+                /** @description Opaque cursor for pagination. Use the value from the previous response's `_links.next`. */
+                cursor?: string;
+                /** @description Maximum number of permission entries to return. Must be between 1 and 250. */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the blog post. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the permissions are successfully retrieved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        results?: components["schemas"]["ContentPermissionOutput"][];
+                        _links?: components["schemas"]["MultiEntityLinks"];
+                    };
+                };
+            };
+            400: components["responses"]["ContentPermissionsReadBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    setBlogPostPermissions: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the blog post. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContentPermissionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the permissions are successfully replaced. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionsResponse"];
+                };
+            };
+            400: components["responses"]["ContentPermissionsWriteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    addBlogPostPermissions: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the blog post. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContentPermissionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the permissions are successfully added. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionsResponse"];
+                };
+            };
+            400: components["responses"]["ContentPermissionsWriteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    deleteBlogPostPermissions: {
+        parameters: {
+            query?: {
+                /** @description Filter by operation. Must be provided together with `principal-type` and `principal-id`. */
+                operation?: "read" | "update";
+                /** @description Filter by principal type. Must be provided together with `principal-id`. */
+                "principal-type"?: "user" | "group";
+                /** @description Filter by principal ID. Must be provided together with `principal-type`. */
+                "principal-id"?: string;
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the blog post. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the permissions are successfully deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["ContentPermissionsDeleteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    getDatabasePermissions: {
+        parameters: {
+            query?: {
+                /** @description Filter by operation (`read` or `update`). */
+                operation?: "read" | "update";
+                /** @description Filter by principal type (`user` or `group`). May be used without `principal-id` to return all permissions for that type. */
+                "principal-type"?: "user" | "group";
+                /** @description Filter by principal ID. Must be provided together with `principal-type`. */
+                "principal-id"?: string;
+                /** @description Opaque cursor for pagination. Use the value from the previous response's `_links.next`. */
+                cursor?: string;
+                /** @description Maximum number of permission entries to return. Must be between 1 and 250. */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the database. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the permissions are successfully retrieved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        results?: components["schemas"]["ContentPermissionOutput"][];
+                        _links?: components["schemas"]["MultiEntityLinks"];
+                    };
+                };
+            };
+            400: components["responses"]["ContentPermissionsReadBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    setDatabasePermissions: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the database. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContentPermissionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the permissions are successfully replaced. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionsResponse"];
+                };
+            };
+            400: components["responses"]["ContentPermissionsWriteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    addDatabasePermissions: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the database. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContentPermissionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the permissions are successfully added. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionsResponse"];
+                };
+            };
+            400: components["responses"]["ContentPermissionsWriteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    deleteDatabasePermissions: {
+        parameters: {
+            query?: {
+                /** @description Filter by operation. Must be provided together with `principal-type` and `principal-id`. */
+                operation?: "read" | "update";
+                /** @description Filter by principal type. Must be provided together with `principal-id`. */
+                "principal-type"?: "user" | "group";
+                /** @description Filter by principal ID. Must be provided together with `principal-type`. */
+                "principal-id"?: string;
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the database. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the permissions are successfully deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["ContentPermissionsDeleteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    getWhiteboardPermissions: {
+        parameters: {
+            query?: {
+                /** @description Filter by operation (`read` or `update`). */
+                operation?: "read" | "update";
+                /** @description Filter by principal type (`user` or `group`). May be used without `principal-id` to return all permissions for that type. */
+                "principal-type"?: "user" | "group";
+                /** @description Filter by principal ID. Must be provided together with `principal-type`. */
+                "principal-id"?: string;
+                /** @description Opaque cursor for pagination. Use the value from the previous response's `_links.next`. */
+                cursor?: string;
+                /** @description Maximum number of permission entries to return. Must be between 1 and 250. */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the whiteboard. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the permissions are successfully retrieved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        results?: components["schemas"]["ContentPermissionOutput"][];
+                        _links?: components["schemas"]["MultiEntityLinks"];
+                    };
+                };
+            };
+            400: components["responses"]["ContentPermissionsReadBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    setWhiteboardPermissions: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the whiteboard. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContentPermissionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the permissions are successfully replaced. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionsResponse"];
+                };
+            };
+            400: components["responses"]["ContentPermissionsWriteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    addWhiteboardPermissions: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the whiteboard. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContentPermissionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the permissions are successfully added. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionsResponse"];
+                };
+            };
+            400: components["responses"]["ContentPermissionsWriteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    deleteWhiteboardPermissions: {
+        parameters: {
+            query?: {
+                /** @description Filter by operation. Must be provided together with `principal-type` and `principal-id`. */
+                operation?: "read" | "update";
+                /** @description Filter by principal type. Must be provided together with `principal-id`. */
+                "principal-type"?: "user" | "group";
+                /** @description Filter by principal ID. Must be provided together with `principal-type`. */
+                "principal-id"?: string;
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the whiteboard. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the permissions are successfully deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["ContentPermissionsDeleteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    getFolderPermissions: {
+        parameters: {
+            query?: {
+                /** @description Filter by operation (`read` or `update`). */
+                operation?: "read" | "update";
+                /** @description Filter by principal type (`user` or `group`). May be used without `principal-id` to return all permissions for that type. */
+                "principal-type"?: "user" | "group";
+                /** @description Filter by principal ID. Must be provided together with `principal-type`. */
+                "principal-id"?: string;
+                /** @description Opaque cursor for pagination. Use the value from the previous response's `_links.next`. */
+                cursor?: string;
+                /** @description Maximum number of permission entries to return. Must be between 1 and 250. */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the folder. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the permissions are successfully retrieved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        results?: components["schemas"]["ContentPermissionOutput"][];
+                        _links?: components["schemas"]["MultiEntityLinks"];
+                    };
+                };
+            };
+            400: components["responses"]["ContentPermissionsReadBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    setFolderPermissions: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the folder. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContentPermissionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the permissions are successfully replaced. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionsResponse"];
+                };
+            };
+            400: components["responses"]["ContentPermissionsWriteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    addFolderPermissions: {
+        parameters: {
+            query?: {
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the folder. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContentPermissionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Returned if the permissions are successfully added. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionsResponse"];
+                };
+            };
+            400: components["responses"]["ContentPermissionsWriteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
+    deleteFolderPermissions: {
+        parameters: {
+            query?: {
+                /** @description Filter by operation. Must be provided together with `principal-type` and `principal-id`. */
+                operation?: "read" | "update";
+                /** @description Filter by principal type. Must be provided together with `principal-id`. */
+                "principal-type"?: "user" | "group";
+                /** @description Filter by principal ID. Must be provided together with `principal-type`. */
+                "principal-id"?: string;
+                /**
+                 * @description If `false` (default), the request is rejected when it would remove the calling user's own edit access.
+                 *     Set to `true` to allow the operation even when it locks out the caller.
+                 */
+                "allow-self-lockout"?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the folder. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the permissions are successfully deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["ContentPermissionsDeleteBadRequest"];
+            /** @description Returned if the authentication credentials are incorrect or missing from the request. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Returned if the content was not found or the calling user does not have permission to perform this operation. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContentPermissionErrorResponse"];
+                };
+            };
+        };
+    };
     getAdminKey: {
         parameters: {
             query?: never;
@@ -10069,6 +13107,16 @@ export interface operations {
                 };
                 content?: never;
             };
+            /**
+             * @description Returned if content approvals are enabled for the site and the page's space is configured to require approval before publishing.
+             *     Save the changes as a draft, then complete the approval workflow to publish.
+             */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
     deletePage: {
@@ -10889,6 +13937,16 @@ export interface operations {
              *     - There are no spaces associated with the given spaceId
              */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /**
+             * @description Returned if content approvals are enabled for the site and the page's space is configured to require approval before publishing.
+             *     Save the title change as a draft, then complete the approval workflow to publish.
+             */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12329,6 +15387,345 @@ export interface operations {
                 };
                 content?: never;
             };
+        };
+    };
+    getDatabaseFields: {
+        parameters: {
+            query?: {
+                /**
+                 * @description Maximum number of results to return. The value must be a positive integer
+                 *     without a sign, decimal point, or leading zero. The default is 50 and the
+                 *     maximum is 250.
+                 */
+                limit?: components["parameters"]["DatabasePageLimitParameter"];
+                /**
+                 * @description Opaque, offset-based continuation token obtained from `_links.next` or the
+                 *     `Link` response header. A cursor is scoped to the database, collection
+                 *     endpoint, filters, sort, and page size that produced it. Reusing a
+                 *     well-formed cursor with any different query context returns
+                 *     `CURSOR_QUERY_MISMATCH`; malformed or structurally invalid cursors return
+                 *     `INVALID_CURSOR`, and a decoded but unsupported version returns
+                 *     `UNSUPPORTED_CURSOR_VERSION`.
+                 *
+                 *     Cursor versions remain decodable for at least 24 hours, but the API does
+                 *     not promise TTL-expiration detection. Cursors are continuation state, not
+                 *     caller-scoped credentials, and authorization is re-evaluated on every
+                 *     request. Their query-context fingerprint is unsigned and must not be
+                 *     treated as authentication or tamper protection.
+                 *
+                 *     Pagination is best effort under concurrent mutation. Inserts, deletes, or
+                 *     changes to sort values can cause duplicate or omitted rows; restart from
+                 *     the first page when a consistent export is required.
+                 */
+                cursor?: components["parameters"]["DatabaseCursorParameter"];
+            };
+            header?: {
+                /**
+                 * @description One or more entity tags previously returned for this exact request URL.
+                 *     A matching strong or weak validator returns `304` with no response body.
+                 */
+                "If-None-Match"?: components["parameters"]["DatabaseIfNoneMatchParameter"];
+            };
+            path: {
+                /**
+                 * @description The Confluence content ID of the database, represented as an ASCII decimal-digit string.
+                 * @example 12345
+                 */
+                id: components["parameters"]["DatabaseIdParameter"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the requested database fields are returned. */
+            200: {
+                headers: {
+                    "Atl-Database-Version": components["headers"]["AtlDatabaseVersion"];
+                    "Cache-Control": components["headers"]["DatabaseCacheControl"];
+                    ETag: components["headers"]["DatabaseEtag"];
+                    Link: components["headers"]["DatabaseNextLink"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DatabaseFieldListResponse"];
+                };
+            };
+            304: components["responses"]["DatabaseNotModified"];
+            400: components["responses"]["DatabasePaginationBadRequest"];
+            401: components["responses"]["DatabaseUnauthorized"];
+            403: components["responses"]["DatabaseForbidden"];
+            404: components["responses"]["DatabaseNotFound"];
+            413: components["responses"]["DatabaseTooLarge"];
+            429: components["responses"]["DatabaseRateLimited"];
+            502: components["responses"]["DatabaseBadGateway"];
+            503: components["responses"]["DatabaseServiceUnavailable"];
+            504: components["responses"]["DatabaseGatewayTimeout"];
+        };
+    };
+    getDatabaseViews: {
+        parameters: {
+            query?: {
+                /**
+                 * @description Maximum number of results to return. The value must be a positive integer
+                 *     without a sign, decimal point, or leading zero. The default is 50 and the
+                 *     maximum is 250.
+                 */
+                limit?: components["parameters"]["DatabasePageLimitParameter"];
+                /**
+                 * @description Opaque, offset-based continuation token obtained from `_links.next` or the
+                 *     `Link` response header. A cursor is scoped to the database, collection
+                 *     endpoint, filters, sort, and page size that produced it. Reusing a
+                 *     well-formed cursor with any different query context returns
+                 *     `CURSOR_QUERY_MISMATCH`; malformed or structurally invalid cursors return
+                 *     `INVALID_CURSOR`, and a decoded but unsupported version returns
+                 *     `UNSUPPORTED_CURSOR_VERSION`.
+                 *
+                 *     Cursor versions remain decodable for at least 24 hours, but the API does
+                 *     not promise TTL-expiration detection. Cursors are continuation state, not
+                 *     caller-scoped credentials, and authorization is re-evaluated on every
+                 *     request. Their query-context fingerprint is unsigned and must not be
+                 *     treated as authentication or tamper protection.
+                 *
+                 *     Pagination is best effort under concurrent mutation. Inserts, deletes, or
+                 *     changes to sort values can cause duplicate or omitted rows; restart from
+                 *     the first page when a consistent export is required.
+                 */
+                cursor?: components["parameters"]["DatabaseCursorParameter"];
+            };
+            header?: {
+                /**
+                 * @description One or more entity tags previously returned for this exact request URL.
+                 *     A matching strong or weak validator returns `304` with no response body.
+                 */
+                "If-None-Match"?: components["parameters"]["DatabaseIfNoneMatchParameter"];
+            };
+            path: {
+                /**
+                 * @description The Confluence content ID of the database, represented as an ASCII decimal-digit string.
+                 * @example 12345
+                 */
+                id: components["parameters"]["DatabaseIdParameter"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the requested database views are returned. */
+            200: {
+                headers: {
+                    "Atl-Database-Version": components["headers"]["AtlDatabaseVersion"];
+                    "Cache-Control": components["headers"]["DatabaseCacheControl"];
+                    ETag: components["headers"]["DatabaseEtag"];
+                    Link: components["headers"]["DatabaseNextLink"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DatabaseViewListResponse"];
+                };
+            };
+            304: components["responses"]["DatabaseNotModified"];
+            400: components["responses"]["DatabasePaginationBadRequest"];
+            401: components["responses"]["DatabaseUnauthorized"];
+            403: components["responses"]["DatabaseForbidden"];
+            404: components["responses"]["DatabaseNotFound"];
+            413: components["responses"]["DatabaseTooLarge"];
+            429: components["responses"]["DatabaseRateLimited"];
+            502: components["responses"]["DatabaseBadGateway"];
+            503: components["responses"]["DatabaseServiceUnavailable"];
+            504: components["responses"]["DatabaseGatewayTimeout"];
+        };
+    };
+    getDatabaseEntries: {
+        parameters: {
+            query?: {
+                /**
+                 * @description Maximum number of results to return. The value must be a positive integer
+                 *     without a sign, decimal point, or leading zero. The default is 50 and the
+                 *     maximum is 250.
+                 */
+                limit?: components["parameters"]["DatabasePageLimitParameter"];
+                /**
+                 * @description Opaque, offset-based continuation token obtained from `_links.next` or the
+                 *     `Link` response header. A cursor is scoped to the database, collection
+                 *     endpoint, filters, sort, and page size that produced it. Reusing a
+                 *     well-formed cursor with any different query context returns
+                 *     `CURSOR_QUERY_MISMATCH`; malformed or structurally invalid cursors return
+                 *     `INVALID_CURSOR`, and a decoded but unsupported version returns
+                 *     `UNSUPPORTED_CURSOR_VERSION`.
+                 *
+                 *     Cursor versions remain decodable for at least 24 hours, but the API does
+                 *     not promise TTL-expiration detection. Cursors are continuation state, not
+                 *     caller-scoped credentials, and authorization is re-evaluated on every
+                 *     request. Their query-context fingerprint is unsigned and must not be
+                 *     treated as authentication or tamper protection.
+                 *
+                 *     Pagination is best effort under concurrent mutation. Inserts, deletes, or
+                 *     changes to sort values can cause duplicate or omitted rows; restart from
+                 *     the first page when a consistent export is required.
+                 */
+                cursor?: components["parameters"]["DatabaseCursorParameter"];
+                /**
+                 * @description Used to sort the result by a single field ID. Prefix the field ID with
+                 *     `-` to sort in descending order. Text, number, checkbox, date, select,
+                 *     and hyperlink fields are sortable. Other field types return
+                 *     `FIELD_NOT_SORTABLE`. The `fieldId:modifier` form is reserved and
+                 *     returns `UNSUPPORTED_SORT_MODIFIER`.
+                 *
+                 *     Empty values sort after non-empty values in both directions. Text uses
+                 *     the projected `plain` value and fixed, locale-independent `en-US`
+                 *     collation with numeric comparison and upper-case before lower-case.
+                 *     Numbers compare numerically, checkboxes order `false` before `true`, and
+                 *     select values use configured option order. Date-only values compare
+                 *     chronologically; datetime values compare as absolute UTC instants.
+                 *     For hyperlinks, each link's key is its non-empty label or, when the
+                 *     label is absent or empty, its URL. A multi-link value uses the minimum
+                 *     link key under the same fixed string collation. AI Summary and all
+                 *     dependency-backed field types are not sortable.
+                 */
+                sort?: string;
+                /**
+                 * @description Filters entries by field value. Bracket-scoped on field ID, for example
+                 *     `filter[fieldId]=value`. The grammar forms are:
+                 *     - `filter[fieldId]=value` (implicit equality)
+                 *     - `filter[fieldId]=eq:value` (explicit equality)
+                 *     - `filter[fieldId]=in:value1,value2`
+                 *     - `filter[fieldId]=$empty`
+                 *     - `filter[fieldId][gte|lte|gt|lt]=value` (date and number fields only)
+                 *
+                 *     The supported capability matrix is:
+                 *
+                 *     | Field type | Operators |
+                 *     | --- | --- |
+                 *     | `text` | `eq`, `$empty` |
+                 *     | `number` | `eq`, `in`, `gte`, `lte`, `gt`, `lt`, `$empty` |
+                 *     | `checkbox` | `eq` |
+                 *     | `date` | `eq`, `gte`, `lte`, `gt`, `lt`, `$empty` |
+                 *     | `select` | `eq`, `in`, `$empty` |
+                 *     | `user`, `pageLink`, `jiraIssue`, `entryLink` | `eq`, `in`, `$empty` |
+                 *     | `attachment` | `$empty` only |
+                 *     | all other field types | not filterable |
+                 *
+                 *     Bare equality and `eq:` use projected scalar identifiers; `in:` uses
+                 *     a comma-separated list of those identifiers. Text and reference-field
+                 *     values remain strings even when they resemble booleans, `null`,
+                 *     numbers, operators, or sentinels. Checkbox accepts only boolean
+                 *     equality, and an unset checkbox is treated as `false`. Date values
+                 *     must match the field's `includesTime` mode: `YYYY-MM-DD` for a
+                 *     date-only field, or an offset-bearing datetime for a datetime field.
+                 *     Number values are canonical finite decimals.
+                 *
+                 *     An initial `<prefix>:` is operator-like only when the colon is not
+                 *     immediately followed by `/`, so a URL such as `https://example.com`
+                 *     is an ordinary bare literal. A recognized leading `eq:` or `in:`
+                 *     selects that operator; any unknown operator-like prefix is an
+                 *     unsupported operator. Use explicit equality to escape a literal
+                 *     containing such a prefix, for example `eq:foo:bar`. A leading `$` is
+                 *     reserved for sentinels: `$empty` is accepted only where the matrix
+                 *     lists it, while `eq:$value` compares the literal string `$value`. An
+                 *     unknown bare `$...` value returns `INVALID_FILTER`. The `in:` syntax
+                 *     treats every comma as a value delimiter and provides no escaping for
+                 *     commas within a member. Use equality for a single comma-bearing
+                 *     literal; such a literal cannot be included as one member of a
+                 *     multi-value `in:` expression. An unknown operator, or an operator
+                 *     unsupported by the referenced field type, returns
+                 *     `UNSUPPORTED_FILTER_OPERATOR`. A field type with no filtering support
+                 *     returns `FIELD_NOT_FILTERABLE`.
+                 *
+                 *     Note: This two-level nesting pattern is not represented portably
+                 *     across OpenAPI generators. Consumers may need to construct the
+                 *     bracket-scoped parameter names explicitly.
+                 */
+                filter?: {
+                    [key: string]: unknown;
+                };
+            };
+            header?: {
+                /**
+                 * @description One or more entity tags previously returned for this exact request URL.
+                 *     A matching strong or weak validator returns `304` with no response body.
+                 */
+                "If-None-Match"?: components["parameters"]["DatabaseIfNoneMatchParameter"];
+            };
+            path: {
+                /**
+                 * @description The Confluence content ID of the database, represented as an ASCII decimal-digit string.
+                 * @example 12345
+                 */
+                id: components["parameters"]["DatabaseIdParameter"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the requested database entries are returned. */
+            200: {
+                headers: {
+                    "Atl-Database-Version": components["headers"]["AtlDatabaseVersion"];
+                    "Cache-Control": components["headers"]["DatabaseCacheControl"];
+                    ETag: components["headers"]["DatabaseEtag"];
+                    Link: components["headers"]["DatabaseNextLink"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DatabaseEntryListResponse"];
+                };
+            };
+            304: components["responses"]["DatabaseNotModified"];
+            400: components["responses"]["DatabaseEntriesBadRequest"];
+            401: components["responses"]["DatabaseUnauthorized"];
+            403: components["responses"]["DatabaseForbidden"];
+            404: components["responses"]["DatabaseNotFound"];
+            413: components["responses"]["DatabaseTooLarge"];
+            429: components["responses"]["DatabaseRateLimited"];
+            502: components["responses"]["DatabaseBadGateway"];
+            503: components["responses"]["DatabaseServiceUnavailable"];
+            504: components["responses"]["DatabaseGatewayTimeout"];
+        };
+    };
+    getDatabaseEntryById: {
+        parameters: {
+            query?: never;
+            header?: {
+                /**
+                 * @description One or more entity tags previously returned for this exact request URL.
+                 *     A matching strong or weak validator returns `304` with no response body.
+                 */
+                "If-None-Match"?: components["parameters"]["DatabaseIfNoneMatchParameter"];
+            };
+            path: {
+                /**
+                 * @description The Confluence content ID of the database, represented as an ASCII decimal-digit string.
+                 * @example 12345
+                 */
+                id: components["parameters"]["DatabaseIdParameter"];
+                /** @description The ID of the entry to be returned. */
+                entryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returned if the requested database entry is returned. */
+            200: {
+                headers: {
+                    "Atl-Database-Version": components["headers"]["AtlDatabaseVersion"];
+                    "Cache-Control": components["headers"]["DatabaseCacheControl"];
+                    ETag: components["headers"]["DatabaseEtag"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DatabaseEntrySingleResponse"];
+                };
+            };
+            304: components["responses"]["DatabaseNotModified"];
+            401: components["responses"]["DatabaseUnauthorized"];
+            403: components["responses"]["DatabaseForbidden"];
+            404: components["responses"]["DatabaseEntryNotFound"];
+            413: components["responses"]["DatabaseTooLarge"];
+            429: components["responses"]["DatabaseRateLimited"];
+            502: components["responses"]["DatabaseBadGateway"];
+            503: components["responses"]["DatabaseServiceUnavailable"];
+            504: components["responses"]["DatabaseGatewayTimeout"];
         };
     };
     createSmartLink: {
@@ -13887,7 +17284,7 @@ export interface operations {
                 /** @description Filter the results to spaces based on their type. */
                 type?: "global" | "collaboration" | "knowledge_base" | "personal" | "system" | "onboarding" | "xflow_sample_space";
                 /** @description Filter the results to spaces based on their status. */
-                status?: "current" | "archived";
+                status?: "current" | "archived" | "trashed";
                 /** @description Filter the results to spaces based on their labels. Multiple labels can be specified as a comma-separated list. */
                 labels?: string[];
                 /** @description Filter the results to spaces favorited by the user with the specified account ID. */

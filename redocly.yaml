@@ -8,6 +8,10 @@ apis:
     root: https://developer.atlassian.com/cloud/assets/swagger.v3.json
     x-openapi-ts:
       output: ./src/assets/types.ts
+  automation:
+    root: https://dac-static.atlassian.com/cloud/automation/swagger.v3.json
+    x-openapi-ts:
+      output: ./src/automation/types.ts
   bitbucket:
     root: https://dac-static.atlassian.com/cloud/bitbucket/swagger.v3.json
     x-openapi-ts:

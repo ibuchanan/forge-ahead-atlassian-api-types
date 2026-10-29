@@ -583,44 +583,7 @@ export interface paths {
         get?: never;
         put?: never;
         /** @description This API provides the total count of objects that match a specified AQL query. Please note that this operation may incur performance latency. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    /**
-                     * @example {
-                     *       "qlQuery": "objectType = Office AND Name LIKE SYD"
-                     *     }
-                     */
-                    "application/json": components["schemas"]["ObjectAQLTotalCountParams"];
-                };
-            };
-            responses: {
-                /** @description An integer representing the total count for a given AQL */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        /**
-                         * @example {
-                         *       "totalCount": 5
-                         *     }
-                         */
-                        "application/json": components["schemas"]["ObjectAQLTotalCountResult"];
-                    };
-                };
-                400: components["responses"]["trait_badRequest_400"];
-                403: components["responses"]["trait_requirePermission_403"];
-                429: components["responses"]["trait_rateLimit500PerMinute_429"];
-                500: components["responses"]["trait_internalServerError_500"];
-            };
-        };
+        post: operations["countObjectsByAql"];
         delete?: never;
         options?: never;
         head?: never;
@@ -749,9 +712,9 @@ export interface paths {
     "/objectschema/{id}/objecttypes/flat": {
         parameters: {
             query?: {
-                /** @description Object Type Names to search for */
-                query?: boolean;
-                /** @description Exclude objects with this name */
+                /** @description A case-insensitive query used to filter object types whose name or display name starts with the value */
+                query?: string;
+                /** @description Exclude object types whose name or display name exactly matches this value, ignoring case */
                 exclude?: string;
                 /** @description If true, the objectCount attribute is populated for each object type */
                 includeObjectCounts?: boolean;
@@ -1405,6 +1368,7 @@ export interface components {
             globalId: string;
             id: string;
             name: string;
+            displayName?: string;
             objectSchemaKey: string;
             description?: string;
             /** @description Always 'Ok' */
@@ -1423,6 +1387,7 @@ export interface components {
          */
         ObjectSchemaIn: {
             name: string;
+            displayName?: string;
             objectSchemaKey: string;
             description?: string;
         };
@@ -1432,6 +1397,7 @@ export interface components {
          */
         ObjectSchemaUpdate: {
             name?: string;
+            displayName?: string;
             objectSchemaKey?: string;
             description?: string;
         };
@@ -1455,6 +1421,7 @@ export interface components {
             globalId: string;
             id: string;
             name: string;
+            displayName?: string;
             description?: string;
             icon: components["schemas"]["Icon"];
             position: number;
@@ -1484,6 +1451,7 @@ export interface components {
             id: string;
             objectType?: components["schemas"]["ObjectType"];
             name?: string;
+            displayName?: string;
             label: boolean;
             /**
              * @description | Value | Description|
@@ -1534,6 +1502,7 @@ export interface components {
          */
         ObjectTypeAttributeCreate: {
             name: string;
+            displayName?: string;
             label?: boolean;
             description?: string;
             /**
@@ -1616,6 +1585,7 @@ export interface components {
          */
         ObjectTypeAttributeUpdate: {
             name?: string;
+            displayName?: string;
             label?: boolean;
             description?: string;
             /**
@@ -1690,6 +1660,7 @@ export interface components {
          */
         ObjectTypeIn: {
             name: string;
+            displayName?: string;
             description?: string;
             iconId: string;
             objectSchemaId: string;
@@ -1705,6 +1676,7 @@ export interface components {
          */
         ObjectTypeUpdate: {
             name?: string;
+            displayName?: string;
             description?: string;
             iconId?: string;
             /** @description Describes if this object type is configured for inheritance i.e. it's children inherits the attributes of this object type */
@@ -1758,6 +1730,7 @@ export interface components {
             globalId: string;
             id?: string;
             name: string;
+            displayName?: string;
             description?: string;
             color?: string;
             url16?: string;
@@ -1783,6 +1756,7 @@ export interface components {
         Status: {
             id: string;
             name: string;
+            displayName?: string;
             description?: string;
             /**
              * @description | Name | Value | Color |
@@ -1797,6 +1771,7 @@ export interface components {
         /** ReferenceTypeIn */
         ReferenceTypeIn: {
             name: string;
+            displayName?: string;
             description?: string;
             color?: string;
             objectSchemaId?: string;
@@ -1804,6 +1779,7 @@ export interface components {
         /** StatusIn */
         StatusIn: {
             name: string;
+            displayName?: string;
             description?: string;
             /**
              * @description | Name | Value | Color |
@@ -1872,6 +1848,13 @@ export interface components {
             isDeleted?: boolean;
             lastSeenVersion?: string;
             self?: string;
+        };
+        /** @description Object schema and mapping configuration for an external import. */
+        ImportSchemaAndMapping: {
+            /** @description Object schema and status schema configuration for the import. Object types, child object types, attributes, and statuses support an optional `displayName`; reference attributes support an optional `referenceTypeDisplayName`. */
+            schema?: Record<string, never>;
+            /** @description Object type and attribute mapping configuration for the import. */
+            mapping?: Record<string, never>;
         };
         /**
          * @example {
@@ -2029,7 +2012,7 @@ export interface components {
              * @example {}
              */
             importSpecificConfiguration?: string;
-            /** @description List of object type mappings for this import source */
+            /** @description List of object type mappings for this import source. Object types and object type attributes can include display names. Missing-object configuration can include display names for the selected attribute, target object type, and reference object type. */
             importSourceOTEntries?: {
                 /** @description Import source object type ID */
                 id?: string;
@@ -2055,6 +2038,8 @@ export interface components {
                     id?: string;
                     /** @description Object type name */
                     name?: string;
+                    /** @description Object type display name */
+                    displayName?: string;
                 } | null;
                 /** @description Selector QL query */
                 selectorQlQuery?: string | null;
@@ -2083,10 +2068,12 @@ export interface components {
                         [key: string]: string;
                     };
                 } | null;
-                /** @description List of object type attribute mappings */
+                /** @description List of object type attribute mappings. Entries can include `objectTypeAttributeDisplayName`. */
                 importSourceOTAttrEntries?: {
                     /** @description Attribute mapping ID */
                     id?: string;
+                    /** @description Object type attribute display name */
+                    objectTypeAttributeDisplayName?: string | null;
                 }[] | null;
                 /** @description Whether to ignore case when matching identifiers */
                 matchIdentifierIgnoreCase?: boolean | null;
@@ -2222,7 +2209,8 @@ export interface components {
          *       "perSchemaUsageInfo": [
          *         {
          *           "schemaId": 1,
-         *           "schemaName": "My Schema",
+         *           "schemaName": "hardware-assets",
+         *           "displayName": "Hardware Assets",
          *           "schemaCreatedAt": "2025-01-15T10:30:00Z",
          *           "objectCount": 567
          *         }
@@ -2251,10 +2239,15 @@ export interface components {
              */
             schemaId: number;
             /**
-             * @description The display name of the schema.
-             * @example My Schema
+             * @description The name of the schema.
+             * @example hardware-assets
              */
             schemaName: string;
+            /**
+             * @description The user-facing display name of the schema.
+             * @example Hardware Assets
+             */
+            displayName?: string | null;
             /**
              * Format: date-time
              * @description The timestamp when the schema was created (ISO 8601).
@@ -2401,6 +2394,7 @@ export interface operations {
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *               "id": "23",
                      *               "name": "Office",
+                     *               "displayName": "Office",
                      *               "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *               "icon": {
                      *                 "id": "13",
@@ -2515,6 +2509,7 @@ export interface operations {
                      *                         "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:24",
                      *                         "id": "24",
                      *                         "name": "City",
+                     *                         "displayName": "City",
                      *                         "icon": {
                      *                           "id": "28",
                      *                           "name": "Cottage",
@@ -2559,6 +2554,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:134",
                      *             "id": "134",
                      *             "name": "Key",
+                     *             "displayName": "Key",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 0,
@@ -2583,6 +2579,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:135",
                      *             "id": "135",
                      *             "name": "Name",
+                     *             "displayName": "Name",
                      *             "label": true,
                      *             "description": "The name of the object",
                      *             "defaultType": {
@@ -2610,6 +2607,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:136",
                      *             "id": "136",
                      *             "name": "Created",
+                     *             "displayName": "Created",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -2634,6 +2632,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:137",
                      *             "id": "137",
                      *             "name": "Updated",
+                     *             "displayName": "Updated",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -2658,12 +2657,14 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:144",
                      *             "id": "144",
                      *             "name": "City",
+                     *             "displayName": "Office location",
                      *             "label": false,
                      *             "referenceType": {
                      *               "workspaceId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a",
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:4",
                      *               "id": "4",
                      *               "name": "Reference",
+                     *               "displayName": "Reference",
                      *               "description": "Reference",
                      *               "color": "49a6ed",
                      *               "url16": "https://api.atlassian.com/ex/jira/{cloudId}/jsm/assets/workspace/f1668d0c-828c-470c-b7d1-8c4f48cd345a/v1/config/referencetype/4/image.png?size=16"
@@ -2708,6 +2709,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:265",
                      *             "id": "265",
                      *             "name": "Placeholder",
+                     *             "displayName": "Additional information",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 0,
@@ -2769,6 +2771,7 @@ export interface operations {
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *               "id": "23",
                      *               "name": "Office",
+                     *               "displayName": "Office",
                      *               "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *               "icon": {
                      *                 "id": "13",
@@ -2801,6 +2804,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:134",
                      *             "id": "134",
                      *             "name": "Key",
+                     *             "displayName": "Key",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 0,
@@ -2825,6 +2829,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:135",
                      *             "id": "135",
                      *             "name": "Name",
+                     *             "displayName": "Name",
                      *             "label": true,
                      *             "description": "The name of the object",
                      *             "defaultType": {
@@ -2852,6 +2857,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:136",
                      *             "id": "136",
                      *             "name": "Created",
+                     *             "displayName": "Created",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -2876,6 +2882,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:137",
                      *             "id": "137",
                      *             "name": "Updated",
+                     *             "displayName": "Updated",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -2900,12 +2907,14 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:144",
                      *             "id": "144",
                      *             "name": "City",
+                     *             "displayName": "Office location",
                      *             "label": false,
                      *             "referenceType": {
                      *               "workspaceId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a",
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:4",
                      *               "id": "4",
                      *               "name": "Reference",
+                     *               "displayName": "Reference",
                      *               "description": "Reference",
                      *               "color": "49a6ed",
                      *               "url16": "https://api.atlassian.com/ex/jira/{cloudId}/jsm/assets/workspace/f1668d0c-828c-470c-b7d1-8c4f48cd345a/v1/config/referencetype/4/image.png?size=16"
@@ -2950,6 +2959,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:265",
                      *             "id": "265",
                      *             "name": "Placeholder",
+                     *             "displayName": "Additional information",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 0,
@@ -3214,11 +3224,13 @@ export interface operations {
                  *             {
                  *               "externalId": "object-type/hard-drive",
                  *               "name": "Hard Drive",
+                 *               "displayName": "Storage device",
                  *               "description": "A hard drive found during scanning",
                  *               "attributes": [
                  *                 {
                  *                   "externalId": "object-type-attribute/duid",
                  *                   "name": "DUID",
+                 *                   "displayName": "DUID",
                  *                   "description": "Device Unique Identifier",
                  *                   "type": "text",
                  *                   "label": true,
@@ -3229,6 +3241,7 @@ export interface operations {
                  *                 {
                  *                   "externalId": "object-type-attribute/disk-label",
                  *                   "name": "Disk Label",
+                 *                   "displayName": "Disk Label",
                  *                   "description": "Hard drive label",
                  *                   "type": "text",
                  *                   "minimumCardinality": 1,
@@ -3238,6 +3251,7 @@ export interface operations {
                  *                 {
                  *                   "externalId": "object-type-attribute/status",
                  *                   "name": "HardDriveStatus",
+                 *                   "displayName": "HardDriveStatus",
                  *                   "description": "The hard drive status",
                  *                   "type": "status",
                  *                   "typeValues": [
@@ -3251,11 +3265,13 @@ export interface operations {
                  *                 {
                  *                   "externalId": "object-type/file",
                  *                   "name": "File",
+                 *                   "displayName": "File",
                  *                   "description": "A file present in a hard drive",
                  *                   "attributes": [
                  *                     {
                  *                       "externalId": "object-type-attribute/path",
                  *                       "name": "Path",
+                 *                       "displayName": "Path",
                  *                       "description": "Path of the file",
                  *                       "type": "text",
                  *                       "label": true,
@@ -3266,6 +3282,7 @@ export interface operations {
                  *                     {
                  *                       "externalId": "object-type-attribute/size",
                  *                       "name": "Size",
+                 *                       "displayName": "Size",
                  *                       "description": "Size of the file",
                  *                       "type": "integer",
                  *                       "minimumCardinality": 1,
@@ -3282,6 +3299,7 @@ export interface operations {
                  *           "statuses": [
                  *             {
                  *               "name": "New Status",
+                 *               "displayName": "New Status",
                  *               "description": "",
                  *               "category": "active"
                  *             }
@@ -3347,7 +3365,7 @@ export interface operations {
                  *       }
                  *     }
                  */
-                "application/json": unknown;
+                "application/json": components["schemas"]["ImportSchemaAndMapping"];
             };
         };
         responses: {
@@ -3400,11 +3418,13 @@ export interface operations {
                  *             {
                  *               "externalId": "object-type/hard-drive",
                  *               "name": "Hard Drive",
+                 *               "displayName": "Storage device",
                  *               "description": "A hard drive found during scanning",
                  *               "attributes": [
                  *                 {
                  *                   "externalId": "object-type-attribute/manufacturer",
                  *                   "name": "Manufacturer",
+                 *                   "displayName": "Manufacturer",
                  *                   "description": "Manufacturer name",
                  *                   "type": "text"
                  *                 }
@@ -3413,11 +3433,13 @@ export interface operations {
                  *                 {
                  *                   "externalId": "object-type/folder",
                  *                   "name": "Folder",
+                 *                   "displayName": "Folder",
                  *                   "description": "A folder present in a hard drive",
                  *                   "attributes": [
                  *                     {
                  *                       "externalId": "object-type-attribute/folder-name",
                  *                       "name": "Name",
+                 *                       "displayName": "Name",
                  *                       "description": "Folder name",
                  *                       "type": "text",
                  *                       "label": true
@@ -3427,11 +3449,13 @@ export interface operations {
                  *                 {
                  *                   "externalId": "object-type/file",
                  *                   "name": "File",
+                 *                   "displayName": "File",
                  *                   "description": "A file present in a hard drive",
                  *                   "attributes": [
                  *                     {
                  *                       "externalId": "object-type-attribute/path",
                  *                       "name": "Path",
+                 *                       "displayName": "Path",
                  *                       "description": "Updated description for the path attribute",
                  *                       "type": "text",
                  *                       "label": true
@@ -3495,7 +3519,7 @@ export interface operations {
                  *       }
                  *     }
                  */
-                "application/json": unknown;
+                "application/json": components["schemas"]["ImportSchemaAndMapping"];
             };
         };
         responses: {
@@ -3536,7 +3560,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description The progress of an asynchronous schema and mapping operation */
+            /** @description The progress of an asynchronous schema and mapping operation. When present, `importSource` contains the display-name fields documented by `ImportSourceResponse`. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -3626,10 +3650,12 @@ export interface operations {
                      *             {
                      *               "externalId": "object-type/hard-drive",
                      *               "name": "Hard Drive",
+                     *               "displayName": "Storage device",
                      *               "description": "A hard drive found during scanning",
                      *               "attributes": [
                      *                 {
                      *                   "name": "Key",
+                     *                   "displayName": "Key",
                      *                   "description": "",
                      *                   "type": "text",
                      *                   "label": false,
@@ -3640,6 +3666,7 @@ export interface operations {
                      *                 {
                      *                   "externalId": "object-type-attribute/duid",
                      *                   "name": "DUID",
+                     *                   "displayName": "DUID",
                      *                   "description": "Device Unique Identifier",
                      *                   "type": "text",
                      *                   "label": true,
@@ -3650,6 +3677,7 @@ export interface operations {
                      *                 {
                      *                   "externalId": "object-type-attribute/disk-label",
                      *                   "name": "Disk Label",
+                     *                   "displayName": "Disk Label",
                      *                   "description": "Hard drive label",
                      *                   "type": "text",
                      *                   "label": false,
@@ -3662,10 +3690,12 @@ export interface operations {
                      *                 {
                      *                   "externalId": "object-type/file",
                      *                   "name": "File",
+                     *                   "displayName": "File",
                      *                   "description": "A file present in a hard drive",
                      *                   "attributes": [
                      *                     {
                      *                       "name": "Key",
+                     *                       "displayName": "Key",
                      *                       "description": "",
                      *                       "type": "text",
                      *                       "label": false,
@@ -3676,6 +3706,7 @@ export interface operations {
                      *                     {
                      *                       "externalId": "object-type-attribute/size",
                      *                       "name": "Size",
+                     *                       "displayName": "Size",
                      *                       "description": "Size of the file",
                      *                       "type": "integer",
                      *                       "label": false,
@@ -3686,6 +3717,7 @@ export interface operations {
                      *                     {
                      *                       "externalId": "object-type-attribute/path",
                      *                       "name": "Path",
+                     *                       "displayName": "Path",
                      *                       "description": "Path of the file",
                      *                       "type": "text",
                      *                       "label": true,
@@ -3754,7 +3786,7 @@ export interface operations {
                      *       }
                      *     }
                      */
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ImportSchemaAndMapping"];
                 };
             };
             400: {
@@ -4337,6 +4369,7 @@ export interface operations {
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *               "id": "23",
                      *               "name": "Office",
+                     *               "displayName": "Office",
                      *               "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *               "icon": {
                      *                 "id": "13",
@@ -4451,6 +4484,7 @@ export interface operations {
                      *                         "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:24",
                      *                         "id": "24",
                      *                         "name": "City",
+                     *                         "displayName": "City",
                      *                         "icon": {
                      *                           "id": "28",
                      *                           "name": "Cottage",
@@ -4495,6 +4529,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:134",
                      *             "id": "134",
                      *             "name": "Key",
+                     *             "displayName": "Key",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 0,
@@ -4519,6 +4554,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:135",
                      *             "id": "135",
                      *             "name": "Name",
+                     *             "displayName": "Name",
                      *             "label": true,
                      *             "description": "The name of the object",
                      *             "defaultType": {
@@ -4546,6 +4582,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:136",
                      *             "id": "136",
                      *             "name": "Created",
+                     *             "displayName": "Created",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -4570,6 +4607,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:137",
                      *             "id": "137",
                      *             "name": "Updated",
+                     *             "displayName": "Updated",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -4594,12 +4632,14 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:144",
                      *             "id": "144",
                      *             "name": "City",
+                     *             "displayName": "Office location",
                      *             "label": false,
                      *             "referenceType": {
                      *               "workspaceId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a",
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:4",
                      *               "id": "4",
                      *               "name": "Reference",
+                     *               "displayName": "Reference",
                      *               "description": "Reference",
                      *               "color": "49a6ed",
                      *               "url16": "https://api.atlassian.com/ex/jira/{cloudId}/jsm/assets/workspace/f1668d0c-828c-470c-b7d1-8c4f48cd345a/v1/config/referencetype/4/image.png?size=16",
@@ -4645,6 +4685,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:265",
                      *             "id": "265",
                      *             "name": "Placeholder",
+                     *             "displayName": "Additional information",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 0,
@@ -4706,6 +4747,7 @@ export interface operations {
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *               "id": "23",
                      *               "name": "Office",
+                     *               "displayName": "Office",
                      *               "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *               "icon": {
                      *                 "id": "13",
@@ -4738,6 +4780,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:134",
                      *             "id": "134",
                      *             "name": "Key",
+                     *             "displayName": "Key",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 0,
@@ -4762,6 +4805,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:135",
                      *             "id": "135",
                      *             "name": "Name",
+                     *             "displayName": "Name",
                      *             "label": true,
                      *             "description": "The name of the object",
                      *             "defaultType": {
@@ -4789,6 +4833,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:136",
                      *             "id": "136",
                      *             "name": "Created",
+                     *             "displayName": "Created",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -4813,6 +4858,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:137",
                      *             "id": "137",
                      *             "name": "Updated",
+                     *             "displayName": "Updated",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -4837,12 +4883,14 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:144",
                      *             "id": "144",
                      *             "name": "City",
+                     *             "displayName": "Office location",
                      *             "label": false,
                      *             "referenceType": {
                      *               "workspaceId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a",
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:4",
                      *               "id": "4",
                      *               "name": "Reference",
+                     *               "displayName": "Reference",
                      *               "description": "Reference",
                      *               "color": "49a6ed",
                      *               "url16": "https://api.atlassian.com/ex/jira/{cloudId}/jsm/assets/workspace/f1668d0c-828c-470c-b7d1-8c4f48cd345a/v1/config/referencetype/4/image.png?size=16"
@@ -4887,6 +4935,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:265",
                      *             "id": "265",
                      *             "name": "Placeholder",
+                     *             "displayName": "Additional information",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 0,
@@ -4991,6 +5040,7 @@ export interface operations {
                      *         "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:23",
                      *         "id": "23",
                      *         "name": "Office",
+                     *         "displayName": "Office",
                      *         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *         "icon": {
                      *           "id": "13",
@@ -5021,6 +5071,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:134",
                      *             "id": "134",
                      *             "name": "Key",
+                     *             "displayName": "Key",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 0,
@@ -5060,6 +5111,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:135",
                      *             "id": "135",
                      *             "name": "Name",
+                     *             "displayName": "Name",
                      *             "label": true,
                      *             "description": "The name of the object",
                      *             "defaultType": {
@@ -5102,6 +5154,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:136",
                      *             "id": "136",
                      *             "name": "Created",
+                     *             "displayName": "Created",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -5141,6 +5194,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:137",
                      *             "id": "137",
                      *             "name": "Updated",
+                     *             "displayName": "Updated",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -5180,12 +5234,14 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:144",
                      *             "id": "144",
                      *             "name": "City",
+                     *             "displayName": "Office location",
                      *             "label": false,
                      *             "referenceType": {
                      *               "workspaceId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a",
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:4",
                      *               "id": "4",
                      *               "name": "Reference",
+                     *               "displayName": "Reference",
                      *               "description": "Reference",
                      *               "color": "49a6ed",
                      *               "url16": "https://api.atlassian.com/ex/jira/{cloudId}/jsm/assets/workspace/f1668d0c-828c-470c-b7d1-8c4f48cd345a/v1/config/referencetype/4/image.png?size=16"
@@ -5196,6 +5252,7 @@ export interface operations {
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:24",
                      *               "id": "24",
                      *               "name": "City",
+                     *               "displayName": "City",
                      *               "icon": {
                      *                 "id": "28",
                      *                 "name": "Cottage",
@@ -5371,6 +5428,7 @@ export interface operations {
                      *         "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:23",
                      *         "id": "23",
                      *         "name": "Office",
+                     *         "displayName": "Office",
                      *         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *         "icon": {
                      *           "id": "13",
@@ -5401,6 +5459,7 @@ export interface operations {
                      *             "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:134",
                      *             "id": "134",
                      *             "name": "Key",
+                     *             "displayName": "Key",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 0,
@@ -5440,6 +5499,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:135",
                      *             "id": "135",
                      *             "name": "Name",
+                     *             "displayName": "Name",
                      *             "label": true,
                      *             "description": "The name of the object",
                      *             "defaultType": {
@@ -5482,6 +5542,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:136",
                      *             "id": "136",
                      *             "name": "Created",
+                     *             "displayName": "Created",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -5521,6 +5582,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:137",
                      *             "id": "137",
                      *             "name": "Updated",
+                     *             "displayName": "Updated",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 6,
@@ -5560,12 +5622,14 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:144",
                      *             "id": "144",
                      *             "name": "City",
+                     *             "displayName": "Office location",
                      *             "label": false,
                      *             "referenceType": {
                      *               "workspaceId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a",
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:4",
                      *               "id": "4",
                      *               "name": "Reference",
+                     *               "displayName": "Reference",
                      *               "description": "Reference",
                      *               "color": "49a6ed",
                      *               "url16": "https://api.atlassian.com/ex/jira/{cloudId}/jsm/assets/workspace/f1668d0c-828c-470c-b7d1-8c4f48cd345a/v1/config/referencetype/4/image.png?size=16"
@@ -5576,6 +5640,7 @@ export interface operations {
                      *               "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:24",
                      *               "id": "24",
                      *               "name": "City",
+                     *               "displayName": "City",
                      *               "icon": {
                      *                 "id": "28",
                      *                 "name": "Cottage",
@@ -5674,6 +5739,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:265",
                      *             "id": "265",
                      *             "name": "Placeholder",
+                     *             "displayName": "Additional information",
                      *             "label": false,
                      *             "defaultType": {
                      *               "id": 0,
@@ -5732,6 +5798,15 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Object deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Object"];
+                };
+            };
             400: components["responses"]["trait_badRequest_400"];
             401: components["responses"]["trait_requireAuthentication_401"];
             404: components["responses"]["trait_notFound_404"];
@@ -5885,6 +5960,7 @@ export interface operations {
                      *         "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *         "id": "23",
                      *         "name": "Office",
+                     *         "displayName": "Office",
                      *         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *         "icon": {
                      *           "id": "13",
@@ -5985,6 +6061,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *             "id": "23",
                      *             "name": "Office",
+                     *             "displayName": "Office",
                      *             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *             "icon": {
                      *               "id": "13",
@@ -6099,6 +6176,7 @@ export interface operations {
                      *                       "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:24",
                      *                       "id": "24",
                      *                       "name": "City",
+                     *                       "displayName": "City",
                      *                       "icon": {
                      *                         "id": "28",
                      *                         "name": "Cottage",
@@ -6143,6 +6221,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:134",
                      *           "id": "134",
                      *           "name": "Key",
+                     *           "displayName": "Key",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 0,
@@ -6167,6 +6246,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:135",
                      *           "id": "135",
                      *           "name": "Name",
+                     *           "displayName": "Name",
                      *           "label": true,
                      *           "description": "The name of the object",
                      *           "defaultType": {
@@ -6194,6 +6274,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:136",
                      *           "id": "136",
                      *           "name": "Created",
+                     *           "displayName": "Created",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 6,
@@ -6218,6 +6299,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:137",
                      *           "id": "137",
                      *           "name": "Updated",
+                     *           "displayName": "Updated",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 6,
@@ -6242,12 +6324,14 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:144",
                      *           "id": "144",
                      *           "name": "City",
+                     *           "displayName": "Office location",
                      *           "label": false,
                      *           "referenceType": {
                      *             "workspaceId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a",
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:4",
                      *             "id": "4",
                      *             "name": "Reference",
+                     *             "displayName": "Reference",
                      *             "description": "Reference",
                      *             "color": "49a6ed",
                      *             "url16": "https://api.atlassian.com/ex/jira/{cloudId}/jsm/assets/workspace/f1668d0c-828c-470c-b7d1-8c4f48cd345a/v1/config/referencetype/4/image.png?size=16"
@@ -6258,6 +6342,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:24",
                      *             "id": "24",
                      *             "name": "City",
+                     *             "displayName": "City",
                      *             "icon": {
                      *               "id": "28",
                      *               "name": "Cottage",
@@ -6292,6 +6377,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:265",
                      *           "id": "265",
                      *           "name": "Placeholder",
+                     *           "displayName": "Additional information",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 0,
@@ -6400,6 +6486,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *             "id": "23",
                      *             "name": "Office",
+                     *             "displayName": "Office",
                      *             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *             "icon": {
                      *               "id": "13",
@@ -6514,6 +6601,7 @@ export interface operations {
                      *                       "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:24",
                      *                       "id": "24",
                      *                       "name": "City",
+                     *                       "displayName": "City",
                      *                       "icon": {
                      *                         "id": "28",
                      *                         "name": "Cottage",
@@ -6558,6 +6646,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:134",
                      *           "id": "134",
                      *           "name": "Key",
+                     *           "displayName": "Key",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 0,
@@ -6582,6 +6671,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:135",
                      *           "id": "135",
                      *           "name": "Name",
+                     *           "displayName": "Name",
                      *           "label": true,
                      *           "description": "The name of the object",
                      *           "defaultType": {
@@ -6609,6 +6699,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:136",
                      *           "id": "136",
                      *           "name": "Created",
+                     *           "displayName": "Created",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 6,
@@ -6633,6 +6724,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:137",
                      *           "id": "137",
                      *           "name": "Updated",
+                     *           "displayName": "Updated",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 6,
@@ -6657,12 +6749,14 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:144",
                      *           "id": "144",
                      *           "name": "City",
+                     *           "displayName": "Office location",
                      *           "label": false,
                      *           "referenceType": {
                      *             "workspaceId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a",
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:4",
                      *             "id": "4",
                      *             "name": "Reference",
+                     *             "displayName": "Reference",
                      *             "description": "Reference",
                      *             "color": "49a6ed",
                      *             "url16": "https://api.atlassian.com/ex/jira/{cloudId}/jsm/assets/workspace/f1668d0c-828c-470c-b7d1-8c4f48cd345a/v1/config/referencetype/4/image.png?size=16"
@@ -6673,6 +6767,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:24",
                      *             "id": "24",
                      *             "name": "City",
+                     *             "displayName": "City",
                      *             "icon": {
                      *               "id": "28",
                      *               "name": "Cottage",
@@ -6707,6 +6802,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:265",
                      *           "id": "265",
                      *           "name": "Placeholder",
+                     *           "displayName": "Additional information",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 0,
@@ -6814,6 +6910,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *             "id": "23",
                      *             "name": "Office",
+                     *             "displayName": "Office",
                      *             "type": 0,
                      *             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *             "icon": {
@@ -6929,6 +7026,7 @@ export interface operations {
                      *                       "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:24",
                      *                       "id": "24",
                      *                       "name": "City",
+                     *                       "displayName": "City",
                      *                       "icon": {
                      *                         "id": "28",
                      *                         "name": "Cottage",
@@ -6977,6 +7075,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *             "id": "23",
                      *             "name": "Office",
+                     *             "displayName": "Office",
                      *             "type": 0,
                      *             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *             "icon": {
@@ -6995,6 +7094,7 @@ export interface operations {
                      *             "parentObjectTypeInherited": false
                      *           },
                      *           "name": "Key",
+                     *           "displayName": "Key",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 0,
@@ -7023,6 +7123,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *             "id": "23",
                      *             "name": "Office",
+                     *             "displayName": "Office",
                      *             "type": 0,
                      *             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *             "icon": {
@@ -7041,6 +7142,7 @@ export interface operations {
                      *             "parentObjectTypeInherited": false
                      *           },
                      *           "name": "Name",
+                     *           "displayName": "Name",
                      *           "label": true,
                      *           "description": "The name of the object",
                      *           "defaultType": {
@@ -7072,6 +7174,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *             "id": "23",
                      *             "name": "Office",
+                     *             "displayName": "Office",
                      *             "type": 0,
                      *             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *             "icon": {
@@ -7090,6 +7193,7 @@ export interface operations {
                      *             "parentObjectTypeInherited": false
                      *           },
                      *           "name": "Created",
+                     *           "displayName": "Created",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 6,
@@ -7118,6 +7222,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *             "id": "23",
                      *             "name": "Office",
+                     *             "displayName": "Office",
                      *             "type": 0,
                      *             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *             "icon": {
@@ -7136,6 +7241,7 @@ export interface operations {
                      *             "parentObjectTypeInherited": false
                      *           },
                      *           "name": "Updated",
+                     *           "displayName": "Updated",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 6,
@@ -7164,6 +7270,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *             "id": "23",
                      *             "name": "Office",
+                     *             "displayName": "Office",
                      *             "type": 0,
                      *             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *             "icon": {
@@ -7182,12 +7289,14 @@ export interface operations {
                      *             "parentObjectTypeInherited": false
                      *           },
                      *           "name": "City",
+                     *           "displayName": "Office location",
                      *           "label": false,
                      *           "referenceType": {
                      *             "workspaceId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a",
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:4",
                      *             "id": "4",
                      *             "name": "Reference",
+                     *             "displayName": "Reference",
                      *             "description": "Reference",
                      *             "color": "49a6ed",
                      *             "url16": "https://api.atlassian.com/ex/jira/{cloudId}/jsm/assets/workspace/f1668d0c-828c-470c-b7d1-8c4f48cd345a/v1/config/referencetype/4/image.png?size=16"
@@ -7198,6 +7307,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:24",
                      *             "id": "24",
                      *             "name": "City",
+                     *             "displayName": "City",
                      *             "icon": {
                      *               "id": "28",
                      *               "name": "Cottage",
@@ -7236,6 +7346,7 @@ export interface operations {
                      *             "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:23",
                      *             "id": "23",
                      *             "name": "Office",
+                     *             "displayName": "Office",
                      *             "type": 0,
                      *             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *             "icon": {
@@ -7254,6 +7365,7 @@ export interface operations {
                      *             "parentObjectTypeInherited": false
                      *           },
                      *           "name": "Placeholder",
+                     *           "displayName": "Additional information",
                      *           "label": false,
                      *           "defaultType": {
                      *             "id": 0,
@@ -7282,6 +7394,44 @@ export interface operations {
             400: components["responses"]["trait_badRequest_400"];
             401: components["responses"]["trait_requireAuthentication_401"];
             429: components["responses"]["trait_rateLimit1000PerMinute_429"];
+            500: components["responses"]["trait_internalServerError_500"];
+        };
+    };
+    countObjectsByAql: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "qlQuery": "objectType = Office AND Name LIKE SYD"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ObjectAQLTotalCountParams"];
+            };
+        };
+        responses: {
+            /** @description An integer representing the total count for a given AQL */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "totalCount": 5
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ObjectAQLTotalCountResult"];
+                };
+            };
+            400: components["responses"]["trait_badRequest_400"];
+            403: components["responses"]["trait_requirePermission_403"];
+            429: components["responses"]["trait_rateLimit500PerMinute_429"];
             500: components["responses"]["trait_internalServerError_500"];
         };
     };
@@ -7345,6 +7495,8 @@ export interface operations {
     "Schema - List": {
         parameters: {
             query?: {
+                /** @description A case-insensitive query used to filter object schemas whose name or display name contains the value */
+                query?: string;
                 /** @description The starting index for the next page of results */
                 startAt?: number;
                 /** @description The maximum number of objects to return in this page of results. Actual number of results may be less, for example, if the last page of results is returned. */
@@ -7374,6 +7526,7 @@ export interface operations {
                      *           "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:13",
                      *           "id": "13",
                      *           "name": "Discovery import",
+                     *           "displayName": "Discovery import",
                      *           "objectSchemaKey": "NS",
                      *           "status": "Ok",
                      *           "description": "",
@@ -7388,6 +7541,7 @@ export interface operations {
                      *           "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:6",
                      *           "id": "6",
                      *           "name": "ITSM",
+                     *           "displayName": "ITSM",
                      *           "objectSchemaKey": "ITSM",
                      *           "status": "Ok",
                      *           "created": "2021-02-16T18:04:31.284Z",
@@ -7401,6 +7555,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:1",
                      *           "id": "1",
                      *           "name": "Human Resources",
+                     *           "displayName": "Human Resources",
                      *           "objectSchemaKey": "HR",
                      *           "status": "Ok",
                      *           "created": "2021-02-15T22:05:30.709Z",
@@ -7414,6 +7569,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:27",
                      *           "id": "27",
                      *           "name": "Services",
+                     *           "displayName": "Services",
                      *           "objectSchemaKey": "SVC",
                      *           "status": "Ok",
                      *           "description": "Contains the 'Service' object type and services your site uses across projects.",
@@ -7428,6 +7584,7 @@ export interface operations {
                      *           "globalId": "f1668d0c-828c-470c-b7d1-8c4f48cd345a:30",
                      *           "id": "30",
                      *           "name": "Word life",
+                     *           "displayName": "Word life",
                      *           "objectSchemaKey": "WL",
                      *           "status": "Ok",
                      *           "created": "2021-03-28T23:19:49.290Z",
@@ -7460,6 +7617,7 @@ export interface operations {
                 /**
                  * @example {
                  *       "name": "Computers",
+                 *       "displayName": "Computers",
                  *       "objectSchemaKey": "COMP",
                  *       "description": "The IT department schema"
                  *     }
@@ -7479,6 +7637,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:39",
                      *       "id": "39",
                      *       "name": "Computers",
+                     *       "displayName": "Computers",
                      *       "objectSchemaKey": "COMP",
                      *       "status": "Ok",
                      *       "description": "The IT department schema",
@@ -7519,6 +7678,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:39",
                      *       "id": "39",
                      *       "name": "Computers",
+                     *       "displayName": "Computers",
                      *       "objectSchemaKey": "COMP",
                      *       "status": "Ok",
                      *       "description": "The IT department schema",
@@ -7551,6 +7711,7 @@ export interface operations {
                 /**
                  * @example {
                  *       "name": "Computers",
+                 *       "displayName": "Computers",
                  *       "objectSchemaKey": "COMP",
                  *       "description": "The IT department schema"
                  *     }
@@ -7570,6 +7731,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:39",
                      *       "id": "39",
                      *       "name": "Computers",
+                     *       "displayName": "Computers",
                      *       "objectSchemaKey": "COMP",
                      *       "status": "Ok",
                      *       "description": "The IT department schema",
@@ -7611,6 +7773,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:39",
                      *       "id": "39",
                      *       "name": "Computers",
+                     *       "displayName": "Computers",
                      *       "objectSchemaKey": "COMP",
                      *       "status": "Ok",
                      *       "description": "The IT department schema",
@@ -7636,7 +7799,7 @@ export interface operations {
                 onlyValueEditable?: boolean;
                 /** @description Include the object type with each object type attribute */
                 extended?: boolean;
-                /** @description A query that will be used to filter object type attributes by their name */
+                /** @description A case-insensitive query used to filter object type attributes whose name or display name contains the value */
                 query?: string;
             };
             header?: never;
@@ -7688,6 +7851,7 @@ export interface operations {
                      *         "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:19",
                      *         "id": "19",
                      *         "name": "Employee",
+                     *         "displayName": "Employee",
                      *         "icon": {
                      *           "id": "131",
                      *           "name": "Users",
@@ -7708,6 +7872,7 @@ export interface operations {
                      *         "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:23",
                      *         "id": "23",
                      *         "name": "Office",
+                     *         "displayName": "Office",
                      *         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *         "icon": {
                      *           "id": "13",
@@ -7729,6 +7894,7 @@ export interface operations {
                      *         "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:24",
                      *         "id": "24",
                      *         "name": "City",
+                     *         "displayName": "City",
                      *         "icon": {
                      *           "id": "28",
                      *           "name": "Cottage",
@@ -7757,9 +7923,9 @@ export interface operations {
     "Schema - Find all object types - flat": {
         parameters: {
             query?: {
-                /** @description Object Type Names to search for */
-                query?: boolean;
-                /** @description Exclude objects with this name */
+                /** @description A case-insensitive query used to filter object types whose name or display name starts with the value */
+                query?: string;
+                /** @description Exclude object types whose name or display name exactly matches this value, ignoring case */
                 exclude?: string;
                 /** @description If true, the objectCount attribute is populated for each object type */
                 includeObjectCounts?: boolean;
@@ -7785,6 +7951,7 @@ export interface operations {
                      *         "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:19",
                      *         "id": "19",
                      *         "name": "Employee",
+                     *         "displayName": "Employee",
                      *         "icon": {
                      *           "id": "131",
                      *           "name": "Users",
@@ -7805,6 +7972,7 @@ export interface operations {
                      *         "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:23",
                      *         "id": "23",
                      *         "name": "Office",
+                     *         "displayName": "Office",
                      *         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *         "icon": {
                      *           "id": "13",
@@ -7826,6 +7994,7 @@ export interface operations {
                      *         "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:24",
                      *         "id": "24",
                      *         "name": "City",
+                     *         "displayName": "City",
                      *         "icon": {
                      *           "id": "28",
                      *           "name": "Cottage",
@@ -7873,6 +8042,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:23",
                      *       "id": "23",
                      *       "name": "Office",
+                     *       "displayName": "Office",
                      *       "type": 0,
                      *       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *       "icon": {
@@ -7925,6 +8095,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:23",
                      *       "id": "23",
                      *       "name": "Office",
+                     *       "displayName": "Office",
                      *       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *       "icon": {
                      *         "id": "13",
@@ -7973,6 +8144,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:23",
                      *       "id": "23",
                      *       "name": "Office",
+                     *       "displayName": "Office",
                      *       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *       "icon": {
                      *         "id": "13",
@@ -8004,6 +8176,7 @@ export interface operations {
             query?: {
                 onlyValueEditable?: boolean;
                 orderByName?: boolean;
+                /** @description A comma-separated list of case-insensitive prefixes; an attribute is included when its name or display name starts with any value */
                 query?: string;
                 includeValuesExist?: boolean;
                 excludeParentAttributes?: boolean;
@@ -8064,6 +8237,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:23",
                      *       "id": "23",
                      *       "name": "Office",
+                     *       "displayName": "Office",
                      *       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *       "icon": {
                      *         "id": "13",
@@ -8106,6 +8280,7 @@ export interface operations {
                  *       "objectSchemaId": "6",
                  *       "iconId": "13",
                  *       "name": "Office",
+                 *       "displayName": "Office",
                  *       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex."
                  *     }
                  */
@@ -8124,6 +8299,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:23",
                      *       "id": "23",
                      *       "name": "Office",
+                     *       "displayName": "Office",
                      *       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ex.",
                      *       "icon": {
                      *         "id": "13",
@@ -8164,6 +8340,7 @@ export interface operations {
                 /**
                  * @example {
                  *       "name": "Geolocation",
+                 *       "displayName": "Office coordinates",
                  *       "type": "0",
                  *       "defaultTypeId": "0"
                  *     }
@@ -8183,6 +8360,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:1330",
                      *       "id": "1330",
                      *       "name": "Geolocation",
+                     *       "displayName": "Office coordinates",
                      *       "label": false,
                      *       "defaultType": {
                      *         "id": 0,
@@ -8228,7 +8406,8 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "description": "GPS coordinates of the office"
+                 *       "description": "GPS coordinates of the office",
+                 *       "displayName": "Office coordinates"
                  *     }
                  */
                 "application/json": components["schemas"]["ObjectTypeAttributeUpdate"];
@@ -8246,6 +8425,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:1330",
                      *       "id": "1330",
                      *       "name": "Geolocation",
+                     *       "displayName": "Office coordinates",
                      *       "label": false,
                      *       "defaultType": {
                      *         "id": 0,
@@ -8433,6 +8613,7 @@ export interface operations {
                 /**
                  * @example {
                  *       "name": "Decommissioned",
+                 *       "displayName": "Retired",
                  *       "category": 0,
                  *       "objectSchemaId": "6"
                  *     }
@@ -8452,6 +8633,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:58",
                      *       "id": "58",
                      *       "name": "Decommissioned",
+                     *       "displayName": "Retired",
                      *       "category": 0,
                      *       "objectSchemaId": "6"
                      *     }
@@ -8487,6 +8669,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:58",
                      *       "id": "58",
                      *       "name": "Decommissioned",
+                     *       "displayName": "Retired",
                      *       "category": 0,
                      *       "objectSchemaId": "6"
                      *     }
@@ -8514,6 +8697,7 @@ export interface operations {
                 /**
                  * @example {
                  *       "name": "Decommissioned",
+                 *       "displayName": "Retired",
                  *       "category": 0,
                  *       "objectSchemaId": "6"
                  *     }
@@ -8533,6 +8717,7 @@ export interface operations {
                      *       "globalId": "g2778e1d-939d-581d-c8e2-9d5g59de456b:58",
                      *       "id": "58",
                      *       "name": "Decommissioned",
+                     *       "displayName": "Retired",
                      *       "category": 0,
                      *       "objectSchemaId": "6"
                      *     }
@@ -8609,6 +8794,7 @@ export interface operations {
                 /**
                  * @example {
                  *       "name": "Depends on",
+                 *       "displayName": "Dependency",
                  *       "description": "",
                  *       "color": "42526E",
                  *       "objectSchemaId": "27"
@@ -8627,6 +8813,7 @@ export interface operations {
                      * @example {
                      *       "id": "36",
                      *       "name": "Depends on",
+                     *       "displayName": "Dependency",
                      *       "description": "",
                      *       "color": "42526E",
                      *       "url16": "https://api.atlassian.com/ex/jira/{cloudId}/jsm/assets/workspace/f1668d0c-828c-470c-b7d1-8c4f48cd345a/v1/config/referencetype/36/image.png?size=16",

@@ -1003,8 +1003,17 @@ export interface paths {
         get: operations["getRestrictions"];
         /**
          * Update restrictions
-         * @description Updates restrictions for a piece of content. This removes the existing
-         *     restrictions and replaces them with the restrictions in the request.
+         * @description Updates restrictions for a piece of content. For each operation in the request,
+         *     the supplied `user` and `group` lists replace the corresponding existing lists.
+         *     Omitted operations and omitted user or group lists are preserved. An explicitly
+         *     empty list (`{"results": []}` or `[]`) clears that list.
+         *
+         *     Use `read` for viewing restrictions and `update` for editing restrictions.
+         *     While content remains view restricted, an editor must also be able to view it.
+         *     Removing an editor's `read` restriction while retaining their `update` restriction
+         *     returns `400`. Remove their `update` restriction too, or clear all `read`
+         *     restrictions to remove direct viewing restrictions. Restrictions inherited
+         *     from ancestors still apply.
          *
          *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
          *     Permission to edit the content.
@@ -1012,8 +1021,9 @@ export interface paths {
         put: operations["updateRestrictions"];
         /**
          * Add restrictions
-         * @description Adds restrictions to a piece of content. Note, this does not change any
-         *     existing restrictions on the content.
+         * @description Adds the supplied users and groups to the content's restrictions, preserving
+         *     existing restrictions. Use `read` for viewing restrictions and `update` for
+         *     editing restrictions. Omitted or empty user and group lists add no restrictions.
          *
          *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
          *     Permission to edit the content.
@@ -1164,8 +1174,8 @@ export interface paths {
         post?: never;
         /**
          * Remove user from content restriction
-         * @description Removes a group from a content restriction. That is, remove read or update
-         *     permission for the group for a piece of content.
+         * @description Removes a user from a content restriction. That is, remove read or update
+         *     permission for the user for a piece of content.
          *
          *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
          *     Permission to edit the content.
@@ -1865,8 +1875,10 @@ export interface paths {
          *     a theme set for a space. Note, the default space settings are inherited
          *     from the current global settings.
          *
-         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
-         *     'Admin' permission for the space.
+         *     **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
+         *     [`manage/look-and-feel`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space.
+         *
+         *     **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
          */
         put: operations["updateLookAndFeel"];
         post?: never;
@@ -1894,8 +1906,12 @@ export interface paths {
          *     Note, if a theme is selected for a space, the space look and feel settings
          *     are provided by the theme and cannot be overridden.
          *
-         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
-         *     'Admin' permission for the space.
+         *     **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
+         *
+         *     - If `spaceKey` is specified, [`manage/look-and-feel`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space.
+         *     - If `spaceKey` is omitted, 'Confluence Administrator' global permission.
+         *
+         *     **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
          */
         post: operations["updateLookAndFeelSettings"];
         /**
@@ -1906,8 +1922,12 @@ export interface paths {
          *     are selected. Note, the default space settings are inherited from the
          *     current global settings.
          *
-         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
-         *     'Admin' permission for the space.
+         *     **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
+         *
+         *     - If `spaceKey` is specified, [`manage/look-and-feel`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space.
+         *     - If `spaceKey` is omitted, 'Confluence Administrator' global permission.
+         *
+         *     **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
          */
         delete: operations["resetLookAndFeelSettings"];
         options?: never;
@@ -2194,8 +2214,10 @@ export interface paths {
          * Update space settings
          * @description Updates the settings for a space.
          *
-         *     **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
-         *     'Admin' permission for the space.
+         *     **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
+         *     [`manage/space`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space.
+         *
+         *     **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
          */
         put: operations["updateSpaceSettings"];
         post?: never;
@@ -3868,48 +3890,60 @@ export interface components {
             restrictionsHash: string;
             _links: components["schemas"]["GenericLinks"];
         };
-        ContentRestrictionUpdate: {
+        /** @description A user to restrict. Only the Atlassian Account ID is required. */
+        ContentRestrictionUserInput: {
+            /** @description The Atlassian Account ID of the user. */
+            accountId: string;
             /**
-             * @description The restriction operation applied to content.
+             * @description Optional user type. If supplied, use `known`.
              * @enum {string}
              */
-            operation: "administer" | "copy" | "create" | "delete" | "export" | "move" | "purge" | "purge_version" | "read" | "restore" | "update" | "use";
+            type?: "known";
+        };
+        /** @description A group to restrict. Only the group ID is required. */
+        ContentRestrictionGroupInput: {
+            /** @description The ID of the group. */
+            id: string;
             /**
-             * @description The users/groups that the restrictions will be applied to. At least one of
-             *     `user` or `group` must be specified for this object.
+             * @description Optional group type. If supplied, use `group`.
+             * @enum {string}
+             */
+            type?: "group";
+        };
+        ContentRestrictionUpdate: {
+            /**
+             * @description The operation to restrict. Include each operation at most once per request.
+             * @enum {string}
+             */
+            operation: "read" | "update";
+            /**
+             * @description At least one of `user` or `group` must be supplied. On PUT, a supplied list
+             *     replaces the existing list for this operation and subject type; an empty
+             *     list clears it. Omitted lists are preserved. On POST, supplied lists add
+             *     to existing restrictions and empty lists add nothing.
              */
             restrictions: {
-                /**
-                 * @description The groups that the restrictions will be applied to. This array must
-                 *     have at least one item, otherwise it should be omitted.
-                 */
+                /** @description Users to restrict, as a results object or a plain array. */
+                user?: {
+                    results: components["schemas"]["ContentRestrictionUserInput"][];
+                } | components["schemas"]["ContentRestrictionUserInput"][];
+                /** @description Groups to restrict, as a results object or a plain array. */
                 group?: {
-                    /**
-                     * @description Set to 'group'.
-                     * @enum {string}
-                     */
-                    type: "group";
-                    /** @description The id of the group. */
-                    id?: string;
-                }[];
-                user?: components["schemas"]["User"][] | components["schemas"]["UserArray"];
+                    results: components["schemas"]["ContentRestrictionGroupInput"][];
+                } | components["schemas"]["ContentRestrictionGroupInput"][];
+            } | unknown | unknown;
+            /** @description Optional content reference. If supplied, its ID must match the path parameter. */
+            content?: {
+                /** @description The ID of the content to restrict. */
+                id: string;
             };
-            content?: components["schemas"]["Content"];
         };
+        /**
+         * @description Restrictions to add or update. Supply at least one entry and at most one entry
+         *     per operation. Both the results wrapper and a plain array are accepted.
+         */
         ContentRestrictionAddOrUpdateArray: {
             results: components["schemas"]["ContentRestrictionUpdate"][];
-            /** Format: int32 */
-            start?: number;
-            /** Format: int32 */
-            limit?: number;
-            /** Format: int32 */
-            size?: number;
-            /**
-             * @description This property is used by the UI to figure out whether a set of restrictions
-             *     has changed.
-             */
-            restrictionsHash?: string;
-            _links?: components["schemas"]["GenericLinks"];
         } | components["schemas"]["ContentRestrictionUpdate"][];
         AddContentRestriction: {
             /**
@@ -8143,10 +8177,10 @@ export interface operations {
                  * @description A multi-value parameter indicating which properties of the content
                  *     restrictions (returned in response) to expand.
                  *
-                 *     - `restrictions.user` returns the piece of content that the restrictions are
-                 *     applied to. Expanded by default.
-                 *     - `restrictions.group` returns the piece of content that the restrictions are
-                 *     applied to. Expanded by default.
+                 *     - `restrictions.user` returns the users that the restrictions apply to.
+                 *     Expanded by default.
+                 *     - `restrictions.group` returns the groups that the restrictions apply to.
+                 *     Expanded by default.
                  *     - `content` returns the piece of content that the restrictions are
                  *     applied to.
                  */
@@ -8159,7 +8193,15 @@ export interface operations {
             };
             cookie?: never;
         };
-        /** @description The updated restrictions for the content. */
+        /**
+         * @description Supply a `results` array containing one entry per operation (`read` or `update`).
+         *     Within `restrictions`, identify users by `accountId` and groups by `id`.
+         *     The top-level collection and each user or group collection may also be supplied
+         *     as a plain array instead of an object with a `results` array.
+         *
+         *     User profiles, personal spaces, pagination metadata, `_links`, and `_expandable`
+         *     are not required in the request. The `expand` parameter controls only the response.
+         */
         requestBody: {
             content: {
                 "application/json": components["schemas"]["ContentRestrictionAddOrUpdateArray"];
@@ -8174,6 +8216,23 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ContentRestrictionArray"];
                 };
+            };
+            /**
+             * @description Returned if:
+             *
+             *     - The request is empty, repeats an operation, uses an unsupported operation,
+             *       or specifies invalid users or groups.
+             *     - The resulting restrictions for a supplied operation are nonempty and do not
+             *       include the calling user in the `user` list. Membership in a restricted group
+             *       does not satisfy this check. Callers with super-admin permissions are exempt.
+             *     - An attempt is made to remove an editor's read restriction while retaining
+             *       their update restriction and keeping the content view restricted.
+             */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /**
              * @description Returned if;
@@ -8197,10 +8256,10 @@ export interface operations {
                  * @description A multi-value parameter indicating which properties of the content
                  *     restrictions (returned in response) to expand.
                  *
-                 *     - `restrictions.user` returns the piece of content that the restrictions are
-                 *     applied to. Expanded by default.
-                 *     - `restrictions.group` returns the piece of content that the restrictions are
-                 *     applied to. Expanded by default.
+                 *     - `restrictions.user` returns the users that the restrictions apply to.
+                 *     Expanded by default.
+                 *     - `restrictions.group` returns the groups that the restrictions apply to.
+                 *     Expanded by default.
                  *     - `content` returns the piece of content that the restrictions are
                  *     applied to.
                  */
@@ -8213,7 +8272,15 @@ export interface operations {
             };
             cookie?: never;
         };
-        /** @description The restrictions to be added to the content. */
+        /**
+         * @description Supply a `results` array containing one entry per operation (`read` or `update`).
+         *     Within `restrictions`, identify users by `accountId` and groups by `id`.
+         *     The top-level collection and each user or group collection may also be supplied
+         *     as a plain array instead of an object with a `results` array.
+         *
+         *     User profiles, personal spaces, pagination metadata, `_links`, and `_expandable`
+         *     are not required in the request. The `expand` parameter controls only the response.
+         */
         requestBody: {
             content: {
                 "application/json": components["schemas"]["ContentRestrictionAddOrUpdateArray"];
@@ -8228,6 +8295,18 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ContentRestrictionArray"];
                 };
+            };
+            /**
+             * @description Returned if:
+             *
+             *     - The request is empty, repeats an operation, uses an unsupported operation,
+             *       or specifies invalid users or groups.
+             */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /**
              * @description Returned if;
@@ -8251,10 +8330,10 @@ export interface operations {
                  * @description A multi-value parameter indicating which properties of the content
                  *     restrictions (returned in response) to expand.
                  *
-                 *     - `restrictions.user` returns the piece of content that the restrictions are
-                 *     applied to. Expanded by default.
-                 *     - `restrictions.group` returns the piece of content that the restrictions are
-                 *     applied to. Expanded by default.
+                 *     - `restrictions.user` returns the users that the restrictions apply to.
+                 *     Expanded by default.
+                 *     - `restrictions.group` returns the groups that the restrictions apply to.
+                 *     Expanded by default.
                  *     - `content` returns the piece of content that the restrictions are
                  *     applied to.
                  */
@@ -8316,10 +8395,10 @@ export interface operations {
                  * @description A multi-value parameter indicating which properties of the content
                  *     restrictions to expand.
                  *
-                 *     - `restrictions.user` returns the piece of content that the restrictions are
-                 *     applied to. Expanded by default.
-                 *     - `restrictions.group` returns the piece of content that the restrictions are
-                 *     applied to. Expanded by default.
+                 *     - `restrictions.user` returns the users that the restrictions apply to.
+                 *     Expanded by default.
+                 *     - `restrictions.group` returns the groups that the restrictions apply to.
+                 *     Expanded by default.
                  *     - `content` returns the piece of content that the restrictions are
                  *     applied to.
                  */
@@ -8357,10 +8436,10 @@ export interface operations {
                  * @description A multi-value parameter indicating which properties of the content
                  *     restrictions to expand.
                  *
-                 *     - `restrictions.user` returns the piece of content that the restrictions are
-                 *     applied to. Expanded by default.
-                 *     - `restrictions.group` returns the piece of content that the restrictions are
-                 *     applied to. Expanded by default.
+                 *     - `restrictions.user` returns the users that the restrictions apply to.
+                 *     Expanded by default.
+                 *     - `restrictions.group` returns the groups that the restrictions apply to.
+                 *     Expanded by default.
                  *     - `content` returns the piece of content that the restrictions are
                  *     applied to.
                  */
@@ -8535,7 +8614,7 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Returned if given group id is blank */
+            /** @description The group's ID is blank, or removing its read restriction would leave it with an update restriction while the content remains view restricted. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -8732,6 +8811,13 @@ export interface operations {
              *     body will be empty.
              */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Removing the user's read restriction would leave them with an update restriction while the content remains view restricted. */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };

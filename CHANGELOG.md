@@ -2,7 +2,7 @@
 
 ### 🐛 Bug Fixes
 
-- *(build)* Fix TypeScript module resolution for subpath exports
+- _(build)_ Fix TypeScript module resolution for subpath exports
 
 ## [0.1.1] - 2026-07-19
 

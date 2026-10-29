@@ -256,36 +256,11 @@ export interface paths {
         };
         /**
          * Get a webhook resource
-         * @description Returns the webhook resource or subject types on which webhooks can
-         *     be registered.
-         *
-         *     Each resource/subject type contains an `events` link that returns the
-         *     paginated list of specific events each individual subject type can
-         *     emit.
-         *
-         *     This endpoint is publicly accessible and does not require
-         *     authentication or scopes.
+         * @description Returns the webhook resource or subject types on which webhooks can be registered.
+         *     Each resource/subject type contains an `events` link that returns the paginated list of specific events each individual subject type can emit.
+         *     This endpoint is publicly accessible and does not require authentication or scopes.
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description A mapping of resource/subject types pointing to their individual event types. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["subject_types"];
-                    };
-                };
-            };
-        };
+        get: operations["list_hook_events"];
         put?: never;
         post?: never;
         delete?: never;
@@ -298,125 +273,17 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                /** @description A resource or subject type. */
-                subject_type: "repository" | "workspace";
-            };
-            cookie?: never;
-        };
-        /**
-         * List subscribable webhook types
-         * @description Returns a paginated list of all valid webhook events for the
-         *     specified entity.
-         *     **The team and user webhooks are deprecated, and you should use workspace instead.
-         *     For more information, see [the announcement](https://developer.atlassian.com/cloud/bitbucket/bitbucket-api-teams-deprecation/).**
-         *
-         *     This is public data that does not require any scopes or authentication.
-         *
-         *     NOTE: The example response is a truncated response object for the `workspace` `subject_type`.
-         *     We return the same structure for the other `subject_type` objects.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description A resource or subject type. */
-                    subject_type: "repository" | "workspace";
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description A paginated list of webhook types available to subscribe on. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_hook_events"];
-                    };
-                };
-                /** @description If an invalid `{subject_type}` value was specified. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories": {
-        parameters: {
-            query?: never;
-            header?: never;
             path?: never;
             cookie?: never;
         };
         /**
-         * List public repositories
-         * @deprecated
-         * @description **This endpoint is deprecated. Please use the
-         *     [workspace scoped alternative](/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-get).**
-         *
-         *     Returns a paginated list of all public repositories.
-         *
-         *     This endpoint also supports filtering and sorting of the results. See
-         *     [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details.
+         * List subscribable webhook types
+         * @description Returns a paginated list of all valid webhook events for the specified entity.
+         *     **The team and user webhooks are deprecated, and you should use workspace instead. For more information, see [the announcement](https://developer.atlassian.com/cloud/bitbucket/bitbucket-api-teams-deprecation/).**
+         *     This is public data that does not require any scopes or authentication.
+         *     NOTE: The example response is a truncated response object for the `workspace` `subject_type`. We return the same structure for the other `subject_type` objects.
          */
-        get: {
-            parameters: {
-                query?: {
-                    /**
-                     * @description Filter the results to include only repositories created on or
-                     *     after this [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601)
-                     *      timestamp. Example: `YYYY-MM-DDTHH:mm:ss.sssZ`
-                     */
-                    after?: string;
-                    /**
-                     * @description Filters the result based on the authenticated user's role on each repository.
-                     *
-                     *     * **member**: returns repositories to which the user has explicit read access
-                     *     * **contributor**: returns repositories to which the user has explicit write access
-                     *     * **admin**: returns repositories to which the user has explicit administrator access
-                     *     * **owner**: returns all repositories owned by the current user
-                     */
-                    role?: "admin" | "contributor" | "member" | "owner";
-                    /**
-                     * @description Query string to narrow down the response as per [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering).
-                     *     `role` parameter must also be specified.
-                     */
-                    q?: string;
-                    /** @description Field by which the results should be sorted as per [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering). */
-                    sort?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description All public repositories. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_repositories"];
-                    };
-                };
-            };
-        };
+        get: operations["list_hook_events_for_resource"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2128,18 +1995,27 @@ export interface paths {
         };
         /**
          * Get a commit application property
-         * @description Retrieve an [application property](/cloud/bitbucket/application-properties/) value stored against a commit.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Retrieve an [application property](/cloud/bitbucket/application-properties/) value stored against a commit.
          */
         get: operations["getCommitHostedPropertyValue"];
         /**
          * Update a commit application property
-         * @description Update an [application property](/cloud/bitbucket/application-properties/) value stored against a commit.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Update an [application property](/cloud/bitbucket/application-properties/) value stored against a commit.
          */
         put: operations["updateCommitHostedPropertyValue"];
         post?: never;
         /**
          * Delete a commit application property
-         * @description Delete an [application property](/cloud/bitbucket/application-properties/) value stored against a commit.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Delete an [application property](/cloud/bitbucket/application-properties/) value stored against a commit.
          */
         delete: operations["deleteCommitHostedPropertyValue"];
         options?: never;
@@ -3066,155 +2942,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/components": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * List components
-         * @deprecated
-         * @description Returns the components that have been defined in the issue tracker.
-         *
-         *     This resource is only available on repositories that have the issue
-         *     tracker enabled.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The components that have been defined in the issue tracker. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_components"];
-                    };
-                };
-                /** @description The specified repository does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/components/{component_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The component's id */
-                component_id: number;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get a component for issues
-         * @deprecated
-         * @description Returns the specified issue tracker component object.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The component's id */
-                    component_id: number;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The specified component object. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["component"];
-                    };
-                };
-                /** @description The specified repository or component does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -5156,83 +4883,26 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
+            path?: never;
             cookie?: never;
         };
         /**
          * List webhooks for a repository
          * @description Returns a paginated list of webhooks installed on this repository.
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The paginated list of installed webhooks. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_webhook_subscriptions"];
-                    };
-                };
-                /** @description If the authenticated user does not have permission to access the webhooks. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description If the repository does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        get: operations["list_repository_hooks"];
         put?: never;
         /**
          * Create a webhook for a repository
          * @description Creates a new webhook on the specified repository.
          *
-         *     Example:
+         *     Workspace webhooks are fired for events from all repositories
+         *     contained by that workspace.
          *
+         *     Example:
          *     ```
          *     $ curl -X POST -u credentials -H 'Content-Type: application/json'
-         *       https://api.bitbucket.org/2.0/repositories/my-workspace/my-repo-slug/hooks
+         *       https://api.bitbucket.org/2.0/workspaces/my-workspace/hooks
          *       -d '
          *         {
          *           "description": "Webhook Description",
@@ -5247,70 +4917,21 @@ export interface paths {
          *         }'
          *     ```
          *
-         *     When the `secret` is provided it will be used as the key to generate a HMAC
-         *     digest value sent in the `X-Hub-Signature` header at delivery time. Passing
-         *     a `null` or empty `secret` or not passing a `secret` will leave the webhook's
-         *     secret unset. Bitbucket only generates the `X-Hub-Signature` when the webhook's
+         *     When the `secret` is provided it will be used as the key to
+         *     generate a HMAC digest value sent in the `X-Hub-Signature` header
+         *     at delivery time. Passing a `null` or empty `secret` or not
+         *     passing a `secret` will leave the webhook's secret unset.
+         *     Bitbucket only generates the `X-Hub-Signature` when the webhook's
          *     secret is set.
          *
-         *     Note that this call requires the webhook scope, as well as any scope
+         *     This call requires the webhook scope, as well as any scope
          *     that applies to the events that the webhook subscribes to. In the
          *     example above that means: `webhook`, `repository` and `issue`.
          *
-         *     Also note that the `url` must properly resolve and cannot be an
-         *     internal, non-routed address.
+         *     The `url` must properly resolve and cannot be an internal,
+         *     non-routed address.
          */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description If the webhook was registered successfully. */
-                201: {
-                    headers: {
-                        /** @description The URL of new newly created webhook. */
-                        Location?: string;
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["webhook_subscription"];
-                    };
-                };
-                /** @description If the authenticated user does not have permission to install webhooks on the specified repository. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description If the repository does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        post: operations["create_repository_hook"];
         delete?: never;
         options?: never;
         head?: never;
@@ -5321,69 +4942,15 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /** @description Installed webhook's ID */
-                uid: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
+            path?: never;
             cookie?: never;
         };
         /**
          * Get a webhook for a repository
-         * @description Returns the webhook with the specified id installed on the specified
-         *     repository.
+         * @description Returns the webhook with the specified id installed on the
+         *     specified repository.
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /** @description Installed webhook's ID */
-                    uid: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The webhook subscription object. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["webhook_subscription"];
-                    };
-                };
-                /** @description If the webhook or repository does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        get: operations["get_repository_hook"];
         /**
          * Update a webhook for a repository
          * @description Updates the specified webhook subscription.
@@ -5396,2171 +4963,23 @@ export interface paths {
          *     * `active`
          *     * `events`
          *
-         *     The hook's secret is used as a key to generate the HMAC hex digest sent in the
-         *     `X-Hub-Signature` header at delivery time. This signature is only generated
-         *     when the hook has a secret.
+         *     The hook's secret is used as a key to generate the HMAC hex digest
+         *     sent in the `X-Hub-Signature` header at delivery time. This
+         *     signature is only generated when the hook has a secret.
          *
-         *     Set the hook's secret by passing the new value in the `secret` field. Passing a
-         *     `null` value in the `secret` field will remove the secret from the hook. The
-         *     hook's secret can be left unchanged by not passing the `secret` field in the
-         *     request.
+         *     Set the hook's secret by passing the new value in the `secret`
+         *     field. Passing a `null` value in the `secret` field will remove
+         *     the secret from the hook. The hook's secret can be left unchanged
+         *     by not passing the `secret` field in the request.
          */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /** @description Installed webhook's ID */
-                    uid: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The webhook subscription object. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["webhook_subscription"];
-                    };
-                };
-                /** @description If the authenticated user does not have permission to update the webhook. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description If the webhook or repository does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        put: operations["update_repository_hook"];
         post?: never;
         /**
          * Delete a webhook for a repository
          * @description Deletes the specified webhook subscription from the given
          *     repository.
          */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /** @description Installed webhook's ID */
-                    uid: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description When the webhook was deleted successfully */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description If the authenticated user does not have permission to delete the webhook. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description If the webhook or repository does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * List issues
-         * @deprecated
-         * @description Returns the issues in the issue tracker.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description A paginated list of the issues matching any filter criteria that were provided. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_issues"];
-                    };
-                };
-                /** @description The specified repository does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Create an issue
-         * @deprecated
-         * @description Creates a new issue.
-         *
-         *     This call requires authentication. Private repositories or private
-         *     issue trackers require the caller to authenticate with an account that
-         *     has appropriate authorization.
-         *
-         *     The authenticated user is used for the issue's `reporter` field.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            /** @description The new issue. The only required element is `title`. All other elements can be omitted from the body. */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["issue"];
-                };
-            };
-            responses: {
-                /** @description The newly created issue. */
-                201: {
-                    headers: {
-                        /** @description The (absolute) URL of the newly created issue. */
-                        Location?: string;
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["issue"];
-                    };
-                };
-                /** @description When the request wasn't authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description When the authenticated user isn't authorized to create the issue. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The specified repository does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/export": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Export issues
-         * @deprecated
-         * @description A POST request to this endpoint initiates a new background celery task that archives the repo's issues.
-         *
-         *     When the job has been accepted, it will return a 202 (Accepted) along with a unique url to this job in the
-         *     'Location' response header. This url is the endpoint for where the user can obtain their zip files."
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            /** @description The options to apply to the export. Available options include `project_key` and `project_name` which, if specified, are used as the Jira space key and name in the exported Jira json format. Option `send_email` specifies whether an email should be sent upon export result. Option `include_attachments` specifies whether attachments are included in the export. */
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["export_options"];
-                };
-            };
-            responses: {
-                /** @description The export job has been accepted */
-                202: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description The request wasn't authenticated properly */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description When the authenticated user does not have admin permission on the repo */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The repo does not exist or does not have an issue tracker */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/export/{repo_name}-issues-{task_id}.zip": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The name of the repo */
-                repo_name: string;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /** @description The ID of the export task */
-                task_id: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Check issue export status
-         * @deprecated
-         * @description This endpoint is used to poll for the progress of an issue export
-         *     job and return the zip file after the job is complete.
-         *     As long as the job is running, this will return a 202 response
-         *     with in the response body a description of the current status.
-         *
-         *     After the job has been scheduled, but before it starts executing, the endpoint
-         *     returns a 202 response with status `ACCEPTED`.
-         *
-         *     Once it starts running, it is a 202 response with status `STARTED` and progress filled.
-         *
-         *     After it is finished, it becomes a 200 response with status `SUCCESS` or `FAILURE`.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The name of the repo */
-                    repo_name: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /** @description The ID of the export task */
-                    task_id: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Export job accepted */
-                202: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["issue_job_status"];
-                    };
-                };
-                /** @description The request wasn't authenticated properly */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description When the authenticated user does not have admin permission on the repo */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description No export job has begun */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/import": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Check issue import status
-         * @deprecated
-         * @description When using GET, this endpoint reports the status of the current import task.
-         *
-         *     After the job has been scheduled, but before it starts executing, the endpoint
-         *     returns a 202 response with status `ACCEPTED`.
-         *
-         *     Once it starts running, it is a 202 response with status `STARTED` and progress filled.
-         *
-         *     After it is finished, it becomes a 200 response with status `SUCCESS` or `FAILURE`.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Import job complete with either FAILURE or SUCCESS status */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["issue_job_status"];
-                    };
-                };
-                /** @description Import job started */
-                202: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["issue_job_status"];
-                    };
-                };
-                /** @description The request wasn't authenticated properly */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description When the authenticated user does not have admin permission on the repo */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description No export job has begun */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Import issues
-         * @deprecated
-         * @description A POST request to this endpoint will import the zip file given by the archive parameter into the repository. All
-         *     existing issues will be deleted and replaced by the contents of the imported zip file.
-         *
-         *     Imports are done through a multipart/form-data POST. There is one valid and required form field, with the name
-         *     "archive," which needs to be a file field:
-         *
-         *     ```
-         *     $ curl -u <username> -X POST -F archive=@/path/to/file.zip https://api.bitbucket.org/2.0/repositories/<owner_username>/<repo_slug>/issues/import
-         *     ```
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Import job accepted */
-                202: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["issue_job_status"];
-                    };
-                };
-                /** @description The request wasn't authenticated properly */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description When the authenticated user does not have admin permission on the repo */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description No export job has begun */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description Import already running */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/{issue_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The issue id */
-                issue_id: string;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get an issue
-         * @deprecated
-         * @description Returns the specified issue.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The issue object. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["issue"];
-                    };
-                };
-                /** @description When the authenticated user isn't authorized to access the issue. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The specified repository or issue does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The specified issue is unavailable. */
-                410: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        /**
-         * Update an issue
-         * @deprecated
-         * @description Modifies the issue.
-         *
-         *     ```
-         *     $ curl https://api.bitbucket.org/2.0/repostories/evzijst/dogslow/issues/123 \
-         *       -u evzijst -s -X PUT -H 'Content-Type: application/json' \
-         *       -d '{
-         *       "title": "Updated title",
-         *       "assignee": {
-         *         "account_id": "5d5355e8c6b9320d9ea5b28d"
-         *       },
-         *       "priority": "minor",
-         *       "version": {
-         *         "name": "1.0"
-         *       },
-         *       "component": null
-         *     }'
-         *     ```
-         *
-         *     This example changes the `title`, `assignee`, `priority` and the
-         *     `version`. It also removes the value of the `component` from the issue
-         *     by setting the field to `null`. Any field not present keeps its existing
-         *     value.
-         *
-         *     Each time an issue is edited in the UI or through the API, an immutable
-         *     change record is created under the `/issues/123/changes` endpoint. It
-         *     also has a comment associated with the change.
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The updated issue object. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["issue"];
-                    };
-                };
-                /** @description When the authenticated user isn't authorized to access the issue. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The specified repository or issue does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        /**
-         * Delete an issue
-         * @deprecated
-         * @description Deletes the specified issue. This requires write access to the
-         *     repository.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Indicates the issue was deleted successfully. */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description When the authenticated user isn't authorized to delete the issue. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The specified repository or issue does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/{issue_id}/attachments": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The issue id */
-                issue_id: string;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * List attachments for an issue
-         * @deprecated
-         * @description Returns all attachments for this issue.
-         *
-         *     This returns the files' meta data. This does not return the files'
-         *     actual contents.
-         *
-         *     The files are always ordered by their upload date.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description A paginated list of all attachments for this issue. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_issue_attachments"];
-                    };
-                };
-                /** @description If the issue tracker is private and the request was not authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description The specified repository or issue does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Upload an attachment to an issue
-         * @deprecated
-         * @description Upload new issue attachments.
-         *
-         *     To upload files, perform a `multipart/form-data` POST containing one
-         *     or more file fields.
-         *
-         *     When a file is uploaded with the same name as an existing attachment,
-         *     then the existing file will be replaced.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description An empty response document. */
-                201: {
-                    headers: {
-                        /** @description The URL to the issue's collection of attachments. */
-                        Location?: string;
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description If no files were uploaded, or if the wrong `Content-Type` was used. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description If the issue tracker is private and the request was not authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description The specified repository or issue does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/{issue_id}/attachments/{path}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The issue id */
-                issue_id: string;
-                /** @description Path to the file. */
-                path: string;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get attachment for an issue
-         * @deprecated
-         * @description Returns the contents of the specified file attachment.
-         *
-         *     Note that this endpoint does not return a JSON response, but instead
-         *     returns a redirect pointing to the actual file that in turn will return
-         *     the raw contents.
-         *
-         *     The redirect URL contains a one-time token that has a limited lifetime.
-         *     As a result, the link should not be persisted, stored, or shared.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /** @description Path to the file. */
-                    path: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description A redirect to the file's contents */
-                302: {
-                    headers: {
-                        Location?: string;
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description If the issue tracker is private and the request was not authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description The specified repository or issue does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        /**
-         * Delete an attachment for an issue
-         * @deprecated
-         * @description Deletes an attachment.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /** @description Path to the file. */
-                    path: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Indicates that the deletion was successful */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description If the issue tracker is private and the request was not authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description The specified repository or issue does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/{issue_id}/changes": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The issue id */
-                issue_id: string;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * List changes on an issue
-         * @deprecated
-         * @description Returns the list of all changes that have been made to the specified
-         *     issue. Changes are returned in chronological order with the oldest
-         *     change first.
-         *
-         *     Each time an issue is edited in the UI or through the API, an immutable
-         *     change record is created under the `/issues/123/changes` endpoint. It
-         *     also has a comment associated with the change.
-         *
-         *     Note that this operation is changing significantly, due to privacy changes.
-         *     See the [announcement](https://developer.atlassian.com/cloud/bitbucket/bitbucket-api-changes-gdpr/#changes-to-the-issue-changes-api)
-         *     for details.
-         *
-         *     Changes support [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) that
-         *     can be used to search for specific changes. For instance, to see
-         *     when an issue transitioned to "resolved":
-         *
-         *     ```
-         *     $ curl -s https://api.bitbucket.org/2.0/repositories/site/master/issues/1/changes \
-         *        -G --data-urlencode='q=changes.state.new = "resolved"'
-         *     ```
-         *
-         *     This resource is only available on repositories that have the issue
-         *     tracker enabled.
-         *
-         *     N.B.
-         *
-         *     The `changes.assignee` and `changes.assignee_account_id` fields are not
-         *     a `user` object. Instead, they contain the raw `username` and
-         *     `account_id` of the user. This is to protect the integrity of the audit
-         *     log even after a user account gets deleted.
-         *
-         *     The `changes.assignee` field is deprecated will disappear in the
-         *     future. Use `changes.assignee_account_id` instead.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /**
-                     * @description Query string to narrow down the response. See
-                     *     [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for details.
-                     */
-                    q?: string;
-                    /**
-                     * @description Name of a response property to sort results. See
-                     *     [filtering and sorting](/cloud/bitbucket/rest/intro/#sorting-query-results)
-                     *     for details.
-                     */
-                    sort?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Returns all the issue changes that were made on the specified issue. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_log_entries"];
-                    };
-                };
-                /** @description The specified repository or issue does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Modify the state of an issue
-         * @deprecated
-         * @description Makes a change to the specified issue.
-         *
-         *     For example, to change an issue's state and assignee, create a new
-         *     change object that modifies these fields:
-         *
-         *     ```
-         *     curl https://api.bitbucket.org/2.0/site/master/issues/1234/changes \
-         *       -s -u evzijst -X POST -H "Content-Type: application/json" \
-         *       -d '{
-         *         "changes": {
-         *           "assignee_account_id": {
-         *             "new": "557058:c0b72ad0-1cb5-4018-9cdc-0cde8492c443"
-         *           },
-         *           "state": {
-         *             "new": 'resolved"
-         *           }
-         *         }
-         *         "message": {
-         *           "raw": "This is now resolved."
-         *         }
-         *       }'
-         *     ```
-         *
-         *     The above example also includes a custom comment to go alongside the
-         *     change. This comment will also be visible on the issue page in the UI.
-         *
-         *     The fields of the `changes` object are strings, not objects. This
-         *     allows for immutable change log records, even after user accounts,
-         *     milestones, or other objects recorded in a change entry, get renamed or
-         *     deleted.
-         *
-         *     The `assignee_account_id` field stores the account id. When POSTing a
-         *     new change and changing the assignee, the client should therefore use
-         *     the user's account_id in the `changes.assignee_account_id.new` field.
-         *
-         *     This call requires authentication. Private repositories or private
-         *     issue trackers require the caller to authenticate with an account that
-         *     has appropriate authorization.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            /** @description The new issue state change. The only required elements are `changes.[].new`. All other elements can be omitted from the body. */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["issue_change"];
-                };
-            };
-            responses: {
-                /** @description The newly created issue change. */
-                201: {
-                    headers: {
-                        /** @description The (absolute) URL of the newly created issue change. */
-                        Location?: string;
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["issue_change"];
-                    };
-                };
-                /** @description When the request wasn't authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description When the authenticated user isn't authorized to modify the issue. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The specified repository or issue does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/{issue_id}/changes/{change_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The issue change id */
-                change_id: string;
-                /** @description The issue id */
-                issue_id: string;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get issue change object
-         * @deprecated
-         * @description Returns the specified issue change object.
-         *
-         *     This resource is only available on repositories that have the issue
-         *     tracker enabled.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue change id */
-                    change_id: string;
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The specified issue change object. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["issue_change"];
-                    };
-                };
-                /** @description The specified repository or issue change does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/{issue_id}/comments": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The issue id */
-                issue_id: string;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * List comments on an issue
-         * @deprecated
-         * @description Returns a paginated list of all comments that were made on the
-         *     specified issue.
-         *
-         *     The default sorting is oldest to newest and can be overridden with
-         *     the `sort` query parameter.
-         *
-         *     This endpoint also supports filtering and sorting of the results. See
-         *     [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /**
-                     * @description Query string to narrow down the response as per
-                     *     [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering).
-                     */
-                    q?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description A paginated list of issue comments. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_issue_comments"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Create a comment on an issue
-         * @deprecated
-         * @description Creates a new issue comment.
-         *
-         *     ```
-         *     $ curl https://api.bitbucket.org/2.0/repositories/atlassian/prlinks/issues/42/comments/ \
-         *       -X POST -u evzijst \
-         *       -H 'Content-Type: application/json' \
-         *       -d '{"content": {"raw": "Lorem ipsum."}}'
-         *     ```
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            /** @description The new issue comment object. */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["issue_comment"];
-                };
-            };
-            responses: {
-                /** @description The newly created comment. */
-                201: {
-                    headers: {
-                        /** @description The location of the newly issue comment. */
-                        Location?: string;
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description If the input was invalid, or if the comment being created is detected as spam */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/{issue_id}/comments/{comment_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the comment. */
-                comment_id: number;
-                /** @description The issue id */
-                issue_id: string;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get a comment on an issue
-         * @deprecated
-         * @description Returns the specified issue comment object.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the comment. */
-                    comment_id: number;
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The issue comment. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["issue_comment"];
-                    };
-                };
-            };
-        };
-        /**
-         * Update a comment on an issue
-         * @deprecated
-         * @description Updates the content of the specified issue comment. Note that only
-         *     the `content.raw` field can be modified.
-         *
-         *     ```
-         *     $ curl https://api.bitbucket.org/2.0/repositories/atlassian/prlinks/issues/42/comments/5728901 \
-         *       -X PUT -u evzijst \
-         *       -H 'Content-Type: application/json' \
-         *       -d '{"content": {"raw": "Lorem ipsum."}'
-         *     ```
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the comment. */
-                    comment_id: number;
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            /** @description The updated comment. */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["issue_comment"];
-                };
-            };
-            responses: {
-                /** @description The updated issue comment. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["issue_comment"];
-                    };
-                };
-                /** @description If the input was invalid, or if the update to the comment is detected as spam */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        /**
-         * Delete a comment on an issue
-         * @deprecated
-         * @description Deletes the specified comment.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the comment. */
-                    comment_id: number;
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Indicates successful deletion. */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/{issue_id}/vote": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The issue id */
-                issue_id: string;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Check if current user voted for an issue
-         * @deprecated
-         * @description Check whether the authenticated user has voted for this issue.
-         *     A 204 status code indicates that the user has voted, while a 404
-         *     implies they haven't.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description If the authenticated user has not voted for this issue. */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description When the request wasn't authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description If the authenticated user has not voted for this issue, or when the repo does not exist, or does not have an issue tracker. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        /**
-         * Vote for an issue
-         * @deprecated
-         * @description Vote for this issue.
-         *
-         *     To cast your vote, do an empty PUT. The 204 status code indicates that
-         *     the operation was successful.
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Indicating the authenticated user has cast their vote successfully. */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description When the request wasn't authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The specified repository or issue does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        /**
-         * Remove vote for an issue
-         * @deprecated
-         * @description Retract your vote.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Unexpected error. */
-                default: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/issues/{issue_id}/watch": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The issue id */
-                issue_id: string;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Check if current user is watching a issue
-         * @deprecated
-         * @description Indicated whether or not the authenticated user is watching this
-         *     issue.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description If the authenticated user is watching this issue. */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description When the request wasn't authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description If the authenticated user is not watching this issue, or when the repo does not exist, or does not have an issue tracker. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        /**
-         * Watch an issue
-         * @deprecated
-         * @description Start watching this issue.
-         *
-         *     To start watching this issue, do an empty PUT. The 204 status code
-         *     indicates that the operation was successful.
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Indicates that the authenticated user successfully started watching this issue. */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description When the request wasn't authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description If the authenticated user is not watching this issue, or when the repo does not exist, or does not have an issue tracker. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        /**
-         * Stop watching an issue
-         * @deprecated
-         * @description Stop watching this issue.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The issue id */
-                    issue_id: string;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Indicates that the authenticated user successfully stopped watching this issue. */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description When the request wasn't authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description The specified repository or issue does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        delete: operations["delete_repository_hook"];
         options?: never;
         head?: never;
         patch?: never;
@@ -7662,72 +5081,18 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/repositories/{workspace}/{repo_slug}/milestones": {
+    "/repositories/{workspace}/{repo_slug}/merge-queues": {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
+            path?: never;
             cookie?: never;
         };
         /**
-         * List milestones
-         * @deprecated
-         * @description Returns the milestones that have been defined in the issue tracker.
-         *
-         *     This resource is only available on repositories that have the issue
-         *     tracker enabled.
+         * List merge queues
+         * @description Lists merge queues configured for a repository. Optionally filter by branch.
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The milestones that have been defined in the issue tracker. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_milestones"];
-                    };
-                };
-                /** @description The specified repository does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        get: operations["listMergeQueues"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7736,76 +5101,65 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/repositories/{workspace}/{repo_slug}/milestones/{milestone_id}": {
+    "/repositories/{workspace}/{repo_slug}/merge-queues/{merge_queue_uuid}": {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                /** @description The milestone's id */
-                milestone_id: number;
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
+            path?: never;
             cookie?: never;
         };
         /**
-         * Get a milestone
-         * @deprecated
-         * @description Returns the specified issue tracker milestone object.
+         * Get a merge queue
+         * @description Gets a merge queue by UUID.
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The milestone's id */
-                    milestone_id: number;
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The specified milestone object. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["milestone"];
-                    };
-                };
-                /** @description The specified repository or milestone does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        get: operations["getMergeQueue"];
         put?: never;
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repositories/{workspace}/{repo_slug}/merge-queues/{merge_queue_uuid}/queue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List pullrequests in a merge queue
+         * @description Lists pullrequests currently associated with a merge queue.
+         */
+        get: operations["listMergeQueuePullRequests"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repositories/{workspace}/{repo_slug}/merge-queues/{merge_queue_uuid}/queue/{pullrequest_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a pullrequest in a merge queue
+         * @description Gets a specific pullrequest in a merge queue.
+         */
+        get: operations["getMergeQueuePullRequest"];
+        put?: never;
+        post?: never;
+        /**
+         * Remove a pullrequest from a merge queue
+         * @description Removes a pullrequest from the specified merge queue asynchronously.
+         */
+        delete: operations["removePullRequestFromMergeQueue"];
         options?: never;
         head?: never;
         patch?: never;
@@ -8932,6 +6286,15 @@ export interface paths {
          *     are derived from the JSON equivalent by turning each property into a key-value pair with the JSON path
          *     of the property as the new key.
          *
+         *     ## Optional on-demand query parameters
+         *
+         *     Use `merge_defaults=true` to merge repository-level defaults into the supplied YAML. Pipelines merges
+         *     `image`, `options`, `clone`, `export`, `labels`, and definitions. The supplied YAML still controls
+         *     pipeline steps.
+         *
+         *     Use `target_branch_to_create` to create a branch from the requested branch or commit target before the
+         *     run starts. Pipelines then uses the new branch as the on-demand pipeline target.
+         *
          *     ## Trigger on-demand pipeline for a branch
          *
          *     You can initiate an on-demand pipeline for a specific branch. This branch will be used to determine
@@ -9599,18 +6962,27 @@ export interface paths {
         };
         /**
          * Get a repository application property
-         * @description Retrieve an [application property](/cloud/bitbucket/application-properties/) value stored against a repository.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Retrieve an [application property](/cloud/bitbucket/application-properties/) value stored against a repository.
          */
         get: operations["getRepositoryHostedPropertyValue"];
         /**
          * Update a repository application property
-         * @description Update an [application property](/cloud/bitbucket/application-properties/) value stored against a repository.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Update an [application property](/cloud/bitbucket/application-properties/) value stored against a repository.
          */
         put: operations["updateRepositoryHostedPropertyValue"];
         post?: never;
         /**
          * Delete a repository application property
-         * @description Delete an [application property](/cloud/bitbucket/application-properties/) value stored against a repository.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Delete an [application property](/cloud/bitbucket/application-properties/) value stored against a repository.
          */
         delete: operations["deleteRepositoryHostedPropertyValue"];
         options?: never;
@@ -11275,8 +8647,7 @@ export interface paths {
                 };
                 /**
                  * @description If the authenticated user does not have access to the pull request,
-                 *     if the provided comment is not a top-level comment,
-                 *     or if the comment is not on the diff.
+                 *     or if the provided comment is not a top-level comment.
                  */
                 403: {
                     headers: {
@@ -11753,6 +9124,15 @@ export interface paths {
         /**
          * Merge a pull request
          * @description Merges the pull request.
+         *
+         *     If the destination branch has an active merge queue, the pull request
+         *     is added to the queue instead. The API returns a 202 with a polling
+         *     link to the task-status API in the Location header, even when `async`
+         *     is false. Calling it again on a queued pull request returns the same
+         *     link.
+         *
+         *     Merge queues support the `merge_commit`, `squash` and `rebase_merge`
+         *     strategies. If no strategy is given, the queue's default is used.
          */
         post: {
             parameters: {
@@ -11813,12 +9193,30 @@ export interface paths {
                     };
                     content?: never;
                 };
+                /** @description If the pull request cannot be merged, or its merge queue is not accepting pull requests */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
+                };
                 /** @description Unable to merge because one of the refs involved changed while attempting to merge */
                 409: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content?: never;
+                };
+                /** @description If the merge queue for the destination branch could not be checked. Retry the request later */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
                 };
                 /**
                  * @description If the merge took too long and timed out.
@@ -11911,6 +9309,14 @@ export interface paths {
          *         }
          *     }
          *     ```
+         *
+         *     If the pull request was added to a merge queue, the task reports its
+         *     landing through the queue. A PENDING status is returned while it is in
+         *     the queue, with a `queued_pullrequest` object once the queue has it. A
+         *     SUCCESS status is returned once it merges, and an error if it leaves
+         *     the queue without merging. The error message can contain Markdown.
+         *
+         *     Unknown or expired task IDs return a PENDING status.
          */
         get: {
             parameters: {
@@ -11943,7 +9349,7 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /** @description If the provided task ID does not relate to this pull request, or if something went wrong during the merge operation */
+                /** @description If the provided task ID does not relate to this pull request, if something went wrong during the merge operation, or if the pull request left the merge queue without merging */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -11963,6 +9369,151 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/mergeability/checks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The id of the pull request. */
+                pull_request_id: number;
+                /**
+                 * @description This can either be the repository slug or the UUID of the repository,
+                 *     surrounded by curly-braces, for example: `{repository UUID}`.
+                 */
+                repo_slug: string;
+                /**
+                 * @description This can either be the workspace ID (slug) or the workspace UUID
+                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
+                 */
+                workspace: string;
+            };
+            cookie?: never;
+        };
+        /**
+         * List pull request mergeability checks
+         * @description Returns the mergeability checks Bitbucket performs for this pull request, and whether each one
+         *     currently allows the pull request to be merged - simulating what the merge endpoint checks before
+         *     actually merging.
+         *
+         *     Checks cover pull request state, the current user's merge permissions, Git conflicts, configured
+         *     standard and custom merge checks, and merge queue status when available. Each check's `blocking`
+         *     attribute indicates whether it currently prevents merging. A failed check does not necessarily block a merge.
+         *
+         *     `pullrequest_state_check`, `current_user_permission_check`, and `git_mergeability_check` cover state,
+         *     permission, and Git eligibility. One `standard_merge_check` is included per configured branch/merge
+         *     restriction, and one `custom_pre_merge_check`/`custom_on_merge_check` per activated custom check - both
+         *     omitted entirely, not reported as passing, when not configured. Not exhaustive: conditions Bitbucket can't
+         *     evaluate without attempting the merge (e.g. dependency-merge requirements) aren't included. See
+         *     `PullRequestMergeabilityCheckSchema` for per-check fields, and `q` below to exclude the checks that
+         *     are expensive to evaluate.
+         *
+         *     For repositories with merge queues enabled, a `merge_queue_check` reports queue availability and
+         *     whether the pull request is already queued. It is included for open, non-draft pull requests when the
+         *     destination branch requires queueing, and for already-queued pull requests with a configured queue.
+         *     The check is omitted when no merge queue is configured for the destination branch. When the check is
+         *     present, `merge_queue` contains that configured queue's UUID, name and state. Already-queued pull requests
+         *     return their blocking state check and any applicable queue check, without evaluating Git or other merge checks.
+         *     A failed queue configuration read fails the whole request with `500`, as for custom merge check results.
+         *
+         *     Returns `500` if custom merge checks are configured but their results aren't currently retrievable,
+         *     since the real merge action requires them too and would fail the same way.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Only a limited subset of BBQL is supported here. Checks that are expensive to calculate can be excluded: `type!="git_mergeability_check"` skips Git conflict evaluation, and `check.kind!="maximum_commits_behind"` skips the bounded Git ancestry check behind that standard merge check. Combine both with `AND` (either order). Anything else returns `400 Bad Request`. */
+                    q?: string;
+                };
+                header?: never;
+                path: {
+                    /** @description The id of the pull request. */
+                    pull_request_id: number;
+                    /**
+                     * @description This can either be the repository slug or the UUID of the repository,
+                     *     surrounded by curly-braces, for example: `{repository UUID}`.
+                     */
+                    repo_slug: string;
+                    /**
+                     * @description This can either be the workspace ID (slug) or the workspace UUID
+                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
+                     */
+                    workspace: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description The collection of checks that determine whether the specified pull request can be merged. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["pullrequest_mergeability_checks"];
+                    };
+                };
+                /** @description If `q` is an unsupported filter expression. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
+                };
+                /** @description If the request was not authenticated. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
+                };
+                /** @description If the authenticated user does not have access to the pull request. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
+                };
+                /** @description If the repository or pull request does not exist. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
+                };
+                /** @description If the mergeability request rate limit has been exceeded. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description If activated custom merge check results or enabled merge queue configuration could not be retrieved. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
                 };
             };
         };
@@ -12690,18 +10241,30 @@ export interface paths {
         };
         /**
          * Get a pull request application property
-         * @description Retrieve an [application property](/cloud/bitbucket/application-properties/) value stored against a pull request.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Retrieve an [application property](/cloud/bitbucket/application-properties/) value stored against a pull
+         *     request.
          */
         get: operations["getPullRequestHostedPropertyValue"];
         /**
          * Update a pull request application property
-         * @description Update an [application property](/cloud/bitbucket/application-properties/) value stored against a pull request.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Update an [application property](/cloud/bitbucket/application-properties/) value stored against a pull
+         *     request.
          */
         put: operations["updatePullRequestHostedPropertyValue"];
         post?: never;
         /**
          * Delete a pull request application property
-         * @description Delete an [application property](/cloud/bitbucket/application-properties/) value stored against a pull request.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Delete an [application property](/cloud/bitbucket/application-properties/) value stored against a pull
+         *     request.
          */
         delete: operations["deletePullRequestHostedPropertyValue"];
         options?: never;
@@ -14269,155 +11832,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/repositories/{workspace}/{repo_slug}/versions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * List defined versions for issues
-         * @deprecated
-         * @description Returns the versions that have been defined in the issue tracker.
-         *
-         *     This resource is only available on repositories that have the issue
-         *     tracker enabled.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The versions that have been defined in the issue tracker. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_versions"];
-                    };
-                };
-                /** @description The specified repository does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/repositories/{workspace}/{repo_slug}/versions/{version_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description This can either be the repository slug or the UUID of the repository,
-                 *     surrounded by curly-braces, for example: `{repository UUID}`.
-                 */
-                repo_slug: string;
-                /** @description The version's id */
-                version_id: number;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get a defined version for issues
-         * @deprecated
-         * @description Returns the specified issue tracker version object.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the repository slug or the UUID of the repository,
-                     *     surrounded by curly-braces, for example: `{repository UUID}`.
-                     */
-                    repo_slug: string;
-                    /** @description The version's id */
-                    version_id: number;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The specified version object. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["version"];
-                    };
-                };
-                /** @description The specified repository or version does not exist or does not have the issue tracker enabled. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/repositories/{workspace}/{repo_slug}/watchers": {
         parameters: {
             query?: never;
@@ -14487,67 +11901,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * List snippets
-         * @deprecated
-         * @description **This endpoint is deprecated. Please use the
-         *     [workspace scoped alternative](/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-get).**
-         *
-         *     Returns all snippets. Like pull requests, repositories and workspaces, the
-         *     full set of snippets is defined by what the current user has access to.
-         *
-         *     This includes all snippets owned by any of the workspaces the user is a member of,
-         *     or snippets by other users that the current user is either watching or has collaborated
-         *     on (for instance by commenting on it).
-         *
-         *     To limit the set of returned snippets, apply the
-         *     `?role=[owner|contributor|member]` query parameter where the roles are
-         *     defined as follows:
-         *
-         *     * `owner`: all snippets owned by the current user
-         *     * `contributor`: all snippets owned by, or watched by the current user
-         *     * `member`: created in a workspaces or watched by the current user
-         *
-         *     When no role is specified, all public snippets are returned, as well as all
-         *     privately owned snippets watched or commented on.
-         *
-         *     The returned response is a normal paginated JSON list. This endpoint
-         *     only supports `application/json` responses and no
-         *     `multipart/form-data` or `multipart/related`. As a result, it is not
-         *     possible to include the file contents.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Filter down the result based on the authenticated user's role (`owner`, `contributor`, or `member`). */
-                    role?: "owner" | "contributor" | "member";
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description A paginated list of snippets. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_snippets"];
-                    };
-                };
-                /** @description If the snippet does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        get?: never;
         put?: never;
         /**
          * Create a snippet
@@ -14752,9 +12106,28 @@ export interface paths {
         };
         /**
          * List snippets in a workspace
-         * @description Identical to [`/snippets`](/cloud/bitbucket/rest/api-group-snippets/#api-snippets-get), except that the result is further filtered
-         *     by the snippet owner and only those that are owned by `{workspace}` are
-         *     returned.
+         * @description Returns a paginated list of snippets owned by `{workspace}`.
+         *
+         *     To limit the set of returned snippets, apply the
+         *     `?role=[owner|contributor|member]` query parameter where the roles are
+         *     defined as follows:
+         *
+         *     * `owner`: snippets owned by `{workspace}` that also belong to the current user
+         *         (only returns results when `{workspace}` is the current user's personal workspace)
+         *     * `contributor`: snippets owned by `{workspace}` that the current user is watching,
+         *         plus any owned by `{workspace}` and the current user
+         *     * `member`: all snippets owned by `{workspace}` if the current user is a member,
+         *         otherwise only those the current user is watching
+         *
+         *     When no role is specified, all snippets owned by `{workspace}` are returned.
+         *
+         *     If the current user is not a member of `{workspace}`, only public snippets are
+         *     returned regardless of role.
+         *
+         *     The returned response is a normal paginated JSON list. This endpoint
+         *     only supports `application/json` responses and no
+         *     `multipart/form-data` or `multipart/related`. As a result, it is not
+         *     possible to include the file contents.
          */
         get: {
             parameters: {
@@ -17027,170 +14400,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/user/permissions/repositories": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List repository permissions for a user
-         * @deprecated
-         * @description **This endpoint is deprecated. Please use the
-         *     [workspace scoped alternative](/cloud/bitbucket/rest/api-group-repositories/#api-user-workspaces-workspace-permissions-repositories-get).**
-         *
-         *     Returns an object for each repository the caller has explicit access
-         *     to and their effective permission — the highest level of permission the
-         *     caller has. This does not return public repositories that the user was
-         *     not granted any specific permission in, and does not distinguish between
-         *     explicit and implicit privileges.
-         *
-         *     Permissions can be:
-         *
-         *     * `admin`
-         *     * `write`
-         *     * `read`
-         *
-         *     Results may be further [filtered or sorted](/cloud/bitbucket/rest/intro/#filtering) by
-         *     repository or permission by adding the following query string
-         *     parameters:
-         *
-         *     * `q=repository.name="geordi"` or `q=permission>"read"`
-         *     * `sort=repository.name`
-         *
-         *     Note that the query parameter values need to be URL escaped so that `=`
-         *     would become `%3D`.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /**
-                     * @description Query string to narrow down the response as per
-                     *     [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering).
-                     */
-                    q?: string;
-                    /**
-                     * @description Name of a response property sort the result by as per
-                     *     [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering).
-                     */
-                    sort?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Repository permissions for the repositories a caller has explicit access to. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_repository_permissions"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/user/permissions/workspaces": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List workspaces for the current user
-         * @deprecated
-         * @description **This endpoint is deprecated. Please use the supported alternatives:**
-         *     * [List workspaces for user](/cloud/bitbucket/rest/api-group-workspaces/#api-user-workspaces-get)
-         *     * [Get user permission on a workspace](/cloud/bitbucket/rest/api-group-workspaces/#api-user-workspaces-workspace-permission-get)
-         *
-         *     Returns an object for each workspace the caller is a member of, and
-         *     their effective role - the highest level of privilege the caller has.
-         *     If a user is a member of multiple groups with distinct roles, only the
-         *     highest level is returned.
-         *
-         *     Permissions can be:
-         *
-         *     * `owner`
-         *     * `collaborator`
-         *     * `member`
-         *
-         *     **The `collaborator` role is being removed from the Bitbucket Cloud API. For more information,
-         *     see the [deprecation announcement](/cloud/bitbucket/deprecation-notice-collaborator-role/).**
-         *
-         *     **When you move your administration from Bitbucket Cloud to admin.atlassian.com, the following fields on
-         *     `workspace_membership` will no longer be present: `last_accessed` and `added_on`. See the
-         *     [deprecation announcement](/cloud/bitbucket/announcement-breaking-change-workspace-membership/).**
-         *
-         *     Results may be further [filtered or sorted](/cloud/bitbucket/rest/intro/#filtering) by
-         *     workspace or permission by adding the following query string parameters:
-         *
-         *     * `q=workspace.slug="bbworkspace1"` or `q=permission="owner"`
-         *     * `sort=workspace.slug`
-         *
-         *     Note that the query parameter values need to be URL escaped so that `=`
-         *     would become `%3D`.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /**
-                     * @description Query string to narrow down the response. See
-                     *     [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for details.
-                     */
-                    q?: string;
-                    /**
-                     * @description Name of a response property to sort results. See
-                     *     [filtering and sorting](/cloud/bitbucket/rest/intro/#sorting-query-results)
-                     *     for details.
-                     */
-                    sort?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description All of the workspace memberships for the authenticated user. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_workspace_memberships"];
-                    };
-                };
-                /** @description The request wasn't authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/user/workspaces": {
         parameters: {
             query?: never;
@@ -17849,18 +15058,27 @@ export interface paths {
         };
         /**
          * Get a user application property
-         * @description Retrieve an [application property](/cloud/bitbucket/application-properties/) value stored against a user.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Retrieve an [application property](/cloud/bitbucket/application-properties/) value stored against a user.
          */
         get: operations["retrieveUserHostedPropertyValue"];
         /**
          * Update a user application property
-         * @description Update an [application property](/cloud/bitbucket/application-properties/) value stored against a user.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Update an [application property](/cloud/bitbucket/application-properties/) value stored against a user.
          */
         put: operations["updateUserHostedPropertyValue"];
         post?: never;
         /**
          * Delete a user application property
-         * @description Delete an [application property](/cloud/bitbucket/application-properties/) value stored against a user.
+         * @deprecated
+         * @description This API will be deprecated on January 31, 2027 as part of [end of support for Connect app](https://community.developer.atlassian.com/t/bitbucket-cloud-announcing-connect-end-of-support-timeline-and-next-steps/98760).
+         *
+         *     Delete an [application property](/cloud/bitbucket/application-properties/) value stored against a user.
          */
         delete: operations["deleteUserHostedPropertyValue"];
         options?: never;
@@ -18237,92 +15455,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/workspaces": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List workspaces for user
-         * @deprecated
-         * @description **This endpoint is deprecated. Please use the
-         *     [supported alternative](/cloud/bitbucket/rest/api-group-workspaces/#api-user-workspaces-get).**
-         *
-         *     Returns a list of workspaces accessible by the authenticated user.
-         *
-         *     Results may be further [filtered or sorted](/cloud/bitbucket/rest/intro/#filtering) by
-         *     workspace or permission by adding the following query string parameters:
-         *
-         *     * `q=slug="bbworkspace1"` or `q=is_private=true`
-         *     * `sort=created_on`
-         *
-         *     Note that the query parameter values need to be URL escaped so that `=`
-         *     would become `%3D`.
-         *
-         *     **The `collaborator` role is being removed from the Bitbucket Cloud API. For more information,
-         *     see the [deprecation announcement](/cloud/bitbucket/deprecation-notice-collaborator-role/).**
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /**
-                     * @description Filters the workspaces based on the authenticated user's role on each workspace.
-                     *
-                     *                 * **member**: returns a list of all the workspaces which the caller is a member of
-                     *                     at least one workspace group or repository
-                     *                 * **collaborator**: returns a list of workspaces which the caller has write access
-                     *                     to at least one repository in the workspace
-                     *                 * **owner**: returns a list of workspaces which the caller has administrator access
-                     */
-                    role?: "owner" | "collaborator" | "member";
-                    /**
-                     * @description Query string to narrow down the response. See
-                     *     [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for details.
-                     */
-                    q?: string;
-                    /**
-                     * @description Name of a response property to sort results. See
-                     *     [filtering and sorting](/cloud/bitbucket/rest/intro/#sorting-query-results)
-                     *     for details.
-                     */
-                    sort?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The list of workspaces accessible by the authenticated user. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["paginated_workspaces"];
-                    };
-                };
-                /** @description The request wasn't authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/workspaces/{workspace}": {
         parameters: {
             query?: never;
@@ -18383,7 +15515,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/workspaces/{workspace}/hooks": {
+    "/workspaces/{workspace}/codesearch": {
         parameters: {
             query?: never;
             header?: never;
@@ -18396,11 +15528,200 @@ export interface paths {
             };
             cookie?: never;
         };
+        get?: never;
+        put?: never;
         /**
-         * List webhooks for a workspace
-         * @description Returns a paginated list of webhooks installed on this workspace.
+         * Search code in a workspace
+         * @description Search code across repositories in a workspace.
+         *
+         *     Results are limited to the repositories that the calling user can
+         *     access.
+         *
+         *     #### Supported authentication
+         *
+         *     The endpoint requires a credential that identifies the calling user.
+         *     The following authentication modes are accepted:
+         *
+         *     - Browser session cookie (Bitbucket web UI)
+         *     - Atlassian API token (Basic auth using your email and a scoped API
+         *       token that includes both `repository:read` and `workspace:read`)
+         *     - OAuth 2.0 via Forge or an Atlassian app (3LO or 2LO, with both
+         *       `repository:read` and `workspace:read` granted to the app)
+         *     - Bitbucket repository, project, or workspace access tokens
+         *
+         *     Authentication modes that **do not** identify the user, including
+         *     Atlassian Connect JWT, legacy Bitbucket OAuth not migrated to
+         *     identity, app passwords, and API keys, are rejected with a `403`.
+         *
+         *     #### Request body
+         *
+         *     Requires `Content-Type: application/json`. Anything else returns `415`.
+         *
+         *     `query.search_term` is required. These fields are accepted:
+         *
+         *     - `query.search_term`: non-blank, at most 1024 characters
+         *     - `query.filters`
+         *     - `config.max_results`: a JSON integer (a string or float is rejected),
+         *       1 to 100, default 50
+         *     - `config.search_mode`: `LEXICAL` or omitted
+         *     - `request_id` and `pagination.next_cursor`: see "Pagination"
+         *
+         *     Any other field is ignored.
+         *
+         *     ```json
+         *     {
+         *       "query": {
+         *         "search_term": "logr",
+         *         "filters": { "attribute": "language", "eq": "go" }
+         *       },
+         *       "config": {
+         *         "max_results": 10
+         *       }
+         *     }
+         *     ```
+         *
+         *     #### Search mode
+         *
+         *     This endpoint performs lexical code search only. `config.search_mode`
+         *     is fixed to `LEXICAL` server-side, so callers may omit the field or
+         *     set it explicitly to `LEXICAL`. Any other value returns a `400`.
+         *
+         *     #### Filters
+         *
+         *     Use `query.filters` to narrow a search. For example, to search for
+         *     `logr` only in Go files whose path matches `cmd/*\/main.go`:
+         *
+         *     ```json
+         *     {
+         *       "query": {
+         *         "search_term": "logr",
+         *         "filters": {
+         *           "and": [
+         *             { "attribute": "language", "eq": "go" },
+         *             { "attribute": "path", "wildcard": "cmd/*\/main.go" }
+         *           ]
+         *         }
+         *       }
+         *     }
+         *     ```
+         *
+         *     A filter names an `attribute` and exactly one operator:
+         *
+         *     * `eq` matches a value, and works with every attribute. Values are
+         *       not case-sensitive.
+         *     * `wildcard` matches a pattern, and works only with `path` and
+         *       `repository`. In a pattern, `*` matches any run of characters and `?`
+         *       matches one character. A pattern must match the whole value. On
+         *       `repository` it ignores case, and on `path` it is case-sensitive.
+         *
+         *     Setting both `eq` and `wildcard` on one filter returns `400`.
+         *
+         *     These attributes are supported:
+         *
+         *     * `repository`: a repository slug, such as `my-repo`. Use a wildcard
+         *       such as `my-*` to match every slug that starts with `my-`.
+         *     * `path`: with `eq`, a value such as `src/main` matches any path that
+         *       contains those folder or file names in that order, such as
+         *       `app/src/main/App.java`. Each name must match in full. With
+         *       `wildcard`, the pattern must match the whole file path, such as
+         *       `*\/main.go`.
+         *     * `language`: a language name, such as `go`, `python`, or
+         *       `javascript`. To filter by file extension, use `extension`.
+         *     * `extension`: a file extension without the dot, such as `go` or `py`.
+         *     * `project`: a project key or name.
+         *     * `scm`: the source control host of the repository.
+         *     * `branches`: searches run on the default branch only. Set `branches`
+         *       to `"true"` to search all indexed branches.
+         *     * `forks`: by default, results include repositories that are forks. Set
+         *       `forks` to `"true"` to get results from forks only, or to `"false"` to
+         *       get results from repositories that are not forks.
+         *
+         *     `branches` only accepts the value `"true"`. `branches` and `forks` only
+         *     work when they are the whole of `query.filters`. You cannot combine
+         *     them with other filters.
+         *
+         *     Combine filters with `and`, `or`, and `not`. Filters can nest up to 5
+         *     levels deep, and the workspace filter this endpoint adds uses one of
+         *     them. That leaves 3 levels of `and`, `or`, or `not` around a filter.
+         *     Deeper filters return `400`. This filter uses all 3 levels:
+         *
+         *     ```json
+         *     {
+         *       "and": [
+         *         { "or": [
+         *           { "not": { "attribute": "language", "eq": "python" } }
+         *         ] },
+         *         { "attribute": "extension", "eq": "go" }
+         *       ]
+         *     }
+         *     ```
+         *
+         *     #### Workspace scoping
+         *
+         *     The endpoint always applies a `namespace = <workspace_slug>` filter
+         *     and passes the workspace's wrapped UUID as `scope.workspace_ids`.
+         *     Callers must **not** include a `namespace` filter in `query.filters`
+         *     (anywhere in the tree, including nested AND/OR/NOT). Doing so returns
+         *     `400`. A `scope.workspace_ids` value in the request body is ignored.
+         *     The workspace in the URL always sets the scope.
+         *
+         *     #### Pagination
+         *
+         *     Pagination uses a cursor. To page beyond the first result set, include
+         *     the `id` from the previous response as `request_id`, and the previous
+         *     response's `pagination.next_cursor` as `pagination.next_cursor`.
+         *     `request_id` is required whenever `pagination` is sent. Repeat
+         *     until `pagination.has_more` is `false`.
+         *
+         *     On every page, `query.search_term` and `query.filters` must be the
+         *     same as on the first page, including the order of items inside
+         *     `and`/`or`. A different value returns `400`. `config.max_results` may
+         *     change between pages.
+         *
+         *     ```json
+         *     {
+         *       "query": { "search_term": "logr" },
+         *       "config": { "max_results": 10 },
+         *       "request_id": "550e8400-e29b-41d4-a716-446655440000",
+         *       "pagination": { "next_cursor": "eyJlbnRyaWVzIjpbeyJsZXhpY2FsS2V5Ijoi..." }
+         *     }
+         *     ```
+         *
+         *     #### Response
+         *
+         *     You can rely on these fields:
+         *
+         *     - `id`, `pagination.next_cursor`, `pagination.has_more`
+         *     - `repositories[]`: `url`, `host`, `ns`, `name`
+         *     - `matched_files[]`: `path`, `name`, `language`, `url`, `repositoryId`,
+         *       `version` (the commit hash), `branch_or_tag_name`, `is_default_branch`
+         *     - `matched_files[].matched_chunks[]`: `source_code`, `line_range`,
+         *       `matched_line_numbers`, `matched_ranges`
+         *     - `metadata.total_count`: an approximate size, meaningful on page 1 only
+         *
+         *     `branch_or_tag_name` and `is_default_branch` are left out when not
+         *     known, and `language` can be `null`.
+         *
+         *     Line numbers start at 1, and `line_range.end` is the last line of the
+         *     chunk. Each `matched_ranges` entry is `[line, start_column,
+         *     end_column]`, where `line` is the line number in the file, the columns
+         *     start at 0, and `end_column` is exclusive.
+         *
+         *     `matched_line_numbers` and `matched_ranges` mark where a search term
+         *     appears as a whole word in the chunk. They can be empty even when the
+         *     chunk matched.
+         *
+         *     Other fields can change or be removed without notice, so ignore any
+         *     field not listed here. Treat ids and `pagination.next_cursor` as opaque.
+         *
+         *     Errors from this endpoint, including errors from the search backend, use
+         *     the standard Bitbucket error envelope:
+         *     `{"type": "error", "error": {"message": ..., "code": ...}}`.
+         *     A backend error keeps its status code, except that a backend 5xx is
+         *     returned as `502 Bad Gateway`. The backend's own error code, when there
+         *     is one, is in `error.detail.upstream_code`.
          */
-        get: {
+        post: {
             parameters: {
                 query?: never;
                 header?: never;
@@ -18415,16 +15736,42 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description The paginated list of installed webhooks. */
+                /** @description Search completed successfully. See the Response section for the fields you can rely on. */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
+                    content?: never;
+                };
+                /**
+                 * @description If the search request was invalid due to one of the following reasons:
+                 *
+                 *     * a missing or malformed `query.search_term`, `config`, or `pagination`.
+                 *
+                 *     * a `config.max_results` or `config.search_mode` value that is not allowed.
+                 *
+                 *     * an unsupported filter, a filter nested too deeply, or a `namespace` filter (the namespace is set implicitly by the workspace in the URL).
+                 *
+                 *     * a pagination cursor used with a different `query.search_term` or `query.filters`.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
                     content: {
-                        "application/json": components["schemas"]["paginated_webhook_subscriptions"];
+                        "application/json": components["schemas"]["error"];
                     };
                 };
-                /** @description If the authenticated user is not an owner on the specified workspace. */
+                /** @description The request is not authenticated. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
+                };
+                /** @description The caller is not a member of the workspace (non-members get `403`, as on other workspace endpoints), the authentication mode used to make the request is not supported (see description), or the credential is missing a required scope. */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -18433,8 +15780,35 @@ export interface paths {
                         "application/json": components["schemas"]["error"];
                     };
                 };
-                /** @description If the specified workspace does not exist. */
+                /** @description The workspace does not exist or the feature is not enabled. */
                 404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
+                };
+                /** @description `Content-Type` was not `application/json`. */
+                415: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
+                };
+                /** @description Too many requests, try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["error"];
+                    };
+                };
+                /** @description The search backend returned a server error or an invalid response. */
+                502: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -18444,16 +15818,33 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/workspaces/{workspace}/hooks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List webhooks for a workspace
+         * @description Returns a paginated list of webhooks installed on this workspace.
+         */
+        get: operations["list_workspace_hooks"];
         put?: never;
         /**
          * Create a webhook for a workspace
          * @description Creates a new webhook on the specified workspace.
          *
-         *     Workspace webhooks are fired for events from all repositories contained
-         *     by that workspace.
+         *     Workspace webhooks are fired for events from all repositories
+         *     contained by that workspace.
          *
          *     Example:
-         *
          *     ```
          *     $ curl -X POST -u credentials -H 'Content-Type: application/json'
          *       https://api.bitbucket.org/2.0/workspaces/my-workspace/hooks
@@ -18471,66 +15862,23 @@ export interface paths {
          *         }'
          *     ```
          *
-         *     When the `secret` is provided it will be used as the key to generate a HMAC
-         *     digest value sent in the `X-Hub-Signature` header at delivery time. Passing
-         *     a `null` or empty `secret` or not passing a `secret` will leave the webhook's
-         *     secret unset. Bitbucket only generates the `X-Hub-Signature` when the webhook's
+         *     When the `secret` is provided it will be used as the key to
+         *     generate a HMAC digest value sent in the `X-Hub-Signature` header
+         *     at delivery time. Passing a `null` or empty `secret` or not
+         *     passing a `secret` will leave the webhook's secret unset.
+         *     Bitbucket only generates the `X-Hub-Signature` when the webhook's
          *     secret is set.
          *
          *     This call requires the webhook scope, as well as any scope
          *     that applies to the events that the webhook subscribes to. In the
          *     example above that means: `webhook`, `repository` and `issue`.
          *
-         *     The `url` must properly resolve and cannot be an internal, non-routed address.
+         *     The `url` must properly resolve and cannot be an internal,
+         *     non-routed address.
          *
          *     Only workspace owners can install webhooks on workspaces.
          */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description If the webhook was registered successfully. */
-                201: {
-                    headers: {
-                        /** @description The URL of new newly created webhook. */
-                        Location?: string;
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["webhook_subscription"];
-                    };
-                };
-                /** @description If the authenticated user does not have permission to install webhooks on the specified workspace. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description If the specified workspace does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        post: operations["create_workspace_hook"];
         delete?: never;
         options?: never;
         head?: never;
@@ -18541,59 +15889,15 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                /** @description Installed webhook's ID */
-                uid: string;
-                /**
-                 * @description This can either be the workspace ID (slug) or the workspace UUID
-                 *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                 */
-                workspace: string;
-            };
+            path?: never;
             cookie?: never;
         };
         /**
          * Get a webhook for a workspace
-         * @description Returns the webhook with the specified id installed on the given
-         *     workspace.
+         * @description Returns the webhook with the specified id installed on the
+         *     specified workspace.
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Installed webhook's ID */
-                    uid: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The webhook subscription object. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["webhook_subscription"];
-                    };
-                };
-                /** @description If the webhook or workspace does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        get: operations["get_workspace_hook"];
         /**
          * Update a webhook for a workspace
          * @description Updates the specified webhook subscription.
@@ -18606,110 +15910,23 @@ export interface paths {
          *     * `active`
          *     * `events`
          *
-         *     The hook's secret is used as a key to generate the HMAC hex digest sent in the
-         *     `X-Hub-Signature` header at delivery time. This signature is only generated
-         *     when the hook has a secret.
+         *     The hook's secret is used as a key to generate the HMAC hex digest
+         *     sent in the X-Hub-Signature header at delivery time.
+         *     This signature is only generated when the hook has a secret.
          *
-         *     Set the hook's secret by passing the new value in the `secret` field. Passing a
-         *     `null` value in the `secret` field will remove the secret from the hook. The
-         *     hook's secret can be left unchanged by not passing the `secret` field in the
-         *     request.
+         *     Set the hook's secret by passing the new value in the secret field
+         *     . Passing a null value in the secret field will remove the secret
+         *     from the hook. The hook's secret can be left unchanged by not
+         *     passing the secret field in the request.
          */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Installed webhook's ID */
-                    uid: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The webhook subscription object. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["webhook_subscription"];
-                    };
-                };
-                /** @description If the authenticated user does not have permission to update the webhook. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description If the webhook or workspace does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        put: operations["update_workspace_hook"];
         post?: never;
         /**
          * Delete a webhook for a workspace
-         * @description Deletes the specified webhook subscription from the given workspace.
+         * @description Deletes the specified webhook subscription from the given
+         *     workspace.
          */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Installed webhook's ID */
-                    uid: string;
-                    /**
-                     * @description This can either be the workspace ID (slug) or the workspace UUID
-                     *     surrounded by curly-braces, for example: `{workspace UUID}`.
-                     */
-                    workspace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description When the webhook was deleted successfully */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description If the authenticated user does not have permission to delete the webhook. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-                /** @description If the webhook or workspace does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["error"];
-                    };
-                };
-            };
-        };
+        delete: operations["delete_workspace_hook"];
         options?: never;
         head?: never;
         patch?: never;
@@ -21491,6 +18708,141 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        webhook_subscription: {
+            type: "webhook_subscription";
+        } & (Omit<components["schemas"]["object"], "type"> & ({
+            /** @description The webhook's id. */
+            readonly uuid?: string;
+            /**
+             * Format: uri
+             * @description The URL events get delivered to.
+             */
+            url?: string;
+            /** @description A user-defined description of the webhook. */
+            description?: string;
+            /**
+             * @description The type of entity. Set to either `repository` or `workspace` based on where the subscription is defined.
+             * @enum {string}
+             */
+            readonly subject_type?: "repository" | "workspace";
+            subject?: components["schemas"]["object"];
+            /** @description Whether or not the webhook subscription is enabled. */
+            active?: boolean;
+            /**
+             * Format: date-time
+             * @description The timestamp when the webhook subscription was created.
+             */
+            readonly created_at?: string;
+            /** @description The events this webhook is subscribed to. */
+            events?: ("issue:comment_created" | "issue:created" | "issue:updated" | "pipeline:span_created" | "project:updated" | "pullrequest:approved" | "pullrequest:changes_request_created" | "pullrequest:changes_request_removed" | "pullrequest:comment_created" | "pullrequest:comment_deleted" | "pullrequest:comment_reopened" | "pullrequest:comment_resolved" | "pullrequest:comment_updated" | "pullrequest:created" | "pullrequest:fulfilled" | "pullrequest:push" | "pullrequest:rejected" | "pullrequest:unapproved" | "pullrequest:updated" | "repo:commit_comment_created" | "repo:commit_status_created" | "repo:commit_status_updated" | "repo:created" | "repo:deleted" | "repo:fork" | "repo:imported" | "repo:push" | "repo:transfer" | "repo:updated")[];
+            /** @description Indicates whether or not the hook has an associated secret. It is not possible to see the hook's secret. This field is ignored during updates. */
+            readonly secret_set?: boolean;
+            /** @description The secret to associate with the hook. The secret is never returned via the API. As such, this field is only used during updates. The secret can be set to `null`` or `""`` to remove the secret (or create a hook with no secret). Leaving out the secret field during updates will leave the secret unchanged. Leaving out the secret during creation will create a hook with no secret. */
+            secret?: string;
+            links?: components["schemas"]["webhooks_subscription_links"];
+        } & {
+            [key: string]: unknown;
+        }));
+        /**
+         * Webhooks Links
+         * @description A link to a resource related to this object.
+         */
+        webhooks_subscription_links: {
+            self?: components["schemas"]["webhooks_subscription_link"];
+        } & {
+            [key: string]: unknown;
+        };
+        /** Link */
+        webhooks_subscription_link: {
+            /** Format: uri */
+            href?: string;
+        };
+        /**
+         * Paginated Webhook Subscriptions
+         * @description A paginated list of webhook subscriptions
+         */
+        paginated_webhook_subscriptions: {
+            values?: components["schemas"]["webhook_subscription"][];
+            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
+            pagelen?: number;
+            /**
+             * Format: uri
+             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
+             */
+            next?: string;
+        };
+        /**
+         * Subject Types
+         * @description The mapping of resource/subject types pointing to their individual event types.
+         */
+        subject_types: {
+            repository?: {
+                links?: {
+                    /**
+                     * Link
+                     * @description A link to a resource related to this object.
+                     */
+                    events?: {
+                        /** Format: uri */
+                        href?: string;
+                        name?: string;
+                    };
+                };
+            };
+            workspace?: {
+                links?: {
+                    /**
+                     * Link
+                     * @description A link to a resource related to this object.
+                     */
+                    events?: {
+                        /** Format: uri */
+                        href?: string;
+                        name?: string;
+                    };
+                };
+            };
+        };
+        /**
+         * Hook Event
+         * @description An event, associated with a resource or subject type.
+         */
+        hook_event: {
+            /**
+             * @description The event identifier.
+             * @enum {string}
+             */
+            event?: "issue:comment_created" | "issue:created" | "issue:updated" | "pipeline:span_created" | "project:updated" | "pullrequest:approved" | "pullrequest:changes_request_created" | "pullrequest:changes_request_removed" | "pullrequest:comment_created" | "pullrequest:comment_deleted" | "pullrequest:comment_reopened" | "pullrequest:comment_resolved" | "pullrequest:comment_updated" | "pullrequest:created" | "pullrequest:fulfilled" | "pullrequest:push" | "pullrequest:rejected" | "pullrequest:unapproved" | "pullrequest:updated" | "repo:commit_comment_created" | "repo:commit_status_created" | "repo:commit_status_updated" | "repo:created" | "repo:deleted" | "repo:fork" | "repo:imported" | "repo:push" | "repo:transfer" | "repo:updated";
+            /** @description The category this event belongs to. */
+            category?: string;
+            /** @description Summary of the webhook event type. */
+            label?: string;
+            /** @description More detailed description of the webhook event type. */
+            description?: string;
+        };
+        /**
+         * Paginated Hook Events
+         * @description A paginated list of webhook types available to subscribe on.
+         */
+        paginated_hook_events: {
+            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
+            size?: number;
+            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
+            page?: number;
+            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
+            pagelen?: number;
+            /**
+             * Format: uri
+             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
+             */
+            next?: string;
+            /**
+             * Format: uri
+             * @description Link to previous page if it exists. A collection's first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
+             */
+            previous?: string;
+            values?: components["schemas"]["hook_event"][];
+        };
         /**
          * Application Property
          * @description An application property. It is a caller defined JSON object that Bitbucket will store and return.
@@ -22765,6 +20117,61 @@ export interface components {
             /** @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs. */
             previous?: string;
         };
+        merge_queue: {
+            type: "merge_queue";
+        } & (Omit<components["schemas"]["object"], "type"> & ({
+            /** @description The merge queue UUID. */
+            uuid: string;
+            /** @description The merge queue name. */
+            name: string;
+            /** @description The configuration state returned by the merge queue service. Known values are `ACTIVE`, `PAUSED`, `DRAINING`, `SUSPENDED`, `INACTIVE`, and `UNKNOWN`. `ACTIVE` accepts entries; `PAUSED` accepts entries but pauses landing; `DRAINING` and `SUSPENDED` block entry; `INACTIVE` does not require queueing. Unknown values are returned unchanged and follow the existing queue behavior: only `DRAINING` and `SUSPENDED` block entry. */
+            state: string;
+        } & {
+            [key: string]: unknown;
+        }));
+        /**
+         * Merge Queue Reference
+         * @description A reference to the merge queue holding a pullrequest.
+         */
+        merge_queue_reference: {
+            /** @enum {string} */
+            type?: "merge_queue";
+            /** Format: uuid */
+            uuid?: string;
+        };
+        /** Paginated Merge Queues */
+        paginated_merge_queues: {
+            page?: number;
+            size?: number;
+            pagelen?: number;
+            values?: components["schemas"]["merge_queue"][];
+        };
+        /**
+         * Merge Queue PullRequest Object
+         * @description The pullrequest object in a merge queue.
+         */
+        merge_queue_pullrequest: {
+            /** @enum {string} */
+            type?: "queued_pullrequest";
+            /** @enum {string} */
+            status?: "QUEUED" | "PROCESSING" | "AWAITING_MERGE" | "MERGE_IN_PROGRESS" | "REMOVING" | "UNKNOWN";
+            /** @description The one-based position of the pullrequest in the merge queue. */
+            rank?: number;
+            /** Format: date-time */
+            queued_on?: string;
+            /** Format: date-time */
+            last_activity_on?: string;
+            merge_queue?: components["schemas"]["merge_queue_reference"];
+            pipeline?: components["schemas"]["pipeline"];
+            pullrequest?: components["schemas"]["pullrequest"];
+        };
+        /** Paginated Merge Queue PullRequests */
+        paginated_merge_queue_pullrequests: {
+            page?: number;
+            size?: number;
+            pagelen?: number;
+            values?: components["schemas"]["merge_queue_pullrequest"][];
+        };
         search_code_search_result: {
             readonly type?: string;
             /** Format: int64 */
@@ -22828,26 +20235,6 @@ export interface components {
         } & {
             [key: string]: unknown;
         };
-        /**
-         * Issue Job Status
-         * @description The status of an import or export job
-         */
-        issue_job_status: {
-            type?: string;
-            /**
-             * @description The status of the import/export job
-             * @enum {string}
-             */
-            status?: "ACCEPTED" | "STARTED" | "RUNNING" | "FAILURE";
-            /** @description The phase of the import/export job */
-            phase?: string;
-            /** @description The total number of issues being imported/exported */
-            total?: number;
-            /** @description The total number of issues already imported/exported */
-            count?: number;
-            /** @description The percentage of issues already imported/exported */
-            pct?: number;
-        };
         "bitbucket.apps.permissions.serializers.ProjectPermissionUpdateSchema": {
             /** @enum {string} */
             permission: "read" | "write" | "create-repo" | "admin";
@@ -22855,6 +20242,142 @@ export interface components {
         "bitbucket.apps.permissions.serializers.RepoPermissionUpdateSchema": {
             /** @enum {string} */
             permission: "read" | "write" | "admin";
+        };
+        /**
+         * Pull Request Mergeability Check
+         * @description A mergeability check. The `type` identifies the concrete check and its additional fields.
+         */
+        pullrequest_mergeability_check: {
+            /** @enum {string} */
+            type: "pullrequest_state_check" | "current_user_permission_check" | "git_mergeability_check" | "standard_merge_check" | "custom_pre_merge_check" | "custom_on_merge_check" | "merge_queue_check";
+            /**
+             * @description Whether this check passed. `UNKNOWN` means the check could not be evaluated; it does not establish that the pull request is mergeable.
+             * @enum {string}
+             */
+            status: "PASSED" | "FAILED" | "PENDING" | "SKIPPED" | "UNKNOWN";
+            /** @description Whether this check must pass for the pull request to be mergeable. */
+            required: boolean;
+            /** @description Whether this check is currently preventing the pull request from being merged. */
+            blocking: boolean;
+        } & {
+            [key: string]: unknown;
+        };
+        pullrequest_state_check: {
+            type: "pullrequest_state_check";
+        } & (Omit<components["schemas"]["pullrequest_mergeability_check"], "type"> & ({
+            /** @enum {string} */
+            type: "pullrequest_state_check";
+            /**
+             * @description The public state of the pull request. Note that a queued pull request is reported as `OPEN` here but as `blocking: true`, since it cannot be merged again while a merge is already in progress.
+             * @enum {string}
+             */
+            state: "OPEN" | "DRAFT" | "MERGED" | "DECLINED" | "SUPERSEDED" | "UNKNOWN";
+        } & {
+            [key: string]: unknown;
+        }));
+        current_user_permission_check: {
+            type: "current_user_permission_check";
+        } & (Omit<components["schemas"]["pullrequest_mergeability_check"], "type"> & ({
+            /** @enum {string} */
+            type: "current_user_permission_check";
+        } & {
+            [key: string]: unknown;
+        }));
+        git_mergeability_check: {
+            type: "git_mergeability_check";
+        } & (Omit<components["schemas"]["pullrequest_mergeability_check"], "type"> & ({
+            /** @enum {string} */
+            type: "git_mergeability_check";
+            /**
+             * @description Present when `status` is `PASSED` or `FAILED`: the Git-level outcome for the selected source and destination heads. Omitted when `status` is `UNKNOWN` (Bitbucket could not evaluate Git mergeability, e.g. due to a timeout); this doesn't imply the pull request is conflict-free.
+             * @enum {string}
+             */
+            reason?: "clean" | "conflicts" | "merge_impossible";
+            /** @description Present when this check is blocking: `{'details': {'href': '...'}}`, linking to this pull request's `conflicts` endpoint. */
+            links?: {
+                [key: string]: unknown;
+            };
+        } & {
+            [key: string]: unknown;
+        }));
+        standard_merge_check: {
+            type: "standard_merge_check";
+        } & (Omit<components["schemas"]["pullrequest_mergeability_check"], "type"> & ({
+            /** @enum {string} */
+            type: "standard_merge_check";
+            /** @description Whether merge-check enforcement is currently active for the pull request (a repository-wide setting), not a property of the individual check. */
+            required: boolean;
+            /** @description Whether this check is currently preventing the pull request from being merged. */
+            blocking: boolean;
+            /** @description Identifies which branch-restriction-backed check this is, as `{'type': 'standard_merge_check_definition', 'kind': '...'}`. See `check.kind` in the endpoint documentation for the full list of supported kinds. */
+            check: {
+                [key: string]: unknown;
+            };
+            /** @description The configured threshold for this check, keyed by a check.kind-specific field name (e.g. `{'minimum_approvals': 2}`). The shape varies per `check.kind`. */
+            requirement: {
+                [key: string]: unknown;
+            };
+            /** @description The current observed value for this check, keyed by a check.kind-specific field name (e.g. `{'approval_count': 1}`). The shape varies per `check.kind`. */
+            observed: {
+                [key: string]: unknown;
+            };
+        } & {
+            [key: string]: unknown;
+        }));
+        custom_merge_check: {
+            type: "custom_merge_check";
+        } & (Omit<components["schemas"]["pullrequest_mergeability_check"], "type"> & ({
+            /** @enum {string} */
+            type: "custom_pre_merge_check" | "custom_on_merge_check";
+            /** @description Identifies which custom check this is, as `{'type': 'custom_merge_check_definition', 'id': '...', 'name': '...'}`, where `id` is the ARI of the custom check extension. */
+            check: {
+                [key: string]: unknown;
+            };
+            /** @description Present when a persisted result exists: the persisted custom check result UUID. Omitted for on-merge checks known but not yet triggered. */
+            uuid?: string;
+            /** @description Present when the custom check provides one; omitted when absent. */
+            message?: string;
+        } & {
+            [key: string]: unknown;
+        }));
+        custom_pre_merge_check: {
+            type: "custom_pre_merge_check";
+        } & (Omit<components["schemas"]["custom_merge_check"], "type"> & ({
+            /** @enum {string} */
+            type: "custom_pre_merge_check";
+        } & {
+            [key: string]: unknown;
+        }));
+        custom_on_merge_check: {
+            type: "custom_on_merge_check";
+        } & (Omit<components["schemas"]["custom_merge_check"], "type"> & ({
+            /** @enum {string} */
+            type: "custom_on_merge_check";
+        } & {
+            [key: string]: unknown;
+        }));
+        merge_queue_check: {
+            type: "merge_queue_check";
+        } & (Omit<components["schemas"]["pullrequest_mergeability_check"], "type"> & ({
+            /** @enum {string} */
+            type: "merge_queue_check";
+            /** @description Whether the destination branch currently requires queueing. */
+            required: boolean;
+            /** @description Whether this check is currently preventing the pull request from being merged. */
+            blocking: boolean;
+            /** @description Whether the pull request is already queued, according to its current lifecycle state. */
+            queued: boolean;
+            merge_queue: components["schemas"]["merge_queue"];
+        } & {
+            [key: string]: unknown;
+        }));
+        /**
+         * Pull Request Mergeability Checks
+         * @description The collection of checks that determine whether the specified pull request can be merged. Every check has a `type` identifying its shape - see `pullrequest_state_check`, `current_user_permission_check`, `git_mergeability_check`, `standard_merge_check`, `custom_merge_check`, and `merge_queue_check` for what each type covers.
+         */
+        pullrequest_mergeability_checks: {
+            size?: number;
+            values: components["schemas"]["pullrequest_mergeability_check"][];
         };
         /**
          * Pull Request Task Create
@@ -22920,34 +20443,6 @@ export interface components {
              */
             resolved_on?: string;
             resolved_by?: components["schemas"]["account"];
-        };
-        /**
-         * Subject Types
-         * @description The mapping of resource/subject types pointing to their individual event types.
-         */
-        subject_types: {
-            repository?: {
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                events?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-            };
-            workspace?: {
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                events?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-            };
         };
         /**
          * Error
@@ -23489,375 +20984,6 @@ export interface components {
              */
             previous?: string;
             values?: components["schemas"]["commitstatus"][];
-        };
-        /**
-         * Export Options
-         * @description Options for issue export.
-         */
-        export_options: {
-            type: string;
-            project_key?: string;
-            project_name?: string;
-            send_email?: boolean;
-            include_attachments?: boolean;
-        } & {
-            [key: string]: unknown;
-        };
-        /**
-         * Issue Change
-         * @description An issue change.
-         */
-        issue_change: {
-            type: string;
-            links?: {
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                self?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                issue?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-            };
-            name?: string;
-            /** Format: date-time */
-            created_on?: string;
-            user?: components["schemas"]["account"];
-            issue?: components["schemas"]["issue"];
-            changes?: {
-                assignee?: {
-                    old?: string;
-                    new?: string;
-                };
-                state?: {
-                    old?: string;
-                    new?: string;
-                };
-                title?: {
-                    old?: string;
-                    new?: string;
-                };
-                kind?: {
-                    old?: string;
-                    new?: string;
-                };
-                milestone?: {
-                    old?: string;
-                    new?: string;
-                };
-                component?: {
-                    old?: string;
-                    new?: string;
-                };
-                priority?: {
-                    old?: string;
-                    new?: string;
-                };
-                version?: {
-                    old?: string;
-                    new?: string;
-                };
-                content?: {
-                    old?: string;
-                    new?: string;
-                };
-            };
-            message?: {
-                /** @description The text as it was typed by a user. */
-                raw?: string;
-                /**
-                 * @description The type of markup language the raw content is to be interpreted in.
-                 * @enum {string}
-                 */
-                markup?: "markdown" | "creole" | "plaintext";
-                /** @description The user's content rendered as HTML. */
-                html?: string;
-            };
-        } & {
-            [key: string]: unknown;
-        };
-        issue: {
-            type: "issue";
-        } & (Omit<components["schemas"]["object"], "type"> & ({
-            links?: {
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                self?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                html?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                comments?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                attachments?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                watch?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                vote?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-            };
-            id?: number;
-            repository?: components["schemas"]["repository"];
-            title?: string;
-            reporter?: components["schemas"]["account"];
-            assignee?: components["schemas"]["account"];
-            /** Format: date-time */
-            created_on?: string;
-            /** Format: date-time */
-            updated_on?: string;
-            /** Format: date-time */
-            edited_on?: string;
-            /** @enum {string} */
-            state?: "submitted" | "new" | "open" | "resolved" | "on hold" | "invalid" | "duplicate" | "wontfix" | "closed";
-            /** @enum {string} */
-            kind?: "bug" | "enhancement" | "proposal" | "task";
-            /** @enum {string} */
-            priority?: "trivial" | "minor" | "major" | "critical" | "blocker";
-            milestone?: components["schemas"]["milestone"];
-            version?: components["schemas"]["version"];
-            component?: components["schemas"]["component"];
-            votes?: number;
-            content?: {
-                /** @description The text as it was typed by a user. */
-                raw?: string;
-                /**
-                 * @description The type of markup language the raw content is to be interpreted in.
-                 * @enum {string}
-                 */
-                markup?: "markdown" | "creole" | "plaintext";
-                /** @description The user's content rendered as HTML. */
-                html?: string;
-            };
-        } & {
-            [key: string]: unknown;
-        }));
-        /**
-         * Paginated Components
-         * @description A paginated list of issue tracker components.
-         */
-        paginated_components: {
-            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
-            size?: number;
-            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
-            page?: number;
-            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
-            pagelen?: number;
-            /**
-             * Format: uri
-             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            next?: string;
-            /**
-             * Format: uri
-             * @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            previous?: string;
-            values?: components["schemas"]["component"][];
-        };
-        issue_attachment: {
-            type: "issue_attachment";
-        } & (Omit<components["schemas"]["object"], "type"> & ({
-            links?: {
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                self?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-            };
-            name?: string;
-        } & {
-            [key: string]: unknown;
-        }));
-        /**
-         * Paginated Issue Attachment
-         * @description A paginated list of issue attachments.
-         */
-        paginated_issue_attachments: {
-            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
-            size?: number;
-            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
-            page?: number;
-            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
-            pagelen?: number;
-            /**
-             * Format: uri
-             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            next?: string;
-            /**
-             * Format: uri
-             * @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            previous?: string;
-            values?: components["schemas"]["issue_attachment"][];
-        };
-        /**
-         * Paginated Log Entries
-         * @description A paginated list of issue changes.
-         */
-        paginated_log_entries: {
-            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
-            size?: number;
-            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
-            page?: number;
-            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
-            pagelen?: number;
-            /**
-             * Format: uri
-             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            next?: string;
-            /**
-             * Format: uri
-             * @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            previous?: string;
-            values?: components["schemas"]["issue_change"][];
-        };
-        /**
-         * Paginated Issue Comments
-         * @description A paginated list of issue comments.
-         */
-        paginated_issue_comments: {
-            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
-            size?: number;
-            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
-            page?: number;
-            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
-            pagelen?: number;
-            /**
-             * Format: uri
-             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            next?: string;
-            /**
-             * Format: uri
-             * @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            previous?: string;
-            values?: components["schemas"]["issue_comment"][];
-        };
-        /**
-         * Paginated Issues
-         * @description A paginated list of issues.
-         */
-        paginated_issues: {
-            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
-            size?: number;
-            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
-            page?: number;
-            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
-            pagelen?: number;
-            /**
-             * Format: uri
-             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            next?: string;
-            /**
-             * Format: uri
-             * @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            previous?: string;
-            values?: components["schemas"]["issue"][];
-        };
-        /**
-         * Paginated Milestones
-         * @description A paginated list of issue tracker milestones.
-         */
-        paginated_milestones: {
-            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
-            size?: number;
-            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
-            page?: number;
-            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
-            pagelen?: number;
-            /**
-             * Format: uri
-             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            next?: string;
-            /**
-             * Format: uri
-             * @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            previous?: string;
-            values?: components["schemas"]["milestone"][];
-        };
-        /**
-         * Paginated Versions
-         * @description A paginated list of issue tracker versions.
-         */
-        paginated_versions: {
-            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
-            size?: number;
-            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
-            page?: number;
-            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
-            pagelen?: number;
-            /**
-             * Format: uri
-             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            next?: string;
-            /**
-             * Format: uri
-             * @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            previous?: string;
-            values?: components["schemas"]["version"][];
         };
         group: {
             type: "group";
@@ -24423,6 +21549,15 @@ export interface components {
                  * @description A link to a resource related to this object.
                  */
                 decline?: {
+                    /** Format: uri */
+                    href?: string;
+                    name?: string;
+                };
+                /**
+                 * Link
+                 * @description A link to a resource related to this object.
+                 */
+                mergeability_checks?: {
                     /** Format: uri */
                     href?: string;
                     name?: string;
@@ -25191,99 +22326,6 @@ export interface components {
         } & {
             [key: string]: unknown;
         }));
-        /**
-         * Hook Event
-         * @description An event, associated with a resource or subject type.
-         */
-        hook_event: {
-            /**
-             * @description The event identifier.
-             * @enum {string}
-             */
-            event?: "issue:comment_created" | "issue:created" | "issue:updated" | "pipeline:span_created" | "project:updated" | "pullrequest:approved" | "pullrequest:changes_request_created" | "pullrequest:changes_request_removed" | "pullrequest:comment_created" | "pullrequest:comment_deleted" | "pullrequest:comment_reopened" | "pullrequest:comment_resolved" | "pullrequest:comment_updated" | "pullrequest:created" | "pullrequest:fulfilled" | "pullrequest:push" | "pullrequest:rejected" | "pullrequest:unapproved" | "pullrequest:updated" | "repo:commit_comment_created" | "repo:commit_status_created" | "repo:commit_status_updated" | "repo:created" | "repo:deleted" | "repo:fork" | "repo:imported" | "repo:push" | "repo:transfer" | "repo:updated";
-            /** @description The category this event belongs to. */
-            category?: string;
-            /** @description Summary of the webhook event type. */
-            label?: string;
-            /** @description More detailed description of the webhook event type. */
-            description?: string;
-        };
-        /**
-         * Paginated Hook Events
-         * @description A paginated list of webhook types available to subscribe on.
-         */
-        paginated_hook_events: {
-            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
-            size?: number;
-            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
-            page?: number;
-            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
-            pagelen?: number;
-            /**
-             * Format: uri
-             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            next?: string;
-            /**
-             * Format: uri
-             * @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            previous?: string;
-            values?: components["schemas"]["hook_event"][];
-        };
-        webhook_subscription: {
-            type: "webhook_subscription";
-        } & (Omit<components["schemas"]["object"], "type"> & ({
-            /** @description The webhook's id */
-            uuid?: string;
-            /**
-             * Format: uri
-             * @description The URL events get delivered to.
-             */
-            url?: string;
-            /** @description A user-defined description of the webhook. */
-            description?: string;
-            /**
-             * @description The type of entity. Set to either `repository` or `workspace` based on where the subscription is defined.
-             * @enum {string}
-             */
-            subject_type?: "repository" | "workspace";
-            subject?: components["schemas"]["object"];
-            active?: boolean;
-            /** Format: date-time */
-            created_at?: string;
-            /** @description The events this webhook is subscribed to. */
-            events?: ("issue:comment_created" | "issue:created" | "issue:updated" | "pipeline:span_created" | "project:updated" | "pullrequest:approved" | "pullrequest:changes_request_created" | "pullrequest:changes_request_removed" | "pullrequest:comment_created" | "pullrequest:comment_deleted" | "pullrequest:comment_reopened" | "pullrequest:comment_resolved" | "pullrequest:comment_updated" | "pullrequest:created" | "pullrequest:fulfilled" | "pullrequest:push" | "pullrequest:rejected" | "pullrequest:unapproved" | "pullrequest:updated" | "repo:commit_comment_created" | "repo:commit_status_created" | "repo:commit_status_updated" | "repo:created" | "repo:deleted" | "repo:fork" | "repo:imported" | "repo:push" | "repo:transfer" | "repo:updated")[];
-            /** @description Indicates whether or not the hook has an associated secret. It is not possible to see the hook's secret. This field is ignored during updates. */
-            secret_set?: boolean;
-            /** @description The secret to associate with the hook. The secret is never returned via the API. As such, this field is only used during updates. The secret can be set to `null` or "" to remove the secret (or create a hook with no secret). Leaving out the secret field during updates will leave the secret unchanged. Leaving out the secret during creation will create a hook with no secret. */
-            secret?: string;
-        } & {
-            [key: string]: unknown;
-        }));
-        /**
-         * Paginated Webhook Subscriptions
-         * @description A paginated list of webhook subscriptions
-         */
-        paginated_webhook_subscriptions: {
-            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
-            size?: number;
-            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
-            page?: number;
-            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
-            pagelen?: number;
-            /**
-             * Format: uri
-             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            next?: string;
-            /**
-             * Format: uri
-             * @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            previous?: string;
-            values?: components["schemas"]["webhook_subscription"][];
-        };
         workspace_access: {
             type: "workspace_access";
         } & (Omit<components["schemas"]["object"], "type"> & ({
@@ -25368,29 +22410,6 @@ export interface components {
              */
             previous?: string;
             values?: components["schemas"]["workspace_membership"][];
-        };
-        /**
-         * Paginated Workspaces
-         * @description A paginated list of workspaces.
-         */
-        paginated_workspaces: {
-            /** @description Total number of objects in the response. This is an optional element that is not provided in all responses, as it can be expensive to compute. */
-            size?: number;
-            /** @description Page number of the current results. This is an optional element that is not provided in all responses. */
-            page?: number;
-            /** @description Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
-            pagelen?: number;
-            /**
-             * Format: uri
-             * @description Link to the next page if it exists. The last page of a collection does not have this value. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            next?: string;
-            /**
-             * Format: uri
-             * @description Link to previous page if it exists. A collections first page does not have this value. This is an optional element that is not provided in all responses. Some result sets strictly support forward navigation and never provide previous links. Clients must anticipate that backwards navigation is not always available. Use this link to navigate the result set and refrain from constructing your own URLs.
-             */
-            previous?: string;
-            values?: components["schemas"]["workspace"][];
         };
         workspace_membership: {
             type: "workspace_membership";
@@ -25499,6 +22518,8 @@ export interface components {
              *     private to the members and consequently only visible to members.
              */
             is_private?: boolean;
+            /** @description Indicates whether the workspace belongs to an individual user. */
+            is_personal?: boolean;
             /** @description Indicates whether the workspace enforces private content, or whether it allows public content. */
             is_privacy_enforced?: boolean;
             /**
@@ -25583,6 +22604,8 @@ export interface components {
             branch_type?: "feature" | "bugfix" | "release" | "hotfix" | "development" | "production";
             /** @description Apply the restriction to branches that match this pattern. Active when `branch_match_kind` is `glob`. Will be empty when `branch_match_kind` is `branching_model`. */
             pattern: string;
+            /** @description List of source branch names allowed to push back to the restricted branch. Used in conjunction with pipeline-based restrictions. */
+            pipelines_source_branches?: string[];
             /**
              * @description Value with kind-specific semantics:
              *
@@ -25597,70 +22620,6 @@ export interface components {
             value?: number;
             users?: components["schemas"]["account"][];
             groups?: components["schemas"]["group"][];
-        } & {
-            [key: string]: unknown;
-        }));
-        component: {
-            type: "component";
-        } & (Omit<components["schemas"]["object"], "type"> & ({
-            links?: {
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                self?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-            };
-            name?: string;
-            id?: number;
-        } & {
-            [key: string]: unknown;
-        }));
-        issue_comment: {
-            type: "issue_comment";
-        } & (Omit<components["schemas"]["comment"], "type"> & ({
-            issue?: components["schemas"]["issue"];
-        } & {
-            [key: string]: unknown;
-        }));
-        milestone: {
-            type: "milestone";
-        } & (Omit<components["schemas"]["object"], "type"> & ({
-            links?: {
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                self?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-            };
-            name?: string;
-            id?: number;
-        } & {
-            [key: string]: unknown;
-        }));
-        version: {
-            type: "version";
-        } & (Omit<components["schemas"]["object"], "type"> & ({
-            links?: {
-                /**
-                 * Link
-                 * @description A link to a resource related to this object.
-                 */
-                self?: {
-                    /** Format: uri */
-                    href?: string;
-                    name?: string;
-                };
-            };
-            name?: string;
-            id?: number;
         } & {
             [key: string]: unknown;
         }));
@@ -25879,6 +22838,58 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    list_hook_events: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description A mapping of resource/subject types pointing to their individual event types. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["subject_types"];
+                };
+            };
+        };
+    };
+    list_hook_events_for_resource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A resource or subject type. */
+                subject_type: "repository" | "workspace";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description A paginated list of webhook types available to subscribe on. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["paginated_hook_events"];
+                };
+            };
+            /** @description If an invalid `{subject_type}` value was specified. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
     getCommitHostedPropertyValue: {
         parameters: {
             query?: never;
@@ -26728,6 +23739,542 @@ export interface operations {
             };
         };
     };
+    list_repository_hooks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example `{workspace UUID}`. */
+                workspace: string;
+                /** @description This can either be the repository slug or the UUID of the repository, surrounded by curly-braces, for example: `{repository UUID}`. */
+                repo_slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The paginated list of installed webhooks. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["paginated_webhook_subscriptions"];
+                };
+            };
+            /** @description If the authenticated user is not an owner on the specified repository. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description If the webhook or repository does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    create_repository_hook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example `{workspace UUID}`. */
+                workspace: string;
+                /** @description This can either be the repository slug or the UUID of the repository, surrounded by curly-braces, for example: `{repository UUID}`. */
+                repo_slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description If the webhook was registered successfully. */
+            201: {
+                headers: {
+                    /** @description The URL of new newly created webhook. */
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["webhook_subscription"];
+                };
+            };
+            /** @description If the authenticated user does not have permission to install webhooks on the specified repository. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description If the webhook or repository does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    get_repository_hook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example `{workspace UUID}`. */
+                workspace: string;
+                /** @description This can either be the repository slug or the UUID of the repository, surrounded by curly-braces, for example: `{repository UUID}`. */
+                repo_slug: string;
+                /** @description The webhook's id. */
+                uid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The webhook subscription object. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["webhook_subscription"];
+                };
+            };
+            /** @description If the webhook or repository does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    update_repository_hook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example `{workspace UUID}`. */
+                workspace: string;
+                /** @description This can either be the repository slug or the UUID of the repository, surrounded by curly-braces, for example: `{repository UUID}`. */
+                repo_slug: string;
+                /** @description The webhook's id. */
+                uid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The webhook subscription object. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["webhook_subscription"];
+                };
+            };
+            /**
+             * @description If the authenticated user does not have permission to update
+             *     the webhook.
+             */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description If the webhook or repository does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    delete_repository_hook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example `{workspace UUID}`. */
+                workspace: string;
+                /** @description This can either be the repository slug or the UUID of the repository, surrounded by curly-braces, for example: `{repository UUID}`. */
+                repo_slug: string;
+                /** @description The webhook's id. */
+                uid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description When the webhook was deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /**
+             * @description If the authenticated user does not have permission to update
+             *     the webhook.
+             */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description If the webhook or repository does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    listMergeQueues: {
+        parameters: {
+            query?: {
+                /** @description Optional target branch name to filter merge queues. */
+                target_branch?: string;
+                /** @description The page number of elements to retrieve. */
+                page?: number;
+                /** @description The maximum number of results to return. */
+                pagelen?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The workspace containing the repository. */
+                workspace: string;
+                /** @description The repository slug. */
+                repo_slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Merge queues retrieved successfully. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["paginated_merge_queues"];
+                };
+            };
+            /** @description Authentication is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description The caller does not have read access to the repository. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description The repository does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    getMergeQueue: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The workspace containing the repository. */
+                workspace: string;
+                /** @description The repository slug. */
+                repo_slug: string;
+                /** @description The UUID of the merge queue. */
+                merge_queue_uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Merge queue retrieved successfully. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["merge_queue"];
+                };
+            };
+            /** @description The merge queue UUID is invalid. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description Authentication is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description The caller does not have read access to the repository. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description The repository or merge queue does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    listMergeQueuePullRequests: {
+        parameters: {
+            query?: {
+                /** @description The page number of elements to retrieve. */
+                page?: number;
+                /** @description The maximum number of results to return. */
+                pagelen?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The workspace containing the repository. */
+                workspace: string;
+                /** @description The repository slug. */
+                repo_slug: string;
+                /** @description The UUID of the merge queue. */
+                merge_queue_uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Merge queue pullrequests retrieved successfully. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["paginated_merge_queue_pullrequests"];
+                };
+            };
+            /** @description The merge queue UUID is invalid. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description Authentication is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description The caller does not have read access to the pullrequest. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description The repository or merge queue does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    getMergeQueuePullRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The workspace containing the repository. */
+                workspace: string;
+                /** @description The repository slug. */
+                repo_slug: string;
+                /** @description The UUID of the merge queue. */
+                merge_queue_uuid: string;
+                /** @description The ID of the pullrequest. */
+                pullrequest_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Merge queue pullrequest retrieved successfully. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["merge_queue_pullrequest"];
+                };
+            };
+            /** @description The merge queue UUID is invalid. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description Authentication is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description The caller does not have read access to the pullrequest. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description The repository, merge queue, or pullrequest does not exist, or the pullrequest is no longer in the merge queue. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    removePullRequestFromMergeQueue: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The workspace containing the repository. */
+                workspace: string;
+                /** @description The repository slug. */
+                repo_slug: string;
+                /** @description The UUID of the merge queue. */
+                merge_queue_uuid: string;
+                /** @description The ID of the pullrequest to remove. */
+                pullrequest_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The remove request was accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The merge queue UUID is invalid. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description Authentication is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description The caller does not have write access to the pullrequest. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description The repository, merge queue, or pullrequest does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
     getPipelinesForRepository: {
         parameters: {
             query?: {
@@ -26782,7 +24329,12 @@ export interface operations {
     };
     createPipelineForRepository: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Whether to merge repository-level defaults into the supplied YAML. Defaults to false. */
+                merge_defaults?: boolean;
+                /** @description Optional branch name to create from the requested branch or commit target. */
+                target_branch_to_create?: string;
+            };
             header?: never;
             path: {
                 /** @description This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example `{workspace UUID}`. */
@@ -29031,6 +26583,217 @@ export interface operations {
             };
             /** @description Too many requests, try again later */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    list_workspace_hooks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example `{workspace UUID}`. */
+                workspace: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The paginated list of installed webhooks. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["paginated_webhook_subscriptions"];
+                };
+            };
+            /** @description If the authenticated user is not an owner on the specified workspace. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description If the webhook or workspace does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    create_workspace_hook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example `{workspace UUID}`. */
+                workspace: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The webhook subscription object. */
+            201: {
+                headers: {
+                    /** @description The URL of new newly created webhook. */
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["webhook_subscription"];
+                };
+            };
+            /**
+             * @description If the authenticated user does not have permission to install
+             *     webhooks on the specified workspace.
+             */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description If the webhook or workspace does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    get_workspace_hook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example `{workspace UUID}`. */
+                workspace: string;
+                /** @description The webhook's id. */
+                uid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The webhook subscription object. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["webhook_subscription"];
+                };
+            };
+            /** @description If the webhook or workspace does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    update_workspace_hook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example `{workspace UUID}`. */
+                workspace: string;
+                /** @description The webhook's id. */
+                uid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The webhook subscription object. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["webhook_subscription"];
+                };
+            };
+            /**
+             * @description If the authenticated user does not have permission to update
+             *     the webhook.
+             */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description If the webhook or workspace does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+        };
+    };
+    delete_workspace_hook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example `{workspace UUID}`. */
+                workspace: string;
+                /** @description The webhook's id. */
+                uid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description When the webhook was deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /**
+             * @description If the authenticated user does not have permission to update
+             *     the webhook.
+             */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["error"];
+                };
+            };
+            /** @description If the webhook or workspace does not exist. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
